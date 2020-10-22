@@ -1,0 +1,26 @@
+{
+  "name": "integrations-ui",
+  "version": "0.1.0",
+  "description": "Web UI for the CxIntegrations platform",
+  "scripts": {
+    "serve": "webpack-dev-server --hot --watch --progress --colors"
+  },
+  "keywords": [
+    "integration"
+  ],
+  "author": "Alexey Kononov",
+  "license": "ISC",
+  "dependencies": {
+    "react": "17.0.0",
+    "react-dom": "17.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.0",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.2",
+    "webpack": "^4.19.1",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
