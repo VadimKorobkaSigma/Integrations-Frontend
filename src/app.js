@@ -1,8 +1,8 @@
 'use strict';
 
 const ReactDOM = require("react-dom");
-
 const React = require("react");
+const QueryString = require("query-string");
 
 class MainPageButton extends React.Component {
     constructor(props) {
@@ -11,17 +11,14 @@ class MainPageButton extends React.Component {
     }
 
     render() {
-        let result;
-        if (this.state.scmSelected) {
-            result = 'SCM selected.'
-        } else {
-            result = React.createElement(
-                'button',
-                {onClick: () => this.setState({scmSelected: true})},
-                'Choose SCM'
-            );
-        }
-        return result;
+        const query = QueryString.stringify({
+            client_id: 'Iv1.9a90765be1851cbd',
+            state: 'hello',
+            scope: 'user'
+        });
+        return (
+            <div><a href={`https://github.com/login/oauth/authorize?${query}`}>Sign in with Github</a></div>
+        );
     }
 }
 
