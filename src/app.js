@@ -1,8 +1,8 @@
 'use strict';
 
-const ReactDOM = require("react-dom");
-const React = require("react");
-const QueryString = require("query-string");
+import ReactDOM from "react-dom";
+import React from "react";
+import QueryString from "query-string";
 
 class MainPageButton extends React.Component {
     constructor(props) {
@@ -17,7 +17,9 @@ class MainPageButton extends React.Component {
             scope: 'user'
         });
         return (
-            <div><a href={`https://github.com/login/oauth/authorize?${query}`}>Sign in with Github</a></div>
+            <div>
+                <a href={`https://github.com/login/oauth/authorize?${query}`}>Sign in with Github</a>
+            </div>
         );
     }
 }
