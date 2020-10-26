@@ -11,7 +11,8 @@ module.exports = {
         filename: 'bundle.js'
     },
     devServer: {
-        contentBase: path.join(__dirname, './src')
+        contentBase: path.join(__dirname, './src'),
+        historyApiFallback: true
     },
     module: {
         rules: [
@@ -21,7 +22,7 @@ module.exports = {
                 use: [{
                     loader: 'babel-loader',
                     options: {
-                        presets: ["@babel/preset-react", "@babel/preset-env"],
+                        presets: ["@babel/preset-react", "@babel/preset-env"]
                     }
                 }]
             }
