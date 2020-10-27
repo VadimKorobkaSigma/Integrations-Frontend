@@ -7,7 +7,7 @@ const ScmSelector = () => {
             <h2>Source control management platforms</h2>
             <ul>
                 {OAuthConfigs.map(config =>
-                    <li key={config.name}><a href={config.getAuthServerPageUrl()}>{config.name}</a></li>
+                    <li key={config.id}><a href={config.getAuthServerPageUrl()}>{config.displayName}</a></li>
                 )}
             </ul>
         </div>

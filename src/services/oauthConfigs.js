@@ -3,12 +3,13 @@ import callbackState from './callbackState';
 
 export default [
     {
-        name: 'GitHub',
+        id: 'github',
+        displayName: 'GitHub',
         getAuthServerPageUrl: function() {
             const query = QueryString.stringify({
                 client_id: process.env.GITHUB_APP_CLIENT_ID,
                 redirect_uri: `${window.location.origin}/callback`,
-                state: callbackState.createNew(this.name),
+                state: callbackState.createNew(this.id),
                 scope: 'user email repo write:repo_hook'
             });
             return `https://github.com/login/oauth/authorize?${query}`;
@@ -16,7 +17,8 @@ export default [
     },
 
     {
-        name: 'GitLab',
+        id: 'gitlab',
+        displayName: 'GitLab',
         getAuthServerPageUrl: () => '#'
     },
 ];
