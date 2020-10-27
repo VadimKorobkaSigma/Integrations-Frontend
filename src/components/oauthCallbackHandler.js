@@ -5,10 +5,9 @@ class OAuthCallbackHandler extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            token: 'loading...'
+            token: null
         }
     }
-
 
     componentDidMount() {
         authService.getAccessToken()
@@ -18,7 +17,7 @@ class OAuthCallbackHandler extends React.Component {
     render() {
         return (
             <div>
-                Access token: {this.state.token}
+                Access token: {this.state.token || 'loading...'}
             </div>
         );
     }

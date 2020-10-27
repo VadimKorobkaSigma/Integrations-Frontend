@@ -1,3 +1,4 @@
+const Dotenv = require('dotenv-webpack');
 const path = require('path');
 
 module.exports = {
@@ -12,7 +13,8 @@ module.exports = {
     },
     devServer: {
         contentBase: path.join(__dirname, './src'),
-        historyApiFallback: true
+        historyApiFallback: true,
+        port: 3000
     },
     module: {
         rules: [
@@ -27,5 +29,8 @@ module.exports = {
                 }]
             }
         ]
-    }
+    },
+    plugins: [
+        new Dotenv()
+    ]
 };
