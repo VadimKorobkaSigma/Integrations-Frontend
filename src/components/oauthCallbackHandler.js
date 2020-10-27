@@ -10,7 +10,9 @@ class OAuthCallbackHandler extends React.Component {
     }
 
     componentDidMount() {
-        authService.getAccessToken()
+        const queryString = new URLSearchParams(window.location.search);
+
+        authService.getAccessToken(queryString.get('code'))
             .then(result => this.setState({token: result}));
     }
 

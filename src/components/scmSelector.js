@@ -1,18 +1,17 @@
 import React from "react";
-import * as QueryString from "querystring";
+import OAuthConfigs from '../services/oauthConfigs';
 
 const ScmSelector = () => {
-    const query = QueryString.stringify({
-        client_id: process.env.GITHUB_APP_CLIENT_ID,
-        redirect_uri: `${document.location.origin}/callback`,
-        state: 'hello',
-        scope: 'user email repo write:repo_hook'
-    });
-
-    return <div>
-        <h1>Source control management platform</h1>
-        <a href={`https://github.com/login/oauth/authorize?${query}`}>GitHub</a>
-    </div>
+    return (
+        <div style={{fontSize: '150%', fontFamily: 'sans-serif'}}>
+            <h2>Source control management platforms</h2>
+            <ul>
+                {OAuthConfigs.map(config =>
+                    <li key={config.name}><a href={config.getAuthServerPageUrl()}>{config.name}</a></li>
+                )}
+            </ul>
+        </div>
+    );
 };
 
 export default ScmSelector;
