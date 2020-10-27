@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom";
 import React from "react";
 import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
-import ScmSelector from "./components/scmSelector";
+import SourceControlManagers from "./components/sourceControlManagers";
 import OAuthCallbackHandler from "./components/oauthCallbackHandler";
 import Organizations from './components/organizations';
 import Repositories from './components/repositories';
@@ -14,7 +14,7 @@ function App() {
             <BrowserRouter>
                 <Switch>
                     <Route exact path={"/"}><Redirect to={'/scm'}/></Route>
-                    <Route exact path={"/scm"}><ScmSelector/></Route>
+                    <Route exact path={"/scm"}><SourceControlManagers/></Route>
 
                     <Route exact path={'/scm/:scmId/organizations'}><Organizations/></Route>
 

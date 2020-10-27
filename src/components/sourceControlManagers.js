@@ -2,7 +2,7 @@ import React from "react";
 import OAuthConfigs from '../services/oauthConfigs';
 import {Link} from "react-router-dom";
 
-const ScmSelector = () => {
+const SourceControlManagers = () => {
     return (
         <div>
             <h2>Source control management platforms</h2>
@@ -17,4 +17,4 @@ const ScmSelector = () => {
     );
 };
 
-export default ScmSelector;
+export default SourceControlManagers;
