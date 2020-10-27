@@ -1,13 +1,16 @@
 import React from "react";
 import OAuthConfigs from '../services/oauthConfigs';
+import {Link} from "react-router-dom";
 
 const ScmSelector = () => {
     return (
-        <div style={{fontSize: '150%', fontFamily: 'sans-serif'}}>
+        <div>
             <h2>Source control management platforms</h2>
             <ul>
-                {OAuthConfigs.map(config =>
-                    <li key={config.id}><a href={config.getAuthServerPageUrl()}>{config.displayName}</a></li>
+                {OAuthConfigs.map(scm =>
+                    <li key={scm.id}>
+                        <Link to={`/scm/${scm.id}/organizations`}>{scm.displayName}</Link>
+                    </li>
                 )}
             </ul>
         </div>

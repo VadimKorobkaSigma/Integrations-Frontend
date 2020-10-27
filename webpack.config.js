@@ -14,7 +14,10 @@ module.exports = {
     devServer: {
         contentBase: path.join(__dirname, './src'),
         historyApiFallback: true,
-        port: 3000
+        port: 3000,
+        watchOptions: {
+            poll: 2000
+        }
     },
     module: {
         rules: [

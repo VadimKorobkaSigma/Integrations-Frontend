@@ -1,18 +1,30 @@
 import ReactDOM from "react-dom";
 import React from "react";
-import {BrowserRouter, Route} from 'react-router-dom';
+import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
 import ScmSelector from "./components/scmSelector";
 import OAuthCallbackHandler from "./components/oauthCallbackHandler";
+import Organizations from './components/organizations';
+import Repositories from './components/repositories';
 
-class App extends React.Component {
-    render() {
-        return (
+function App() {
+    return (
+        <div style={{fontSize: '150%', fontFamily: 'sans-serif'}}>
+            <h1>CxIntegrations</h1>
+            <hr/>
             <BrowserRouter>
-                <Route path={"/callback"} component={OAuthCallbackHandler}/>
-                <Route exact path={"/"} component={ScmSelector}/>
+                <Switch>
+                    <Route exact path={"/"}><Redirect to={'/scm'}/></Route>
+                    <Route exact path={"/scm"}><ScmSelector/></Route>
+
+                    <Route exact path={'/scm/:scmId/organizations'}><Organizations/></Route>
+
+                    <Route exact path={'/scm/:scmId/organizations/:orgId/repos'}><Repositories/></Route>
+
+                    <Route exact path={"/callback"}><OAuthCallbackHandler/></Route>
+                </Switch>
             </BrowserRouter>
-        );
-    }
+        </div>
+    );
 }
 
 const domContainer = document.getElementById('react');
