@@ -1,14 +1,27 @@
 import React from 'react';
+import authService from "../services/authService";
 
-const OAuthCallbackHandler = () => {
+class OAuthCallbackHandler extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            token: 'loading...'
+        }
+    }
 
-    const string = location.search;
-    console.debug('Query string: ', string);
-    return (
-        <div>
-            Callback
-        </div>
-    );
-};
+
+    componentDidMount() {
+        authService.getAccessToken()
+            .then(result => this.setState({token: result}));
+    }
+
+    render() {
+        return (
+            <div>
+                Access token: {this.state.token}
+            </div>
+        );
+    }
+}
 
 export default OAuthCallbackHandler;
