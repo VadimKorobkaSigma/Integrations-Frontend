@@ -1,28 +1,19 @@
-'use strict';
-
 import ReactDOM from "react-dom";
 import React from "react";
-import QueryString from "query-string";
+import {BrowserRouter, Route} from 'react-router-dom';
+import ScmSelector from "./components/scmSelector";
+import OAuthCallbackHandler from "./components/oauthCallbackHandler";
 
-class MainPageButton extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {scmSelected: false};
-    }
-
+class App extends React.Component {
     render() {
-        const query = QueryString.stringify({
-            client_id: 'Iv1.9a90765be1851cbd',
-            state: 'hello',
-            scope: 'user'
-        });
         return (
-            <div>
-                <a href={`https://github.com/login/oauth/authorize?${query}`}>Sign in with Github</a>
-            </div>
+            <BrowserRouter>
+                <Route path={"/callback"} component={OAuthCallbackHandler}/>
+                <Route exact path={"/"} component={ScmSelector}/>
+            </BrowserRouter>
         );
     }
 }
 
 const domContainer = document.getElementById('react');
-ReactDOM.render(React.createElement(MainPageButton), domContainer);
+ReactDOM.render(React.createElement(App), domContainer);
