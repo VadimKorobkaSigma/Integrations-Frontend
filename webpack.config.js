@@ -3,7 +3,7 @@ const path = require('path');
 
 module.exports = {
     entry: './src/app.js',
-    devtool: 'sourcemaps',
+    devtool: 'source-map',
     cache: false,
     mode: 'development',
     output: {
@@ -21,16 +21,12 @@ module.exports = {
     },
     module: {
         rules: [
-            {
-                test: path.join(__dirname, '.'),
-                exclude: /(node_modules)/,
-                use: [{
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ["@babel/preset-react", "@babel/preset-env"]
-                    }
-                }]
-            }
+            // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
+            // '.js' is added to support JSX expressions in .js files.
+            { test: /\.(tsx?|js)$/, loader: "ts-loader", exclude: /(node_modules)/ },
+
+            // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+            { test: /\.js$/, loader: "source-map-loader", exclude: /(node_modules)/ }
         ]
     },
     plugins: [
