@@ -16,9 +16,9 @@ function App() {
                     <Route exact path={"/"}><Redirect to={'/scm'}/></Route>
                     <Route exact path={"/scm"}><SourceControlManagers/></Route>
 
-                    <Route exact path={'/scm/:scmId/organizations'}><Organizations/></Route>
+                    <Route exact path={'/scm/:scmId/organizations'} component={Organizations} />
 
-                    <Route exact path={'/scm/:scmId/organizations/:orgId/repos'}><Repositories/></Route>
+                    <Route exact path={'/scm/:scmId/organizations/:orgId/repos'} component={Repositories}/>
 
                     <Route exact path={"/callback"}><OAuthCallbackHandler/></Route>
                 </Switch>
