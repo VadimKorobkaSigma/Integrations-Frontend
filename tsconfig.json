@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        "experimentalDecorators": true,
         "allowJs": true,
         "target": "ES6",
         "jsx": "react",
