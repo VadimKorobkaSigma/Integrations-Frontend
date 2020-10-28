@@ -1,4 +1,6 @@
-import callbackState from './callbackState';
+// import callbackState from './oauthState';
+
+import oauthState from "./oauthState";
 
 interface ScmConfig {
     id: string,
@@ -6,64 +8,36 @@ interface ScmConfig {
     getAuthServerPageUrl: () => string
 }
 
-interface FullScmConfig {
-    name: string,
-    clientId: string,
-    scope: string,
-    getAuthServerPageUrl: () => string
-}
-
-const scmConfigs: { [id: string]: FullScmConfig } = {
-    'github': {
+const scmConfigs: ScmConfig[] = [
+    {
+        id: 'github',
         name: 'GitHub',
-        clientId: process.env.GITHUB_APP_CLIENT_ID,
-        scope: 'user email repo write:repo_hook',
         getAuthServerPageUrl: function () {
             const query = {
-                client_id: this.clientId,
+                client_id: process.env.GITHUB_APP_CLIENT_ID,
                 redirect_uri: `${window.location.origin}/scm/${this.id}/organizations`,
-                state: callbackState.createNew(this.id),
-                scope: this.scope
+                state: oauthState.create(this.id),
+                scope: 'user email repo write:repo_hook'
             };
             const queryString = new URLSearchParams(query);
             return `https://github.com/login/oauth/authorize?${queryString}`;
         }
     },
-    'gitlab': {
+    {
+        id: 'gitlab',
         name: 'GitLab',
-        clientId: '',
-        scope: '',
         getAuthServerPageUrl: function () {
             return '';
         }
     }
-}
-
-// {
-//     id: 'gitlab',
-//     name: 'GitLab',
-//     clientId: '',
-//     scope: '',
-//     getAuthServerPageUrl: function () {
-//         return '';
-//     }
-// }
-
-
-// const scmConfigs: ExtendedScmConfig[]
+]
 
 export default {
-    getById: function (id: string): ScmConfig | null {
-        const config = scmConfigs[id];
-        return config ? {
-            id,
-            name: config.name,
-            getAuthServerPageUrl: config.getAuthServerPageUrl
-        } : null;
+    getById: function (id: string): ScmConfig | undefined {
+        return scmConfigs.find(config => config.id === id);
     },
 
     getAll: function (): ScmConfig[] {
-        return Object.getOwnPropertyNames(scmConfigs)
-            .map(this.getById);
+        return scmConfigs;
     }
 };
