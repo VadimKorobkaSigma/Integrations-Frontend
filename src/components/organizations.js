@@ -1,5 +1,5 @@
 import React from "react";
-import OAuthConfigs from '../services/oauthConfigs';
+import scmConfigs from '../services/scmConfigs.ts';
 import {Link} from "react-router-dom";
 import orgService from '../services/organizationService';
 
@@ -8,7 +8,7 @@ export default class Organizations extends React.Component {
         super(props);
 
         const {scmId} = this.props.match.params;
-        const scm = OAuthConfigs.find(aScm => aScm.id === scmId);
+        const scm = scmConfigs.find(aScm => aScm.id === scmId);
         this.state = {
             orgs: [],
             scm
@@ -25,7 +25,7 @@ export default class Organizations extends React.Component {
     render() {
         return (
             <div>
-                <h2>{this.state.scm.displayName}</h2>
+                <h2>{this.state.scm.name}</h2>
                 <h3>Organizations</h3>
                 <ul>
                     {

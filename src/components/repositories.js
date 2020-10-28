@@ -1,5 +1,5 @@
 import React from "react";
-import OAuthConfigs from '../services/oauthConfigs';
+import scmConfigs from '../services/scmConfigs.ts';
 import repoService from '../repoService';
 import organizationService from "../services/organizationService";
 
@@ -46,6 +46,6 @@ export default class Repositories extends React.Component {
 
     getScmName() {
         const {scmId} = this.props.match.params;
-        return OAuthConfigs.find(scm => scm.id === scmId).displayName;
+        return scmConfigs.find(scm => scm.id === scmId).name;
     }
 }

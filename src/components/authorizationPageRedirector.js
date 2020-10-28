@@ -1,5 +1,5 @@
 import React from "react";
-import oauthConfigs from "../services/oauthConfigs";
+import scmConfigs from "../services/scmConfigs.ts";
 
 export default class AuthorizationPageRedirector extends React.Component {
     constructor(props) {
@@ -8,7 +8,7 @@ export default class AuthorizationPageRedirector extends React.Component {
 
     componentDidMount() {
         const {scmId} = this.props.match.params;
-        window.location = oauthConfigs.find(scm => scm.id === scmId)
+        window.location.href = scmConfigs.find(scm => scm.id === scmId)
             .getAuthServerPageUrl();
 
     }

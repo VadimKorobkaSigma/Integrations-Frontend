@@ -1,5 +1,5 @@
 import React from "react";
-import OAuthConfigs from '../services/oauthConfigs';
+import scmConfigs from '../services/scmConfigs.ts';
 import {Link} from "react-router-dom";
 
 const SourceControlManagers = () => {
@@ -7,9 +7,9 @@ const SourceControlManagers = () => {
         <div>
             <h2>Source control management platforms</h2>
             <ul>
-                {OAuthConfigs.map(scm =>
+                {scmConfigs.map(scm =>
                     <li key={scm.id}>
-                        <Link to={`/scm/${scm.id}/authorize`}>{scm.displayName}</Link>
+                        <Link to={`/scm/${scm.id}/authorize`}>{scm.name}</Link>
                     </li>
                 )}
             </ul>
