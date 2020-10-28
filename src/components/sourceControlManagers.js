@@ -9,7 +9,7 @@ const SourceControlManagers = () => {
             <ul>
                 {OAuthConfigs.map(scm =>
                     <li key={scm.id}>
-                        <Link to={`/scm/${scm.id}/organizations`}>{scm.displayName}</Link>
+                        <Link to={`/scm/${scm.id}/authorize`}>{scm.displayName}</Link>
                     </li>
                 )}
             </ul>

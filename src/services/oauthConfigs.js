@@ -8,7 +8,7 @@ export default [
         getAuthServerPageUrl: function() {
             const query = QueryString.stringify({
                 client_id: process.env.GITHUB_APP_CLIENT_ID,
-                redirect_uri: `${window.location.origin}/callback`,
+                redirect_uri: `${window.location.origin}/scm/${this.id}/organizations`,
                 state: callbackState.createNew(this.id),
                 scope: 'user email repo write:repo_hook'
             });

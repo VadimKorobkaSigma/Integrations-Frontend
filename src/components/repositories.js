@@ -23,15 +23,14 @@ export default class Repositories extends React.Component {
                 return repoService.getOrganizationRepos(scmId, orgId)
             })
             .then(repos => {
-                const {org} = this.state;
-                this.setState({repos, org})
+                this.setState({repos, org: this.state.org})
             });
     }
 
     render() {
         return (
             <div>
-                <h2>{this.getScmName()}: {this.getOrgName()}</h2>
+                <h2>{this.getScmName()}: {this.state.org.name} organization</h2>
                 <h3>Repositories</h3>
                 <ul>
                     {
@@ -48,9 +47,5 @@ export default class Repositories extends React.Component {
     getScmName() {
         const {scmId} = this.props.match.params;
         return OAuthConfigs.find(scm => scm.id === scmId).displayName;
-    }
-
-    getOrgName() {
-        return 'Organization 1';
     }
 }

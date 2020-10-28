@@ -5,6 +5,7 @@ import SourceControlManagers from "./components/sourceControlManagers";
 import OAuthCallbackHandler from "./components/oauthCallbackHandler";
 import Organizations from './components/organizations';
 import Repositories from './components/repositories';
+import AuthorizationPageRedirector from './components/authorizationPageRedirector';
 
 function App() {
     return (
@@ -16,7 +17,9 @@ function App() {
                     <Route exact path={"/"}><Redirect to={'/scm'}/></Route>
                     <Route exact path={"/scm"}><SourceControlManagers/></Route>
 
-                    <Route exact path={'/scm/:scmId/organizations'} component={Organizations} />
+                    <Route exact path={"/scm/:scmId/authorize"} component={AuthorizationPageRedirector}/>
+
+                    <Route exact path={'/scm/:scmId/organizations'} component={Organizations}/>
 
                     <Route exact path={'/scm/:scmId/organizations/:orgId/repos'} component={Repositories}/>
 
