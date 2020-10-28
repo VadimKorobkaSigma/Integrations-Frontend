@@ -3,14 +3,18 @@ import callbackState from './callbackState';
 interface ScmConfig {
     id: string,
     name: string,
+    getAuthServerPageUrl: () => string
+}
+
+interface FullScmConfig {
+    name: string,
     clientId: string,
     scope: string,
     getAuthServerPageUrl: () => string
 }
 
-const scmConfigs: ScmConfig[] = [
-    {
-        id: 'github',
+const scmConfigs: { [id: string]: FullScmConfig } = {
+    'github': {
         name: 'GitHub',
         clientId: process.env.GITHUB_APP_CLIENT_ID,
         scope: 'user email repo write:repo_hook',
@@ -25,9 +29,7 @@ const scmConfigs: ScmConfig[] = [
             return `https://github.com/login/oauth/authorize?${queryString}`;
         }
     },
-
-    {
-        id: 'gitlab',
+    'gitlab': {
         name: 'GitLab',
         clientId: '',
         scope: '',
@@ -35,6 +37,33 @@ const scmConfigs: ScmConfig[] = [
             return '';
         }
     }
-]
+}
 
-export default scmConfigs;
+// {
+//     id: 'gitlab',
+//     name: 'GitLab',
+//     clientId: '',
+//     scope: '',
+//     getAuthServerPageUrl: function () {
+//         return '';
+//     }
+// }
+
+
+// const scmConfigs: ExtendedScmConfig[]
+
+export default {
+    getById: function (id: string): ScmConfig | null {
+        const config = scmConfigs[id];
+        return config ? {
+            id,
+            name: config.name,
+            getAuthServerPageUrl: config.getAuthServerPageUrl
+        } : null;
+    },
+
+    getAll: function (): ScmConfig[] {
+        return Object.getOwnPropertyNames(scmConfigs)
+            .map(this.getById);
+    }
+};
