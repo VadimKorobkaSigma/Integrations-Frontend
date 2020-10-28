@@ -24,7 +24,7 @@ export default class Organizations extends React.Component {
 
     render() {
         return (
-            <header>
+            <div>
                 <h2>{this.state.scm.displayName}</h2>
                 <h3>Organizations</h3>
                 <ul>
@@ -36,7 +36,7 @@ export default class Organizations extends React.Component {
                         )
                     }
                 </ul>
-            </header>
+            </div>
         )
     }
 }
