@@ -6,8 +6,7 @@ export default observer(class Repositories extends React.Component {
     static contextType = MainContext;
 
     componentDidMount() {
-        const {scmId, orgId} = this.props.match.params;
-        this.context.orgStore.getOrganizationsByScm(scmId);
+        const {orgId} = this.props.match.params;
         this.context.repoStore.getOrganizationRepos(orgId);
     }
 
@@ -16,19 +15,41 @@ export default observer(class Repositories extends React.Component {
             <div>
                 {this.renderHeader()}
                 <h3>Repositories</h3>
-                <ul>
-                    {this.context.repoStore.repos.map(repo => <li key={repo.id}>{repo.name}</li>)}
-                </ul>
+                {this.renderRepoList()}
             </div>
         );
     }
 
     renderHeader() {
-        const currentOrg = this.context.orgStore.getOrganizationById(this.props.match.params.orgId);
+        const {scmId, orgId} = this.props.match.params;
+        const {scmStore, orgStore} = this.context;
+
+        const currentOrg = orgStore.getOrganizationById(orgId);
         const orgName = currentOrg ? currentOrg.name : null;
-        const scm = this.context.scmStore.getById(this.props.match.params.scmId);
+
+        const scm = scmStore.getById(scmId);
         const scmName = scm ? scm.name : null;
+
         return orgName && scmName ? `${scmName}: ${orgName} organization` : '';
+    }
+
+    renderRepoList() {
+        const {repos} = this.context.repoStore;
+        return <table>
+            <tbody>
+            {repos.map(repo =>
+                <tr key={repo.id}>
+                    <td>{repo.name}</td>
+                    <td>
+                        <button>Scan with Checkmarx</button>
+                    </td>
+                    <td>
+                        <button>Set webhook</button>
+                    </td>
+                </tr>
+            )}
+            </tbody>
+        </table>
     }
 })
 
