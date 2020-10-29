@@ -7,7 +7,7 @@ import Organizations from './components/organizations';
 import Repositories from './components/repositories';
 import AuthorizationPageRedirector from './components/authorizationPageRedirector';
 import MainContext from './services/mainContext';
-import {RootStore} from "./services/rootStore";
+import {RootStore} from "./stores/rootStore";
 
 
 const store = new RootStore()

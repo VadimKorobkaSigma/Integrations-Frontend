@@ -1,4 +1,4 @@
-import oauthState from "./oauthState";
+import oauthState from "../services/oauthState";
 import {ScmConfig} from "../dtos/scmConfig";
 
 const scmConfigs: ScmConfig[] = [

@@ -1,7 +1,7 @@
 import {action, makeAutoObservable} from "mobx";
 import Organization from "../dtos/organization";
 
-class OrganizationStore {
+export default class OrganizationStore {
     organizations: Organization[] = []
 
     constructor() {
@@ -24,5 +24,3 @@ class OrganizationStore {
         return this.organizations.find(org => org.id === orgId);
     }
 }
-
-export default new OrganizationStore();

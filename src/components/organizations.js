@@ -1,6 +1,5 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import orgService from '../stores/organizationStore';
 import {observer} from "mobx-react";
 import MainContext from "../services/mainContext";
 
@@ -9,7 +8,7 @@ export default observer(class extends React.Component {
 
     constructor(props) {
         super(props);
-        orgService.getOrganizationsByScm(this.props.match.params.scmId);
+        this.context.orgStore.getOrganizationsByScm(this.props.match.params.scmId);
     }
 
     render() {
@@ -19,7 +18,7 @@ export default observer(class extends React.Component {
                 <h3>Organizations</h3>
                 <ul>
                     {
-                        orgService.organizations.map(org =>
+                        this.context.orgStore.organizations.map(org =>
                             <li key={org.id}>
                                 <Link to={`${this.props.match.url}/${org.id}/repos`}>{org.name}</Link>
                             </li>

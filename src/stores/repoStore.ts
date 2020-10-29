@@ -2,7 +2,7 @@ import {action, makeAutoObservable} from "mobx";
 import {Repository} from '../dtos/repository'
 
 
-class RepoStore {
+export default class RepoStore {
     repos: Repository[] = []
 
     constructor() {
@@ -21,5 +21,3 @@ class RepoStore {
         assignRepos();
     }
 }
-
-export default new RepoStore();
