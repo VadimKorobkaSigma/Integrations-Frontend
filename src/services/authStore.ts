@@ -3,16 +3,16 @@ const cryptoRandomString = require('crypto-random-string');
 const STORAGE_KEY = 'oauthState';
 
 export default {
-    createAndRemember: function (scmId): string {
-        const result = JSON.stringify({
-            scm: scmId,
-            random: cryptoRandomString({length: 32, type: 'alphanumeric'})
-        });
-        console.debug(`Storing OAuth state: ${result}`)
+    createAndRememberState: function(): string {
+        const result = cryptoRandomString({length: 32, type: 'alphanumeric'});
+
+        console.debug(`Storing OAuth state: ${result}`);
         window.sessionStorage.setItem(STORAGE_KEY, result);
+
         return result;
     },
-    isSameAsStored(stateToCheck) {
+
+    isSameAsStoredState(stateToCheck) {
         let result = false;
         const storedState = window.sessionStorage.getItem(STORAGE_KEY);
         if (!storedState) {

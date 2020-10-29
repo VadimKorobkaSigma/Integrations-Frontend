@@ -2,12 +2,11 @@ import ReactDOM from "react-dom";
 import React from "react";
 import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
 import SourceControlManagers from "./components/sourceControlManagers";
-import OAuthCallbackHandler from "./components/oauthCallbackHandler";
 import Organizations from './components/organizations.tsx';
 import Repositories from './components/repositories';
 import AuthorizationPageRedirector from './components/authorizationPageRedirector';
 import MainContext from './services/mainContext';
-import {RootStore} from "./stores/rootStore";
+import {RootStore} from "./services/rootStore";
 
 
 const store = new RootStore()
@@ -28,8 +27,6 @@ class App extends React.Component {
                         <Route exact path={'/scm/:scmId/organizations'} component={Organizations}/>
 
                         <Route exact path={'/scm/:scmId/organizations/:orgId/repos'} component={Repositories}/>
-
-                        <Route exact path={"/callback"}><OAuthCallbackHandler/></Route>
                     </Switch>
                 </BrowserRouter>
             </div>

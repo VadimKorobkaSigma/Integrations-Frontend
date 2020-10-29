@@ -1,4 +1,4 @@
-import oauthState from "../services/oauthState";
+import authStore from "./authStore";
 import {ScmConfig} from "../dtos/scmConfig";
 
 const scmConfigs: ScmConfig[] = [
@@ -9,7 +9,7 @@ const scmConfigs: ScmConfig[] = [
             const query = {
                 client_id: process.env.GITHUB_APP_CLIENT_ID,
                 redirect_uri: `${window.location.origin}/scm/${this.id}/organizations`,
-                state: oauthState.createAndRemember(this.id),
+                state: authStore.createAndRememberState(),
                 scope: process.env.GITHUB_OAUTH_SCOPES
             };
             const queryString = new URLSearchParams(query);
