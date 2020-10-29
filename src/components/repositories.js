@@ -1,50 +1,38 @@
 import React from "react";
 import scmService from '../services/scmService.ts';
-import repoService from '../repoService';
-import organizationService from "../services/organizationService";
+import repoStore from '../repoStore';
+import organizationStore from "../services/organizationStore";
+import {observer} from "mobx-react";
 
-export default class Repositories extends React.Component {
+export default observer( class Repositories extends React.Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            repos: [],
-            org: {
-                name: ''
-            }
-        };
     }
 
     componentDidMount() {
         const {scmId, orgId} = this.props.match.params;
-        organizationService.getById(orgId)
-            .then(org => {
-                this.setState({repos: [], org})
-                return repoService.getOrganizationRepos(scmId, orgId)
-            })
-            .then(repos => {
-                this.setState({repos, org: this.state.org})
-            });
+        organizationStore.getOrganizationsByScm(scmId);
+        repoStore.getOrganizationRepos(orgId);
     }
 
     render() {
         return (
             <div>
-                <h2>{this.getScmName()}: {this.state.org.name} organization</h2>
+                {this.renderHeader()}
                 <h3>Repositories</h3>
                 <ul>
-                    {
-                        this.state.repos.map(repo =>
-                            <li key={repo.id}>
-                                {repo.name}
-                            </li>)
-                    }
+                    { repoStore.repos.map(repo => <li key={repo.id}>{repo.name}</li>) }
                 </ul>
             </div>
         );
     }
 
-    getScmName() {
-        return scmService.getById(this.props.match.params.scmId).name;
+    renderHeader() {
+        const currentOrg = organizationStore.getOrganizationById(this.props.match.params.orgId);
+        const orgName = currentOrg ? currentOrg.name : null;
+        const scm = scmService.getById(this.props.match.params.scmId);
+        const scmName  = scm ? scm.name : null;
+        return orgName && scmName ? `${scmName}: ${orgName} organization` : '';
     }
-}
+})
+

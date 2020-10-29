@@ -1,13 +1,13 @@
 import {action, makeAutoObservable} from "mobx";
 
-class OrganizationService {
+class OrganizationStore {
     organizations = []
 
     constructor() {
         makeAutoObservable(this);
     }
 
-    getOrganizations(scmId) {
+    getOrganizationsByScm(scmId) {
         console.info(`Getting organizations for the '${scmId}' SCM`);
         const assignOrgs = action(() => {
             this.organizations = [
@@ -19,9 +19,9 @@ class OrganizationService {
         window.setTimeout(assignOrgs, 1000);
     }
 
-    getById(orgId) {
-        return Promise.resolve({id: orgId, name: 'checkmarx-ltd'});
+    getOrganizationById(orgId) {
+        return this.organizations.find(org => org.id === orgId);
     }
 }
 
-export default new OrganizationService();
+export default new OrganizationStore();
