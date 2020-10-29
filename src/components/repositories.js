@@ -1,7 +1,7 @@
 import React from "react";
 import scmService from '../services/scmService.ts';
-import repoStore from '../repoStore';
-import organizationStore from "../services/organizationStore";
+import repoStore from '../stores/repoStore';
+import organizationStore from "../stores/organizationStore";
 import {observer} from "mobx-react";
 
 export default observer( class Repositories extends React.Component {

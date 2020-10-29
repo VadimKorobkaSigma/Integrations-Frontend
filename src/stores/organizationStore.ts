@@ -1,7 +1,8 @@
 import {action, makeAutoObservable} from "mobx";
+import Organization from "../dtos/organization";
 
 class OrganizationStore {
-    organizations = []
+    organizations: Organization[] = []
 
     constructor() {
         makeAutoObservable(this);
@@ -19,7 +20,7 @@ class OrganizationStore {
         window.setTimeout(assignOrgs, 1000);
     }
 
-    getOrganizationById(orgId) {
+    getOrganizationById(orgId): Organization {
         return this.organizations.find(org => org.id === orgId);
     }
 }

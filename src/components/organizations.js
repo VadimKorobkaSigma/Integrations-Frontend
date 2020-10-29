@@ -1,7 +1,7 @@
 import React from "react";
 import scmService from '../services/scmService.ts';
 import {Link} from "react-router-dom";
-import orgService from '../services/organizationStore';
+import orgService from '../stores/organizationStore';
 import {observer} from "mobx-react";
 
 export default observer(class extends React.Component {

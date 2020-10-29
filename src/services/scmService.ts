@@ -1,12 +1,7 @@
 // import callbackState from './oauthState';
 
 import oauthState from "./oauthState";
-
-interface ScmConfig {
-    id: string,
-    name: string,
-    getAuthServerPageUrl: () => string
-}
+import {ScmConfig} from "../dtos/scmConfig";
 
 const scmConfigs: ScmConfig[] = [
     {

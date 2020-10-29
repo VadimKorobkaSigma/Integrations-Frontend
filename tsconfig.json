@@ -3,7 +3,8 @@
         "allowJs": true,
         "target": "ES6",
         "jsx": "react",
-        "outDir": "./build"
+        "outDir": "./build",
+        "moduleResolution": "Node"
     },
     "include": ["./src/**/*"]
 }

@@ -1,7 +1,9 @@
 import {action, makeAutoObservable} from "mobx";
+import {Repository} from '../dtos/repository'
+
 
 class RepoStore {
-    repos = []
+    repos: Repository[] = []
 
     constructor() {
         makeAutoObservable(this);
