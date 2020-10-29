@@ -9,7 +9,7 @@ const scmConfigs: ScmConfig[] = [
             const query = {
                 client_id: process.env.GITHUB_APP_CLIENT_ID,
                 redirect_uri: `${window.location.origin}/scm/${this.id}/organizations`,
-                state: oauthState.create(this.id),
+                state: oauthState.createAndRemember(this.id),
                 scope: process.env.GITHUB_OAUTH_SCOPES
             };
             const queryString = new URLSearchParams(query);

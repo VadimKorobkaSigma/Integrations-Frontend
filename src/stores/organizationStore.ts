@@ -1,6 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import Organization from "../dtos/organization";
 import axios from 'axios';
+import oauthState from "../services/oauthState";
 
 export default class OrganizationStore {
     organizations: Organization[] = [];
@@ -10,13 +11,17 @@ export default class OrganizationStore {
         makeAutoObservable(this);
     }
 
-    getOrganizationsByScm(scmId, authzCode) {
+    getOrganizationsByScm(scmId, authCode, state) {
         this.state = 'loading';
         this.organizations = [];
 
-        OrganizationStore.getOrgs(scmId, authzCode)
-            .then(this.setOrgs)
-            .catch(this.handleError);
+        if (oauthState.isSameAsStored(state)) {
+            OrganizationStore.getOrgs(scmId, authCode)
+                .then(this.setOrgs)
+                .catch(this.handleError);
+        } else {
+            this.state = "invalidOAuthState";
+        }
     }
 
     private static getOrgs(scmId, authzCode) {

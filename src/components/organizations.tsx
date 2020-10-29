@@ -12,12 +12,12 @@ export default observer(class Organizations extends React.Component {
     componentDidMount() {
         const {scmId} = this.props.match.params;
         const query = new URLSearchParams(window.location.search);
-        const authzCode = query.get('code');
-        this.context.orgStore.getOrganizationsByScm(scmId, authzCode);
+        const authCode = query.get('code');
+        const state = query.get('state');
+        this.context.orgStore.getOrganizationsByScm(scmId, authCode, state);
     }
 
     render() {
-        console.log('Render');
         const {scmStore, orgStore} = this.context;
         return (
             <div>
