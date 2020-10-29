@@ -1,5 +1,3 @@
-// import callbackState from './oauthState';
-
 import oauthState from "./oauthState";
 import {ScmConfig} from "../dtos/scmConfig";
 
@@ -27,12 +25,12 @@ const scmConfigs: ScmConfig[] = [
     }
 ]
 
-export default {
-    getById: function (id: string): ScmConfig | undefined {
+export default class ScmStore {
+    getById(id: string): ScmConfig | undefined {
         return scmConfigs.find(config => config.id === id);
-    },
+    }
 
-    getAll: function (): ScmConfig[] {
+    getAll(): ScmConfig[] {
         return scmConfigs;
     }
-};
+}

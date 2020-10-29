@@ -1,23 +1,19 @@
 import React from "react";
-import scmService from "../services/scmService.ts";
+import MainContext from "../services/mainContext";
 
 export default class AuthorizationPageRedirector extends React.Component {
-    constructor(props) {
-        super(props);
-
-        const scm = scmService.getById(this.props.match.params.scmId);
-        this.state = {
-            redirectTo: scm ? scm.getAuthServerPageUrl() : null
-        }
-    }
-
-    componentDidMount() {
-        if (this.state.redirectTo) {
-            window.location.href = this.state.redirectTo;
-        }
-    }
+    static contextType = MainContext;
 
     render() {
-        return this.state.redirectTo ? 'Checking authorization parameters...' : 'SCM not found.';
+        const scm = this.context.scmStore.getById(this.props.match.params.scmId);
+        const targetUrl = scm ? scm.getAuthServerPageUrl() : null
+        let message;
+        if (targetUrl) {
+            message = 'Checking authorization parameters...';
+            window.location.href = targetUrl;
+        } else {
+            message = 'Unable to determine redirection URL.'
+        }
+        return <div>{message}</div>;
     }
 }

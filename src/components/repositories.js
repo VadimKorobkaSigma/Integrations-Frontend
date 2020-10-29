@@ -1,13 +1,11 @@
 import React from "react";
-import scmService from '../services/scmService.ts';
 import repoStore from '../stores/repoStore';
 import organizationStore from "../stores/organizationStore";
 import {observer} from "mobx-react";
+import MainContext from "../services/mainContext";
 
-export default observer( class Repositories extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+export default observer(class Repositories extends React.Component {
+    static contextType = MainContext;
 
     componentDidMount() {
         const {scmId, orgId} = this.props.match.params;
@@ -21,7 +19,7 @@ export default observer( class Repositories extends React.Component {
                 {this.renderHeader()}
                 <h3>Repositories</h3>
                 <ul>
-                    { repoStore.repos.map(repo => <li key={repo.id}>{repo.name}</li>) }
+                    {repoStore.repos.map(repo => <li key={repo.id}>{repo.name}</li>)}
                 </ul>
             </div>
         );
@@ -30,8 +28,8 @@ export default observer( class Repositories extends React.Component {
     renderHeader() {
         const currentOrg = organizationStore.getOrganizationById(this.props.match.params.orgId);
         const orgName = currentOrg ? currentOrg.name : null;
-        const scm = scmService.getById(this.props.match.params.scmId);
-        const scmName  = scm ? scm.name : null;
+        const scm = this.context.scmStore.getById(this.props.match.params.scmId);
+        const scmName = scm ? scm.name : null;
         return orgName && scmName ? `${scmName}: ${orgName} organization` : '';
     }
 })

@@ -1,10 +1,12 @@
 import React from "react";
-import scmService from '../services/scmService.ts';
 import {Link} from "react-router-dom";
 import orgService from '../stores/organizationStore';
 import {observer} from "mobx-react";
+import MainContext from "../services/mainContext";
 
 export default observer(class extends React.Component {
+    static contextType = MainContext;
+
     constructor(props) {
         super(props);
         orgService.getOrganizationsByScm(this.props.match.params.scmId);
@@ -13,7 +15,7 @@ export default observer(class extends React.Component {
     render() {
         return (
             <div>
-                <h2>{scmService.getById(this.props.match.params.scmId).name}</h2>
+                <h2>{this.context.scmStore.getById(this.props.match.params.scmId).name}</h2>
                 <h3>Organizations</h3>
                 <ul>
                     {
