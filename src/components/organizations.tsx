@@ -36,20 +36,18 @@ export default observer(class Organizations extends React.Component {
                 result = this.renderOrgList(orgStore.organizations);
                 break;
             case 'loading':
-                result = 'Loading...';
+                result = <div>Loading...</div>;
                 break;
             case 'invalidOAuthState':
-                result = 'Invalid OAuth state.';
+                result = <div>Invalid OAuth state. You can try again from <Link to={'/'}>here</Link>.</div>;
                 break;
             case 'generalError':
-                result = 'An error has occurred.';
+                result = <div>An error has occurred. You can try again from <Link to={'/'}>here</Link></div>;
                 break;
             default:
                 result = '';
         }
-
-        return <div>{result}</div>;
-
+        return result;
     }
 
     renderOrgList(orgs: Organization[]) {
