@@ -3,7 +3,7 @@ import React from "react";
 import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
 import SourceControlManagers from "./components/sourceControlManagers";
 import OAuthCallbackHandler from "./components/oauthCallbackHandler";
-import Organizations from './components/organizations';
+import Organizations from './components/organizations.tsx';
 import Repositories from './components/repositories';
 import AuthorizationPageRedirector from './components/authorizationPageRedirector';
 import MainContext from './services/mainContext';

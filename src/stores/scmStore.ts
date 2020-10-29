@@ -10,7 +10,7 @@ const scmConfigs: ScmConfig[] = [
                 client_id: process.env.GITHUB_APP_CLIENT_ID,
                 redirect_uri: `${window.location.origin}/scm/${this.id}/organizations`,
                 state: oauthState.create(this.id),
-                scope: 'user email repo write:repo_hook'
+                scope: process.env.GITHUB_OAUTH_SCOPES
             };
             const queryString = new URLSearchParams(query);
             return `https://github.com/login/oauth/authorize?${queryString}`;

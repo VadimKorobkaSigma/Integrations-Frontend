@@ -12,6 +12,7 @@
   "author": "Alexey Kononov",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.0",
     "crypto-random-string": "^3.3.0",
     "mobx": "^6.0.1",
     "mobx-react": "^7.0.0",
