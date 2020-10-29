@@ -8,8 +8,12 @@ export default observer(class extends React.Component {
 
     constructor(props) {
         super(props);
+    }
+
+    componentDidMount() {
         this.context.orgStore.getOrganizationsByScm(this.props.match.params.scmId);
     }
+
 
     render() {
         return (
