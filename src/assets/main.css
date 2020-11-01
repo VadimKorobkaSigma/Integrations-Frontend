@@ -1,0 +1,15 @@
+.highlight {
+    color: #4dbb40
+}
+
+hr {
+    color: #c4c4c4
+}
+
+button {
+    color: white;
+    background-color: #4dbb40;
+    border-radius: 4px;
+    padding: 0.25em;
+    font-size: .75em;;
+}

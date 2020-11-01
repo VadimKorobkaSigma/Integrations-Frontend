@@ -7,7 +7,7 @@ import Repositories from './components/repositories';
 import AuthorizationPageRedirector from './components/authorizationPageRedirector';
 import MainContext from './services/mainContext';
 import {RootStore} from "./services/rootStore";
-
+import './assets/main.css';
 
 const store = new RootStore()
 
@@ -15,7 +15,7 @@ class App extends React.Component {
     render() {
         return <MainContext.Provider value={store}>
             <div style={{fontSize: '150%', fontFamily: 'sans-serif'}}>
-                <h1>CxIntegrations</h1>
+                <h1><span className='highlight'>Cx</span>Integrations</h1>
                 <hr/>
                 <BrowserRouter>
                     <Switch>
