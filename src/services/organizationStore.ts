@@ -26,7 +26,10 @@ export default class OrganizationStore {
 
     private static getOrgs(scmId, authzCode) {
         const encodedScmId = window.encodeURIComponent(scmId);
-        return axios.get(`/api/${encodedScmId}/user/orgs`, {
+
+        // Using post, because this API both performs OAuth authorization and returns organizations.
+        // These two calls should be separated in the future.
+        return axios.post(`/api/${encodedScmId}/user/orgs`, null, {
             params: {
                 code: authzCode
             }

@@ -6,8 +6,8 @@ export default observer(class Repositories extends React.Component {
     static contextType = MainContext;
 
     componentDidMount() {
-        const {orgId} = this.props.match.params;
-        this.context.repoStore.getOrganizationRepos(orgId);
+        const {scmId, orgName} = this.props.match.params;
+        this.context.repoStore.getOrganizationRepos(scmId, orgName);
     }
 
     render() {
@@ -15,7 +15,7 @@ export default observer(class Repositories extends React.Component {
             <div>
                 {this.renderHeader()}
                 <h3>Repositories</h3>
-                {this.renderRepoList()}
+                {this.renderRepos()}
             </div>
         );
     }
@@ -31,6 +31,18 @@ export default observer(class Repositories extends React.Component {
         const scmName = scm ? scm.name : null;
 
         return orgName && scmName ? `${scmName}: ${orgName} organization` : '';
+    }
+
+    renderRepos() {
+        const {state} = this.context.repoStore;
+        let result;
+        if (state === 'completed') {
+            result = this.renderRepoList();
+
+        } else {
+            result = this.renderLoadingMessage(state);
+        }
+        return result;
     }
 
     renderRepoList() {
@@ -50,6 +62,21 @@ export default observer(class Repositories extends React.Component {
             )}
             </tbody>
         </table>
+    }
+
+    renderLoadingMessage(state) {
+        let result;
+        switch (state) {
+            case 'loading':
+                result = <div>Loading...</div>;
+                break;
+            case 'generalError':
+                result = <div>An error has occurred.</div>;
+                break;
+            default:
+                result = '';
+        }
+        return result;
     }
 })
 

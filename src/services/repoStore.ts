@@ -1,23 +1,41 @@
-import {action, makeAutoObservable} from "mobx";
+import {makeAutoObservable} from "mobx";
 import {Repository} from '../dtos/repository'
+import axios from 'axios';
 
 
 export default class RepoStore {
     repos: Repository[] = []
+    state: 'loading' | 'completed' | 'generalError' = 'completed';
 
     constructor() {
         makeAutoObservable(this);
     }
 
-    getOrganizationRepos(scmId, orgId) {
-        console.info(`Getting repos for ${scmId} organization ${orgId}`);
-        const assignRepos = action(() => {
-            console.info('Assigning repos.');
-            this.repos = [
-                {id: 'id1', name: 'my-example-repo'},
-                {id: 'id2', name: 'another-repo'},
-            ];
-        });
-        assignRepos();
+    getOrganizationRepos(scmId, orgName) {
+        console.info(`Getting repos for the '${orgName}' ${scmId} organization`);
+        this.state = 'loading';
+        this.repos = [];
+
+        RepoStore.getOrgs(scmId, orgName)
+            .then(this.setRepos)
+            .catch(this.handleError);
     }
+
+    private static getOrgs(scmId, orgName) {
+        const safeScmId = window.encodeURIComponent(scmId);
+        const safeOrgName = window.encodeURIComponent(orgName);
+
+        // Using organization name (and not id) to conform to GitHub requirements.
+        // This may be changed later with the introduction of other SCM support.
+        return axios.get(`/api/${safeScmId}/orgs/${safeOrgName}/repos`);
+    }
+
+    private setRepos = response => {
+        this.repos = response.data;
+        this.state = 'completed';
+    };
+
+    private handleError = () => {
+        this.state = 'generalError';
+    };
 }

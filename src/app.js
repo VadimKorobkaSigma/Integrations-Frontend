@@ -26,7 +26,7 @@ class App extends React.Component {
 
                         <Route exact path={'/scm/:scmId/organizations'} component={Organizations}/>
 
-                        <Route exact path={'/scm/:scmId/organizations/:orgId/repos'} component={Repositories}/>
+                        <Route exact path={'/scm/:scmId/organizations/:orgName/repos'} component={Repositories}/>
                     </Switch>
                 </BrowserRouter>
             </div>

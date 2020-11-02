@@ -58,7 +58,7 @@ export default observer(class Organizations extends React.Component {
             result = <ul>{
                 orgs.map(org =>
                     <li key={org.id}>
-                        <Link to={`${this.props.match.url}/${org.id}/repos`}>{org.name}</Link>
+                        <Link to={`${this.props.match.url}/${org.name}/repos`}>{org.name}</Link>
                     </li>
                 )
             }</ul>
