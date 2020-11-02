@@ -2,7 +2,6 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {observer} from "mobx-react";
 import MainContext from "../services/mainContext";
-import Organization from "../dtos/organization";
 
 export default observer(class Organizations extends React.Component {
     static contextType = MainContext;
@@ -18,23 +17,53 @@ export default observer(class Organizations extends React.Component {
     }
 
     render() {
-        const {scmStore, orgStore} = this.context;
         return (
             <div>
-                <h2>{scmStore.getById(this.props.match.params.scmId).name}</h2>
+                {this.renderHeader()}
                 <h3>Organizations</h3>
-                {this.renderOrgs(orgStore)}
+                {this.renderOrgs()}
             </div>
         )
     }
 
-    renderOrgs(orgStore) {
-        let result;
+    private renderHeader() {
+        const {scmStore} = this.context;
+        const {scmId} = this.props.match.params;
+        const scm = scmStore.getById(scmId);
+        return (scm && scm.name) ? <h2>{scm.name}</h2> : '';
+    }
 
-        switch (orgStore.state) {
-            case 'completed':
-                result = this.renderOrgList(orgStore.organizations);
-                break;
+    renderOrgs() {
+        let result;
+        const {state} = this.context.orgStore;
+        if (state === 'completed') {
+            result = this.renderOrgList();
+        } else {
+            result = Organizations.renderLoadingMessage(state);
+        }
+        return result;
+    }
+
+    renderOrgList() {
+        let result;
+        const {organizations} = this.context.orgStore;
+        if (!organizations || !organizations.length) {
+            result = <p>No organizations found.</p>
+        } else {
+            result = <ul>{
+                organizations.map(org =>
+                    <li key={org.id}>
+                        <Link to={`${this.props.match.url}/${org.name}/repos`}>{org.name}</Link>
+                    </li>
+                )
+            }</ul>
+        }
+        return result;
+    }
+
+    static renderLoadingMessage(state: string): any {
+        let result;
+        switch (state) {
             case 'loading':
                 result = <div>Loading...</div>;
                 break;
@@ -46,22 +75,7 @@ export default observer(class Organizations extends React.Component {
                 break;
             default:
                 result = '';
-        }
-        return result;
-    }
 
-    renderOrgList(orgs: Organization[]) {
-        let result;
-        if (!orgs || !orgs.length) {
-            result = <p>No organizations found.</p>
-        } else {
-            result = <ul>{
-                orgs.map(org =>
-                    <li key={org.id}>
-                        <Link to={`${this.props.match.url}/${org.name}/repos`}>{org.name}</Link>
-                    </li>
-                )
-            }</ul>
         }
         return result;
     }

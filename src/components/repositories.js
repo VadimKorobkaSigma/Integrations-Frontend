@@ -38,33 +38,38 @@ export default observer(class Repositories extends React.Component {
         let result;
         if (state === 'completed') {
             result = this.renderRepoList();
-
         } else {
-            result = this.renderLoadingMessage(state);
+            result = Repositories.renderLoadingMessage(state);
         }
         return result;
     }
 
     renderRepoList() {
+        let result;
         const {repos} = this.context.repoStore;
-        return <table>
-            <tbody>
-            {repos.map(repo =>
-                <tr key={repo.id}>
-                    <td>{repo.name}</td>
-                    <td>
-                        <button>Scan with Checkmarx</button>
-                    </td>
-                    <td>
-                        <button>Set webhook</button>
-                    </td>
-                </tr>
-            )}
-            </tbody>
-        </table>
+        if (!repos || !repos.length) {
+            result = <div>No repositories found for this organization.</div>;
+        } else {
+            result = <table>
+                <tbody>
+                {repos.map(repo =>
+                    <tr key={repo.id}>
+                        <td>{repo.name}</td>
+                        <td>
+                            <button>Scan with Checkmarx</button>
+                        </td>
+                        <td>
+                            <button>Set webhook</button>
+                        </td>
+                    </tr>
+                )}
+                </tbody>
+            </table>;
+        }
+        return result;
     }
 
-    renderLoadingMessage(state) {
+    static renderLoadingMessage(state) {
         let result;
         switch (state) {
             case 'loading':
