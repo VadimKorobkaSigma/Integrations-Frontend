@@ -2,6 +2,8 @@ import React from "react";
 import {Link} from "react-router-dom";
 import {observer} from "mobx-react";
 import MainContext from "../services/mainContext";
+import Organization from "../dtos/organization";
+import {OauthExtendedLoadingState} from "../services/loadingStates";
 
 export default observer(class Organizations extends React.Component {
     static contextType = MainContext;
@@ -13,7 +15,7 @@ export default observer(class Organizations extends React.Component {
         const query = new URLSearchParams(window.location.search);
         const authCode = query.get('code');
         const state = query.get('state');
-        this.context.orgStore.getOrganizationsByScm(scmId, authCode, state);
+        this.context.orgStore.loadOrganizationsByScm(scmId, authCode, state);
     }
 
     render() {
@@ -35,23 +37,22 @@ export default observer(class Organizations extends React.Component {
 
     renderOrgs() {
         let result;
-        const {state} = this.context.orgStore;
+        const {organizations, state} = this.context.orgStore;
         if (state === 'completed') {
-            result = this.renderOrgList();
+            result = this.renderOrgList(organizations);
         } else {
             result = Organizations.renderLoadingMessage(state);
         }
         return result;
     }
 
-    renderOrgList() {
+    renderOrgList(orgs: Organization[]) {
         let result;
-        const {organizations} = this.context.orgStore;
-        if (!organizations || !organizations.length) {
+        if (!orgs?.length) {
             result = <p>No organizations found.</p>
         } else {
             result = <ul>{
-                organizations.map(org =>
+                orgs.map(org =>
                     <li key={org.id}>
                         <Link to={`${this.props.match.url}/${org.name}/repos`}>{org.name}</Link>
                     </li>
@@ -61,7 +62,7 @@ export default observer(class Organizations extends React.Component {
         return result;
     }
 
-    static renderLoadingMessage(state: string) {
+    static renderLoadingMessage(state: OauthExtendedLoadingState) {
         let result;
         switch (state) {
             case 'loading':
@@ -70,7 +71,7 @@ export default observer(class Organizations extends React.Component {
             case 'invalidOAuthState':
                 result = <div>Invalid OAuth state. You can try again from <Link to={'/'}>here</Link>.</div>;
                 break;
-            case 'generalError':
+            case 'error':
                 result = <div>An error has occurred. You can try again from <Link to={'/'}>here</Link></div>;
                 break;
             default:

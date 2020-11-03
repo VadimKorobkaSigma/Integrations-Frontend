@@ -2,16 +2,17 @@ import {makeAutoObservable} from "mobx";
 import Organization from "../dtos/organization";
 import axios from 'axios';
 import authStore from "./authStore";
+import {OauthExtendedLoadingState} from "./loadingStates";
 
 export default class OrganizationStore {
     organizations: Organization[] = [];
-    state: 'loading' | 'completed' | 'invalidOAuthState' | 'generalError' = 'completed';
+    state: OauthExtendedLoadingState = 'idle';
 
     constructor() {
         makeAutoObservable(this);
     }
 
-    getOrganizationsByScm(scmId, authCode, stateFromCallbackUrl) {
+    loadOrganizationsByScm(scmId, authCode, stateFromCallbackUrl) {
         this.state = 'loading';
         this.organizations = [];
 
@@ -24,20 +25,20 @@ export default class OrganizationStore {
         }
     }
 
-    private static getOrgs(scmId, authzCode) {
+    private static getOrgs(scmId, authCode) {
         const encodedScmId = window.encodeURIComponent(scmId);
 
         // Using post, because this API both performs OAuth authorization and returns organizations.
         // These two calls should be separated in the future.
         return axios.post(`/api/${encodedScmId}/user/orgs`, null, {
             params: {
-                code: authzCode
+                code: authCode
             }
         });
     }
 
     private handleError = () => {
-        this.state = 'generalError';
+        this.state = 'error';
     };
 
     private setOrgs = response => {

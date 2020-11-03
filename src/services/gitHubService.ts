@@ -2,13 +2,13 @@ import {ScmConfig} from "../dtos/scmConfig";
 import {makeAutoObservable} from "mobx";
 import axios from "axios";
 import authStore from "./authStore";
-import {SimpleLoadingState} from "./simpleLoadingState";
+import {BasicLoadingState} from "./loadingStates";
 
 export default class GitHubService implements ScmConfig {
     id = 'github'
     name = 'GitHub'
     authServerPageUrl = null
-    state: SimpleLoadingState = 'idle';
+    state: BasicLoadingState = 'idle';
 
     constructor() {
         makeAutoObservable(this);
@@ -33,6 +33,6 @@ export default class GitHubService implements ScmConfig {
         };
         const queryString = new URLSearchParams(query);
         this.authServerPageUrl = `https://github.com/login/oauth/authorize?${queryString}`;
-        this.state = 'idle';
+        this.state = 'completed';
     }
 }

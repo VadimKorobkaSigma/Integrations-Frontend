@@ -1,9 +1,9 @@
-import {SimpleLoadingState} from "../services/simpleLoadingState";
+import {BasicLoadingState} from "../services/loadingStates";
 
 export interface ScmConfig {
     id: string,
     name: string,
-    state: SimpleLoadingState,
+    state: BasicLoadingState,
     authServerPageUrl: string | null,
     loadAuthServerPageUrl: () => void
 }
