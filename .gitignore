@@ -11,5 +11,4 @@
 node_modules/
 
 *.log
-.env
 /build/
