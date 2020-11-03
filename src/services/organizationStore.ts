@@ -11,11 +11,11 @@ export default class OrganizationStore {
         makeAutoObservable(this);
     }
 
-    getOrganizationsByScm(scmId, authCode, state) {
+    getOrganizationsByScm(scmId, authCode, stateFromCallbackUrl) {
         this.state = 'loading';
         this.organizations = [];
 
-        if (authStore.isSameAsStoredState(state)) {
+        if (authStore.isSameAsStoredState(stateFromCallbackUrl)) {
             OrganizationStore.getOrgs(scmId, authCode)
                 .then(this.setOrgs)
                 .catch(this.handleError);

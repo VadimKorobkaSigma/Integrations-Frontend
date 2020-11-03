@@ -1,28 +1,11 @@
-import authStore from "./authStore";
 import {ScmConfig} from "../dtos/scmConfig";
+import GitHubService from "./gitHubService";
+import GitLabService from "./gitLabService";
+
 
 const scmConfigs: ScmConfig[] = [
-    {
-        id: 'github',
-        name: 'GitHub',
-        getAuthServerPageUrl: function () {
-            const query = {
-                client_id: process.env.GITHUB_APP_CLIENT_ID,
-                redirect_uri: `${window.location.origin}/scm/${this.id}/organizations`,
-                state: authStore.createAndRememberState(),
-                scope: process.env.GITHUB_OAUTH_SCOPES
-            };
-            const queryString = new URLSearchParams(query);
-            return `https://github.com/login/oauth/authorize?${queryString}`;
-        }
-    },
-    {
-        id: 'gitlab',
-        name: 'GitLab',
-        getAuthServerPageUrl: function () {
-            return '';
-        }
-    }
+    new GitHubService(),
+    new GitLabService(),
 ]
 
 export default class ScmStore {

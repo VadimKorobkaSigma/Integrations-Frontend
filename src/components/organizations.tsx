@@ -61,7 +61,7 @@ export default observer(class Organizations extends React.Component {
         return result;
     }
 
-    static renderLoadingMessage(state: string): any {
+    static renderLoadingMessage(state: string) {
         let result;
         switch (state) {
             case 'loading':
@@ -75,7 +75,6 @@ export default observer(class Organizations extends React.Component {
                 break;
             default:
                 result = '';
-
         }
         return result;
     }

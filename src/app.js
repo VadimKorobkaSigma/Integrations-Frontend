@@ -4,7 +4,7 @@ import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
 import SourceControlManagers from "./components/sourceControlManagers";
 import Organizations from './components/organizations.tsx';
 import Repositories from './components/repositories';
-import AuthorizationPageRedirector from './components/authorizationPageRedirector';
+import AuthorizationPageRedirector from './components/authorizationPageRedirector.tsx';
 import MainContext from './services/mainContext';
 import {RootStore} from "./services/rootStore";
 import './assets/main.css';
