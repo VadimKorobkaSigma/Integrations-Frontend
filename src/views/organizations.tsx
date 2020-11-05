@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import {observer} from "mobx-react";
 import MainContext from "../services/mainContext";
 import {OauthExtendedLoadingState} from "../services/loadingStates";
-import OrganizationList from "./organizationList";
+import OrganizationList from "../components/organizationList";
 
 export default observer(class Organizations extends React.Component {
     static contextType = MainContext;

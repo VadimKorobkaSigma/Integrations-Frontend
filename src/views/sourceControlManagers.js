@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 import {Link} from "react-router-dom";
 import MainContext from "../services/mainContext";
 
-const SourceControlManagers = () => {
+export default function SourceControlManagers() {
     const {scmStore} = useContext(MainContext)
     return (
         <div>
@@ -16,6 +16,4 @@ const SourceControlManagers = () => {
             </ul>
         </div>
     );
-};
-
-export default SourceControlManagers;
+}

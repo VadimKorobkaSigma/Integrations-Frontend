@@ -1,6 +1,7 @@
 import React from "react";
 import {observer} from "mobx-react";
 import MainContext from "../services/mainContext";
+import RepositoryList from "./repositoryList.tsx";
 
 export default observer(class Repositories extends React.Component {
     static contextType = MainContext;
@@ -37,7 +38,7 @@ export default observer(class Repositories extends React.Component {
         const {state} = this.context.repoStore;
         let result;
         if (state === 'completed') {
-            result = this.renderRepoList();
+            result = <RepositoryList repositories={this.context.repoStore.repos}/>
         } else {
             result = Repositories.renderLoadingMessage(state);
         }

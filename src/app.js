@@ -1,8 +1,8 @@
 import ReactDOM from "react-dom";
 import React from "react";
 import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
-import SourceControlManagers from "./components/sourceControlManagers";
-import Organizations from './components/organizations.tsx';
+import SourceControlManagers from "./views/sourceControlManagers";
+import Organizations from './views/organizations.tsx';
 import Repositories from './components/repositories';
 import AuthorizationPageRedirector from './components/authorizationPageRedirector.tsx';
 import MainContext from './services/mainContext';
