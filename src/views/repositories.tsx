@@ -1,10 +1,14 @@
 import React from "react";
 import {observer} from "mobx-react";
 import MainContext from "../services/mainContext";
-import RepositoryList from "./repositoryList";
+import RepositoryList from "../components/repositoryList";
+import {BasicLoadingState} from "../services/loadingStates";
 
 export default observer(class Repositories extends React.Component {
     static contextType = MainContext;
+
+    context: any;
+    props: any;
 
     componentDidMount() {
         const {scmId, orgName} = this.props.match.params;
@@ -45,38 +49,13 @@ export default observer(class Repositories extends React.Component {
         return result;
     }
 
-    renderRepoList() {
-        let result;
-        const {repos} = this.context.repoStore;
-        if (!repos || !repos.length) {
-            result = <div>No repositories found for this organization.</div>;
-        } else {
-            result = <table>
-                <tbody>
-                {repos.map(repo =>
-                    <tr key={repo.id}>
-                        <td>{repo.name}</td>
-                        <td>
-                            <button>Scan with Checkmarx</button>
-                        </td>
-                        <td>
-                            <button>Set webhook</button>
-                        </td>
-                    </tr>
-                )}
-                </tbody>
-            </table>;
-        }
-        return result;
-    }
-
-    static renderLoadingMessage(state) {
+    static renderLoadingMessage(state: BasicLoadingState) {
         let result;
         switch (state) {
             case 'loading':
                 result = <div>Loading...</div>;
                 break;
-            case 'generalError':
+            case 'error':
                 result = <div>An error has occurred.</div>;
                 break;
             default:

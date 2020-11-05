@@ -1,5 +1,6 @@
 import React from "react";
 import {Repository} from "../dtos/repository";
+import {RepositoryRow} from "./repositoryRow";
 
 export default function RepositoryList(props) {
     let result;
@@ -9,17 +10,7 @@ export default function RepositoryList(props) {
     } else {
         result = <table>
             <tbody>
-            {repos.map(repo =>
-                <tr key={repo.id}>
-                    <td>{repo.name}</td>
-                    <td>
-                        <button>Scan with Checkmarx</button>
-                    </td>
-                    <td>
-                        <button>Set webhook</button>
-                    </td>
-                </tr>
-            )}
+            {repos.map(repo => <RepositoryRow key={repo.id} repo={repo}/>)}
             </tbody>
         </table>;
     }

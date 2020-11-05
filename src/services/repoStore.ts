@@ -1,11 +1,12 @@
 import {makeAutoObservable} from "mobx";
 import {Repository} from '../dtos/repository'
 import axios from 'axios';
+import {BasicLoadingState} from "./loadingStates";
 
 
 export default class RepoStore {
     repos: Repository[] = []
-    state: 'loading' | 'completed' | 'generalError' = 'completed';
+    state: BasicLoadingState = 'idle';
 
     constructor() {
         makeAutoObservable(this);
@@ -36,6 +37,6 @@ export default class RepoStore {
     };
 
     private handleError = () => {
-        this.state = 'generalError';
+        this.state = 'error';
     };
 }
