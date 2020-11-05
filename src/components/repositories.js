@@ -1,7 +1,7 @@
 import React from "react";
 import {observer} from "mobx-react";
 import MainContext from "../services/mainContext";
-import RepositoryList from "./repositoryList.tsx";
+import RepositoryList from "./repositoryList";
 
 export default observer(class Repositories extends React.Component {
     static contextType = MainContext;
