@@ -3,8 +3,14 @@ import MainContext from "../services/mainContext";
 import RepositoryList from "../components/repositoryList";
 import {BasicLoadingState} from "../services/loadingStates";
 import * as React from "react";
+import {RouteComponentProps} from "react-router-dom";
 
-export default observer(class Repositories extends React.Component<any,any> {
+type ExpectedProps = RouteComponentProps<{
+    scmId: string,
+    orgName: string,
+}>;
+
+export default observer(class Repositories extends React.Component<ExpectedProps> {
     static contextType = MainContext;
 
     componentDidMount() {
@@ -23,15 +29,10 @@ export default observer(class Repositories extends React.Component<any,any> {
     }
 
     renderHeader() {
-        const {scmId, orgId} = this.props.match.params;
-        const {scmStore, orgStore} = this.context;
+        const {scmId, orgName} = this.props.match.params;
+        const {scmStore} = this.context;
 
-        const currentOrg = orgStore.getOrganizationById(orgId);
-        const orgName = currentOrg ? currentOrg.name : null;
-
-        const scm = scmStore.getById(scmId);
-        const scmName = scm ? scm.name : null;
-
+        const scmName = scmStore.getById(scmId)?.name;
         return orgName && scmName ? `${scmName}: ${orgName} organization` : '';
     }
 

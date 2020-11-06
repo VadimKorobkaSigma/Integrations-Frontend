@@ -5,8 +5,9 @@ import MainContext from "../services/mainContext";
 import {OauthExtendedLoadingState} from "../services/loadingStates";
 import OrganizationList from "../components/organizationList";
 import domWrapper from "../services/domWrapper";
+import {PropsWithScmId} from "../components/mainRoutes";
 
-export default observer(class Organizations extends React.Component<any,any> {
+export default observer(class Organizations extends React.Component<PropsWithScmId> {
     static contextType = MainContext;
 
     componentDidMount() {
@@ -38,7 +39,7 @@ export default observer(class Organizations extends React.Component<any,any> {
         let result;
         const {organizations, state} = this.context.orgStore;
         if (state === 'completed') {
-            result = <OrganizationList organizations={organizations} baseUrl={this.props.match.url} />
+            result = <OrganizationList organizations={organizations} baseUrl={this.props.match.url}/>
         } else {
             result = Organizations.renderLoadingMessage(state);
         }

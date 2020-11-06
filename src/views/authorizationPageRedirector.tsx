@@ -3,12 +3,14 @@ import MainContext from "../services/mainContext";
 import {observer} from "mobx-react";
 import {BasicLoadingState} from "../services/loadingStates";
 import domAdapter from "../services/domWrapper";
+import {PropsWithScmId} from "../components/mainRoutes";
+
 
 /**
  * Upon loading, determines OAuth redirection page URL for the current SCM.
  * Then redirects the browser to the URL.
  */
-export default observer(class AuthorizationPageRedirector extends React.Component<any, any> {
+export default observer(class AuthorizationPageRedirector extends React.Component<PropsWithScmId> {
     private readonly WORKING = 'Checking authorization parameters...';
 
     private readonly messageMap: { [prop in BasicLoadingState]: string } = {

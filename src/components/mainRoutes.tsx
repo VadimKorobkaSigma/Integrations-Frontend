@@ -4,6 +4,7 @@ import AuthorizationPageRedirector from "../views/authorizationPageRedirector";
 import Organizations from "../views/organizations";
 import Repositories from "../views/repositories";
 import * as React from "react";
+import {RouteComponentProps} from "react-router-dom";
 
 export default function MainRoutes() {
     return <BrowserRouter>
@@ -19,3 +20,5 @@ export default function MainRoutes() {
         </Switch>
     </BrowserRouter>;
 }
+
+export type PropsWithScmId = RouteComponentProps<{ scmId: string }>;
