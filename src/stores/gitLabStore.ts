@@ -1,7 +1,7 @@
-import {ScmConfig} from "../dtos/scmConfig";
-import {BasicLoadingState} from "./loadingStates";
+import {ScmStore} from "../dtos/scmStore";
+import {BasicLoadingState} from "../services/loadingStates";
 
-export default class GitLabService implements ScmConfig {
+export default class GitLabStore implements ScmStore {
     id = 'gitlab'
     name = 'GitLab'
     authServerPageUrl = null

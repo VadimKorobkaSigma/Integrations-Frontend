@@ -1,7 +1,7 @@
 import {makeAutoObservable} from "mobx";
 import Organization from "../dtos/organization";
 import axios from 'axios';
-import authStore from "./authStore";
+import authStore from "../stores/authStore";
 import {OauthExtendedLoadingState} from "./loadingStates";
 import domWrapper from "./domWrapper";
 

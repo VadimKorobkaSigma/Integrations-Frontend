@@ -1,6 +1,6 @@
 import {BasicLoadingState} from "../services/loadingStates";
 
-export interface ScmConfig {
+export interface ScmStore {
     id: string,
     name: string,
     state: BasicLoadingState,

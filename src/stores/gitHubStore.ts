@@ -1,11 +1,11 @@
-import {ScmConfig} from "../dtos/scmConfig";
+import {ScmStore} from "../dtos/scmStore";
 import {makeAutoObservable} from "mobx";
 import axios from "axios";
 import authStore from "./authStore";
-import {BasicLoadingState} from "./loadingStates";
-import domWrapper from "./domWrapper";
+import {BasicLoadingState} from "../services/loadingStates";
+import domWrapper from "../services/domWrapper";
 
-export default class GitHubService implements ScmConfig {
+export default class GitHubStore implements ScmStore {
     id = 'github'
     name = 'GitHub'
     authServerPageUrl = null

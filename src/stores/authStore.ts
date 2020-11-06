@@ -1,4 +1,4 @@
-import domWrapper from "./domWrapper";
+import domWrapper from "../services/domWrapper";
 
 const cryptoRandomString = require('crypto-random-string');
 

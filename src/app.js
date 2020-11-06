@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom";
 import * as React from "react";
 import MainContext from './services/mainContext';
-import {RootStore} from "./services/rootStore";
+import {RootStore} from "./stores/rootStore";
 import './assets/main.css';
 import MainRoutes from "./components/mainRoutes";
 
