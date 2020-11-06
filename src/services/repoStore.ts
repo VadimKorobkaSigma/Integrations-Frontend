@@ -2,6 +2,7 @@ import {makeAutoObservable} from "mobx";
 import {Repository} from '../dtos/repository'
 import axios from 'axios';
 import {BasicLoadingState} from "./loadingStates";
+import domWrapper from "./domWrapper";
 
 
 export default class RepoStore {
@@ -23,8 +24,8 @@ export default class RepoStore {
     }
 
     private static getOrgs(scmId, orgName) {
-        const safeScmId = window.encodeURIComponent(scmId);
-        const safeOrgName = window.encodeURIComponent(orgName);
+        const safeScmId = domWrapper.encodePathSegment(scmId);
+        const safeOrgName = domWrapper.encodePathSegment(orgName);
 
         // Using organization name (and not id) to conform to GitHub requirements.
         // This may be changed later with the introduction of other SCM support.

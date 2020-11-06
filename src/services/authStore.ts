@@ -1,3 +1,5 @@
+import domWrapper from "./domWrapper";
+
 const cryptoRandomString = require('crypto-random-string');
 
 const STORAGE_KEY = 'oauthState';
@@ -7,14 +9,14 @@ export default {
         const result = cryptoRandomString({length: 32, type: 'alphanumeric'});
 
         console.debug(`Storing OAuth state: ${result}`);
-        window.sessionStorage.setItem(STORAGE_KEY, result);
+        domWrapper.getSessionStorage().setItem(STORAGE_KEY, result);
 
         return result;
     },
 
     isSameAsStoredState(stateToCheck) {
         let result = false;
-        const storedState = window.sessionStorage.getItem(STORAGE_KEY);
+        const storedState = domWrapper.getSessionStorage().getItem(STORAGE_KEY);
         if (!storedState) {
             console.warn('OAuth state validation failed. No stored state was found.')
         } else if (storedState !== stateToCheck) {
@@ -26,7 +28,7 @@ export default {
 
         if (storedState) {
             console.debug('Removing the stored OAuth state.');
-            window.sessionStorage.removeItem(STORAGE_KEY);
+            domWrapper.getSessionStorage().removeItem(STORAGE_KEY);
         }
         return result;
     }

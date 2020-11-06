@@ -4,13 +4,14 @@ import {observer} from "mobx-react";
 import MainContext from "../services/mainContext";
 import {OauthExtendedLoadingState} from "../services/loadingStates";
 import OrganizationList from "../components/organizationList";
+import domWrapper from "../services/domWrapper";
 
 export default observer(class Organizations extends React.Component<any,any> {
     static contextType = MainContext;
 
     componentDidMount() {
         const {scmId} = this.props.match.params;
-        const query = new URLSearchParams(window.location.search);
+        const query = domWrapper.getCurrentQuery();
         const authCode = query.get('code');
         const state = query.get('state');
         this.context.orgStore.loadOrganizationsByScm(scmId, authCode, state);

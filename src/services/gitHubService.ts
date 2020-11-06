@@ -3,6 +3,7 @@ import {makeAutoObservable} from "mobx";
 import axios from "axios";
 import authStore from "./authStore";
 import {BasicLoadingState} from "./loadingStates";
+import domWrapper from "./domWrapper";
 
 export default class GitHubService implements ScmConfig {
     id = 'github'
@@ -25,9 +26,10 @@ export default class GitHubService implements ScmConfig {
 
     private setPageUrl(configResponse) {
         const config = configResponse.data;
+        const origin = domWrapper.getCurrentOrigin();
         const query = {
             client_id: config.clientId,
-            redirect_uri: `${window.location.origin}/scm/${this.id}/organizations`,
+            redirect_uri: `${origin}/scm/${this.id}/organizations`,
             state: authStore.createAndRememberState(),
             scope: config.scope
         };

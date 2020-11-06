@@ -3,6 +3,7 @@ import Organization from "../dtos/organization";
 import axios from 'axios';
 import authStore from "./authStore";
 import {OauthExtendedLoadingState} from "./loadingStates";
+import domWrapper from "./domWrapper";
 
 export default class OrganizationStore {
     organizations: Organization[] = [];
@@ -26,7 +27,7 @@ export default class OrganizationStore {
     }
 
     private static getOrgs(scmId, authCode) {
-        const encodedScmId = window.encodeURIComponent(scmId);
+        const encodedScmId = domWrapper.encodePathSegment(scmId);
 
         // Using post, because this API both performs OAuth authorization and returns organizations.
         // These two calls should be separated in the future.
