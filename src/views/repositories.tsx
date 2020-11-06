@@ -1,14 +1,11 @@
-import React from "react";
 import {observer} from "mobx-react";
 import MainContext from "../services/mainContext";
 import RepositoryList from "../components/repositoryList";
 import {BasicLoadingState} from "../services/loadingStates";
+import * as React from "react";
 
-export default observer(class Repositories extends React.Component {
+export default observer(class Repositories extends React.Component<any,any> {
     static contextType = MainContext;
-
-    context: any;
-    props: any;
 
     componentDidMount() {
         const {scmId, orgName} = this.props.match.params;

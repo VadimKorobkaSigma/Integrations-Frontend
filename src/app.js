@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom";
-import React from "react";
+import * as React from "react";
 import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
 import SourceControlManagers from "./views/sourceControlManagers";
 import Organizations from './views/organizations';
@@ -14,7 +14,7 @@ const store = new RootStore()
 class App extends React.Component {
     render() {
         return <MainContext.Provider value={store}>
-            <div style={{fontSize: '150%', fontFamily: 'sans-serif'}}>
+            <div className='defaultFont'>
                 <h1><span className='highlight'>Cx</span>Integrations</h1>
                 <hr/>
                 <BrowserRouter>

@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import MainContext from "../services/mainContext";
 import {observer} from "mobx-react";
 import {BasicLoadingState} from "../services/loadingStates";
@@ -7,7 +7,7 @@ import {BasicLoadingState} from "../services/loadingStates";
  * Upon loading, determines OAuth redirection page URL for the current SCM.
  * Then redirects the browser to the URL.
  */
-export default observer(class AuthorizationPageRedirector extends React.Component {
+export default observer(class AuthorizationPageRedirector extends React.Component<any,any> {
     private readonly WORKING = 'Checking authorization parameters...';
 
     private readonly messageMap: { [prop in BasicLoadingState]: string } = {
@@ -18,9 +18,6 @@ export default observer(class AuthorizationPageRedirector extends React.Componen
     }
 
     static contextType = MainContext;
-
-    context: any;
-    props: any;
 
     componentDidMount() {
         this.getCurrentScm()?.loadAuthServerPageUrl();

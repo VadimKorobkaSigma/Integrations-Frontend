@@ -1,14 +1,12 @@
-import React from "react";
+import * as React from "react";
 import {Link} from "react-router-dom";
 import {observer} from "mobx-react";
 import MainContext from "../services/mainContext";
 import {OauthExtendedLoadingState} from "../services/loadingStates";
 import OrganizationList from "../components/organizationList";
 
-export default observer(class Organizations extends React.Component {
+export default observer(class Organizations extends React.Component<any,any> {
     static contextType = MainContext;
-    private context;
-    private props;
 
     componentDidMount() {
         const {scmId} = this.props.match.params;
