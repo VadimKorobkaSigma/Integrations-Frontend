@@ -3,7 +3,7 @@ import OrganizationStore from "./organizationStore";
 import RepoStore from "./repoStore";
 
 export class RootStore {
-    scmStore = new ScmStore();
-    orgStore = new OrganizationStore();
-    repoStore = new RepoStore();
+    readonly scmStore = new ScmStore();
+    readonly orgStore = new OrganizationStore();
+    readonly repoStore = new RepoStore();
 }

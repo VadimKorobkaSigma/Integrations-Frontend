@@ -25,7 +25,7 @@ export default observer(class AuthorizationPageRedirector extends React.Componen
 
     render() {
         const scm = this.getCurrentScm();
-        let message = '';
+        let message: string;
         if (scm) {
             if (scm.authServerPageUrl) {
                 message = this.startRedirection(scm.authServerPageUrl);

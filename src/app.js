@@ -1,37 +1,22 @@
 import ReactDOM from "react-dom";
 import * as React from "react";
-import {BrowserRouter, Redirect, Route, Switch} from 'react-router-dom';
-import SourceControlManagers from "./views/sourceControlManagers";
-import Organizations from './views/organizations';
-import Repositories from './views/repositories';
-import AuthorizationPageRedirector from './views/authorizationPageRedirector';
 import MainContext from './services/mainContext';
 import {RootStore} from "./services/rootStore";
 import './assets/main.css';
+import MainRoutes from "./components/mainRoutes";
 
-const store = new RootStore()
+const rootStore = new RootStore()
 
-class App extends React.Component {
-    render() {
-        return <MainContext.Provider value={store}>
-            <div className='defaultFont'>
-                <h1><span className='highlight'>Cx</span>Integrations</h1>
-                <hr/>
-                <BrowserRouter>
-                    <Switch>
-                        <Route exact path={"/"}><Redirect to={'/scm'}/></Route>
-                        <Route exact path={"/scm"}><SourceControlManagers/></Route>
-
-                        <Route exact path={"/scm/:scmId/authorize"} component={AuthorizationPageRedirector}/>
-
-                        <Route exact path={'/scm/:scmId/organizations'} component={Organizations}/>
-
-                        <Route exact path={'/scm/:scmId/organizations/:orgName/repos'} component={Repositories}/>
-                    </Switch>
-                </BrowserRouter>
-            </div>
-        </MainContext.Provider>
-    }
+function App() {
+    return <MainContext.Provider value={rootStore}>
+        <div className='defaultFont'>
+            <h1>
+                <span className='highlight'>Cx</span>Integrations
+            </h1>
+            <hr/>
+            <MainRoutes/>
+        </div>
+    </MainContext.Provider>
 }
 
 const domContainer = document.getElementById('react');
