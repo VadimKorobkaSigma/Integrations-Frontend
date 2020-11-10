@@ -1,8 +1,8 @@
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom/esm/react-router-dom";
-import SourceControlManagers from "../views/sourceControlManagers";
+import ScmsView from "../views/scmsView";
 import AuthorizationPageRedirector from "../views/authorizationPageRedirector";
-import Organizations from "../views/organizations";
-import Repositories from "../views/repositories";
+import Organizations from "../views/organizationsView";
+import Repositories from "../views/repositoriesView";
 import * as React from "react";
 import {RouteComponentProps} from "react-router-dom";
 
@@ -10,7 +10,7 @@ export default function MainRoutes() {
     return <BrowserRouter>
         <Switch>
             <Route exact path={"/"}><Redirect to={"/scm"}/></Route>
-            <Route exact path={"/scm"}><SourceControlManagers/></Route>
+            <Route exact path={"/scm"}><ScmsView/></Route>
 
             <Route exact path={"/scm/:scmId/authorize"} component={AuthorizationPageRedirector}/>
 

@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 import {Link} from "react-router-dom";
 import MainContext from "../services/mainContext";
 
-export default function SourceControlManagers() {
+export default function ScmsView() {
     const {scmStore} = useContext(MainContext)
     return (
         <div>
