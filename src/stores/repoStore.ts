@@ -18,15 +18,15 @@ export default class RepoStore {
         this.repos = [];
 
         try {
-            const response = await this.repoService.getOrganizationRepos(scmId, orgName);
-            this.setRepos(response);
+            const repos = await this.repoService.getOrganizationRepos(scmId, orgName);
+            this.setRepos(repos);
         } catch (e) {
             this.handleError(e);
         }
     }
 
-    private setRepos = response => {
-        this.repos = response.data;
+    private setRepos = repos => {
+        this.repos = repos;
         this.state = 'completed';
     };
 

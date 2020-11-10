@@ -8,6 +8,7 @@ export class RepoService {
 
         // Using organization name (and not id) to conform to GitHub requirements.
         // This may be changed later with the introduction of other SCM support.
-        return await axios.get(`/api/${safeScmId}/orgs/${safeOrgName}/repos`);
+        const response = await axios.get(`/api/${safeScmId}/orgs/${safeOrgName}/repos`);
+        return response.data;
     }
 }
