@@ -8,6 +8,7 @@ import RepoLocator from "../dtos/repoLocator";
 export default class RepoStore {
     repos: Repository[] = []
     state: BasicLoadingState = 'initial';
+    currentWebhookOperation: { state: BasicLoadingState, repoId: string } = {state: 'initial', repoId: null}
 
     private readonly repoService = new RepoService();
 
@@ -29,10 +30,22 @@ export default class RepoStore {
     }
 
     async setRepoWebhook(repoLocator: RepoLocator) {
-        await this.repoService.setWebhook(repoLocator);
-        const updatedRepo = this.repos.find(repo => repo.id === repoLocator.repoId);
-        if (updatedRepo) {
-            updatedRepo.webHookEnabled = true;
+        console.info('Setting webhook for the repo:', repoLocator);
+        const operation = this.currentWebhookOperation;
+        operation.state = 'loading';
+        operation.repoId = repoLocator.repoId;
+        try {
+            await this.repoService.setWebhook(repoLocator);
+            const updatedRepo = this.repos.find(repo => repo.id === repoLocator.repoId);
+            if (updatedRepo) {
+                updatedRepo.webHookEnabled = true;
+            } else {
+                console.warn('Target repo was not found among the loaded repos.');
+            }
+            operation.state = 'completed';
+        } catch (e) {
+            operation.state = 'error';
+            console.error('Error setting repo webhook', e);
         }
     }
 }
