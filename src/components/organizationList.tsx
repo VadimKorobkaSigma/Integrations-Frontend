@@ -1,7 +1,10 @@
 import * as React from "react";
 import {Link} from "react-router-dom";
+import Organization from "../dtos/organization";
 
-export default function OrganizationList(props) {
+type ExpectedProps = { organizations: Organization[], baseUrl: string }
+
+export default function OrganizationList(props: ExpectedProps) {
     let result;
     const {organizations, baseUrl} = props;
     if (!organizations?.length) {
@@ -10,7 +13,7 @@ export default function OrganizationList(props) {
         result = <ul>{
             organizations.map(org =>
                 <li key={org.id}>
-                    <Link to={`${baseUrl}/${org.name}/repos`}>{org.name}</Link>
+                    <Link to={`${baseUrl}/${org.id}/repos`}>{org.name}</Link>
                 </li>
             )
         }</ul>

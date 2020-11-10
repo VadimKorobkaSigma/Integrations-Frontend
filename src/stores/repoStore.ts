@@ -12,26 +12,16 @@ export default class RepoStore {
         makeAutoObservable(this);
     }
 
-    async loadOrganizationRepos(scmId, orgName) {
-        console.info(`Getting repos for the '${orgName}' ${scmId} organization`);
+    async loadOrganizationRepos(scmId, orgId) {
+        console.info(`Getting repos for the '${orgId}' ${scmId} organization`);
         this.state = 'loading';
         this.repos = [];
 
         try {
-            const repos = await this.repoService.getOrganizationRepos(scmId, orgName);
-            this.setRepos(repos);
+            this.repos = await this.repoService.getOrganizationRepos(scmId, orgId);
+            this.state = 'completed';
         } catch (e) {
-            this.handleError(e);
+            this.state = 'error';
         }
     }
-
-    private setRepos = repos => {
-        this.repos = repos;
-        this.state = 'completed';
-    };
-
-    private handleError = error => {
-        console.error("Error getting organization repos.", error);
-        this.state = 'error';
-    };
 }

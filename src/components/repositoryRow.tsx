@@ -3,7 +3,7 @@ import {Repository} from "../dtos/repository";
 
 export function RepositoryRow(props: { repo: Repository }) {
     function setWebhook() {
-        console.log('setWebhook');
+        // repoStore.removeWebhook()
     }
 
     function removeWebhook() {

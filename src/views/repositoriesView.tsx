@@ -7,15 +7,15 @@ import {RouteComponentProps} from "react-router-dom";
 
 type ExpectedProps = RouteComponentProps<{
     scmId: string,
-    orgName: string,
+    orgId: string,
 }>;
 
-export default observer(class Repositories extends React.Component<ExpectedProps> {
+export default observer(class extends React.Component<ExpectedProps> {
     static contextType = MainContext;
 
     componentDidMount() {
-        const {scmId, orgName} = this.props.match.params;
-        this.context.repoStore.loadOrganizationRepos(scmId, orgName);
+        const {scmId, orgId} = this.props.match.params;
+        this.context.repoStore.loadOrganizationRepos(scmId, orgId);
     }
 
     render() {
@@ -29,11 +29,11 @@ export default observer(class Repositories extends React.Component<ExpectedProps
     }
 
     renderHeader() {
-        const {scmId, orgName} = this.props.match.params;
+        const {scmId, orgId} = this.props.match.params;
         const {scmStore} = this.context;
 
         const scmName = scmStore.getById(scmId)?.name;
-        return orgName && scmName ? `${scmName}: ${orgName} organization` : '';
+        return orgId && scmName ? `${scmName}: ${orgId} organization` : '';
     }
 
     renderRepos() {
@@ -42,12 +42,12 @@ export default observer(class Repositories extends React.Component<ExpectedProps
         if (state === 'completed') {
             result = <RepositoryList repositories={this.context.repoStore.repos}/>
         } else {
-            result = Repositories.renderLoadingMessage(state);
+            result = this.renderLoadingMessage(state);
         }
         return result;
     }
 
-    static renderLoadingMessage(state: BasicLoadingState) {
+    renderLoadingMessage(state: BasicLoadingState) {
         let result;
         switch (state) {
             case 'loading':

@@ -18,26 +18,18 @@ export default class OrganizationStore {
         this.organizations = [];
 
         if (authStore.isSameAsStoredState(stateFromCallbackUrl)) {
-            try {
-                const orgs = await this.orgService.getOrgs(scmId, authCode);
-                this.setOrgs(orgs);
-            } catch (e) {
-                this.handleError();
-            }
+            await this.doLoadOrganizations(scmId, authCode);
         } else {
             this.state = "invalidOAuthState";
         }
     }
 
-    private handleError = () => {
-        this.state = 'error';
-    };
-
-    /**
-     * Normalize raw organizations to an internal DTO. This should actually be done on the backend.
-     */
-    private setOrgs = orgsFromResponse => {
-        this.organizations = orgsFromResponse.map(org => ({id: org.id + '', name: org.login}));
-        this.state = 'completed';
-    };
+    private async doLoadOrganizations(scmId, authCode) {
+        try {
+            this.organizations = await this.orgService.getOrgs(scmId, authCode);
+            this.state = 'completed';
+        } catch (e) {
+            this.state = 'error';
+        }
+    }
 }

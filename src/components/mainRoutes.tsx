@@ -16,7 +16,7 @@ export default function MainRoutes() {
 
             <Route exact path={"/scm/:scmId/organizations"} component={Organizations}/>
 
-            <Route exact path={"/scm/:scmId/organizations/:orgName/repos"} component={Repositories}/>
+            <Route exact path={"/scm/:scmId/organizations/:orgId/repos"} component={Repositories}/>
         </Switch>
     </BrowserRouter>;
 }
