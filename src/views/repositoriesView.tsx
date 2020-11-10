@@ -40,7 +40,11 @@ export default observer(class extends React.Component<ExpectedProps> {
         let result;
         const {state} = this.context.repoStore;
         if (state === 'completed') {
-            result = <RepositoryList repositories={this.context.repoStore.repos}/>
+            const {scmId, orgId} = this.props.match.params;
+            result = <RepositoryList
+                repositories={this.context.repoStore.repos}
+                scmId={scmId}
+                orgId={orgId}/>
         } else {
             result = this.renderLoadingMessage(state);
         }

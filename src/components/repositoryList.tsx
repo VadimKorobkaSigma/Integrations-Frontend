@@ -1,18 +1,25 @@
 import * as React from "react";
 import {Repository} from "../dtos/repository";
-import {RepositoryRow} from "./repositoryRow";
+import RepositoryRow from "./repositoryRow";
+import {observer} from "mobx-react";
 
-export default function RepositoryList(props) {
+type PropType = { repositories: Repository[], scmId: string, orgId: string };
+
+export default observer(function RepositoryList(props: PropType) {
     let result;
-    const repos: Repository[] = props.repositories;
-    if (!repos?.length) {
+    const {repositories, scmId, orgId} = props;
+    if (!repositories?.length) {
         result = <div>No repositories found for this organization.</div>;
     } else {
         result = <table>
             <tbody>
-            {repos.map(repo => <RepositoryRow key={repo.id} repo={repo}/>)}
+            {repositories.map(repo => <RepositoryRow key={repo.id} repository={repo} repoLocator={{
+                scmId,
+                orgId,
+                repoId: repo.id
+            }}/>)}
             </tbody>
         </table>;
     }
     return result;
-}
+});

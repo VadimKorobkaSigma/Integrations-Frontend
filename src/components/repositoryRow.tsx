@@ -1,26 +1,40 @@
 import * as React from "react";
 import {Repository} from "../dtos/repository";
+import {observer} from "mobx-react";
+import MainContext from "../services/mainContext";
+import RepoLocator from "../dtos/repoLocator";
 
-export function RepositoryRow(props: { repo: Repository }) {
-    function setWebhook() {
-        // repoStore.removeWebhook()
+type PropType = { repository: Repository, repoLocator: RepoLocator };
+
+export default observer(class RepositoryRow extends React.Component<PropType> {
+    static contextType = MainContext;
+
+    setWebhook = () => {
+        this.context.repoStore.setRepoWebhook(this.props.repoLocator);
     }
 
-    function removeWebhook() {
+    removeWebhook = () => {
         console.log('removeWebhook');
     }
 
-    const {repo} = props;
-    return <tr>
-        <td>{repo.name}</td>
-        <td>
-            <button disabled>Scan with Checkmarx</button>
-        </td>
-        <td>
-            <button disabled={repo.webHookEnabled} onClick={setWebhook}>Set webhook</button>
-        </td>
-        <td>
-            <button disabled={!repo.webHookEnabled} onClick={removeWebhook}>Remove webhook</button>
-        </td>
-    </tr>;
-}
+    render() {
+        const {repository} = this.props;
+
+        return <tr>
+            <td>{repository.name}</td>
+            <td>
+                <button disabled>Scan with Checkmarx</button>
+            </td>
+            <td>
+                <button disabled={repository.webHookEnabled} onClick={this.setWebhook}>Set
+                    webhook
+                </button>
+            </td>
+            <td>
+                <button disabled={!repository.webHookEnabled} onClick={this.removeWebhook}>Remove
+                    webhook
+                </button>
+            </td>
+        </tr>;
+    }
+});
