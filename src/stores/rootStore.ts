@@ -1,5 +1,5 @@
 import CombinedScmStore from "./combinedScmStore";
-import OrganizationStore from "../services/organizationStore";
+import OrganizationStore from "./organizationStore";
 import RepoStore from "../services/repoStore";
 
 export class RootStore {

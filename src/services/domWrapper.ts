@@ -6,7 +6,7 @@ export default {
         window.location.href = url;
     },
 
-    encodePathSegment: (segment: string) => window.encodeURIComponent(segment),
+    encodePathSegment: (segment: string): string => window.encodeURIComponent(segment),
 
     getSessionStorage: () => window.sessionStorage,
 
