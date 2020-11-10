@@ -6,8 +6,8 @@ import {OrganizationService} from "../services/organizationService";
 
 export default class OrganizationStore {
     organizations: Organization[] = [];
-    state: OauthExtendedLoadingState = 'idle';
-    orgService = new OrganizationService();
+    state: OauthExtendedLoadingState = 'initial';
+    private readonly orgService = new OrganizationService();
 
     constructor() {
         makeAutoObservable(this);
@@ -34,15 +34,10 @@ export default class OrganizationStore {
     };
 
     /**
-     * Normalize raw organizations
-     * @param orgsFromResponse
+     * Normalize raw organizations to an internal DTO. This should actually be done on the backend.
      */
     private setOrgs = orgsFromResponse => {
         this.organizations = orgsFromResponse.map(org => ({id: org.id + '', name: org.login}));
         this.state = 'completed';
     };
-
-    getOrganizationById(orgId): Organization {
-        return this.organizations.find(org => org.id === orgId);
-    }
 }

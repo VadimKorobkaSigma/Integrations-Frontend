@@ -1,6 +1,6 @@
 import CombinedScmStore from "./combinedScmStore";
 import OrganizationStore from "./organizationStore";
-import RepoStore from "../services/repoStore";
+import RepoStore from "./repoStore";
 
 export class RootStore {
     readonly scmStore = new CombinedScmStore();

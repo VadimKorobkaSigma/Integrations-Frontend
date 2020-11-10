@@ -15,7 +15,7 @@ export default observer(class Repositories extends React.Component<ExpectedProps
 
     componentDidMount() {
         const {scmId, orgName} = this.props.match.params;
-        this.context.repoStore.getOrganizationRepos(scmId, orgName);
+        this.context.repoStore.loadOrganizationRepos(scmId, orgName);
     }
 
     render() {
@@ -37,8 +37,8 @@ export default observer(class Repositories extends React.Component<ExpectedProps
     }
 
     renderRepos() {
-        const {state} = this.context.repoStore;
         let result;
+        const {state} = this.context.repoStore;
         if (state === 'completed') {
             result = <RepositoryList repositories={this.context.repoStore.repos}/>
         } else {

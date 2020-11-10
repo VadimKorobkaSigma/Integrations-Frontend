@@ -9,7 +9,7 @@ export default class GitHubStore implements ScmStore {
     id = 'github'
     name = 'GitHub'
     authServerPageUrl = null
-    state: BasicLoadingState = 'idle';
+    state: BasicLoadingState = 'initial';
 
     constructor() {
         makeAutoObservable(this);

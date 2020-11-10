@@ -14,7 +14,7 @@ export default observer(class AuthorizationPageRedirector extends React.Componen
     private readonly WORKING = 'Checking authorization parameters...';
 
     private readonly messageMap: { [prop in BasicLoadingState]: string } = {
-        idle: '',
+        initial: '',
         completed: this.WORKING,
         loading: this.WORKING,
         error: 'Unable to determine redirection URL.'
