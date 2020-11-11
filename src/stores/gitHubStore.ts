@@ -1,9 +1,9 @@
 import {ScmStore} from "../dtos/scmStore";
 import {makeAutoObservable} from "mobx";
-import axios from "axios";
 import authStore from "./authStore";
 import {BasicLoadingState} from "../services/loadingStates";
 import domWrapper from "../services/domWrapper";
+import httpClient from "../services/httpClient";
 
 export default class GitHubStore implements ScmStore {
     id = 'github'
@@ -17,7 +17,7 @@ export default class GitHubStore implements ScmStore {
 
     loadAuthServerPageUrl() {
         this.state = 'loading';
-        axios.get(`/api/${this.id}/config`)
+        httpClient.get(`:id/config`, {pathParams: {id: this.id}})
             .then(response => this.setPageUrl(response))
             .catch(() => {
                 this.state = 'error';

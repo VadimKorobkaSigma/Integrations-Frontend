@@ -5,7 +5,7 @@ import {RootStore} from "./stores/rootStore";
 import './assets/main.css';
 import MainRoutes from "./components/mainRoutes";
 
-const rootStore = new RootStore()
+const rootStore = new RootStore();
 
 function App() {
     return <MainContext.Provider value={rootStore}>
