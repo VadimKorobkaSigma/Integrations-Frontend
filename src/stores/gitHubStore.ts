@@ -3,11 +3,12 @@ import {makeAutoObservable} from "mobx";
 import authStore from "./authStore";
 import {BasicLoadingState} from "../services/loadingStates";
 import domWrapper from "../services/domWrapper";
-import httpClient from "../services/httpClient";
+import ScmConfiguration from "../dtos/scmConfiguration";
+import configService from '../services/configService';
 
 export default class GitHubStore implements ScmStore {
-    id = 'github'
-    name = 'GitHub'
+    readonly id = 'github'
+    readonly name = 'GitHub'
     authServerPageUrl = null
     state: BasicLoadingState = 'initial';
 
@@ -15,26 +16,30 @@ export default class GitHubStore implements ScmStore {
         makeAutoObservable(this);
     }
 
-    loadAuthServerPageUrl() {
+    /**
+     * Start generating GitHub authorization page URL. The page is used in OAuth flow.
+     */
+    async loadAuthServerPageUrl() {
         this.state = 'loading';
-        httpClient.get(`:id/config`, {pathParams: {id: this.id}})
-            .then(response => this.setPageUrl(response))
-            .catch(() => {
-                this.state = 'error';
-            });
+        this.authServerPageUrl = null;
+        try {
+            const config = await configService.getConfiguration(this.id);
+            this.authServerPageUrl = this.generatePageUrl(config);
+            this.state = 'completed';
+        } catch {
+            this.state = 'error';
+        }
     }
 
-    private setPageUrl(configResponse) {
-        const config = configResponse.data;
+    private generatePageUrl(config: ScmConfiguration) {
         const origin = domWrapper.getCurrentOrigin();
         const query = {
             client_id: config.clientId,
+            scope: config.scope,
             redirect_uri: `${origin}/scm/${this.id}/organizations`,
-            state: authStore.createAndRememberState(),
-            scope: config.scope
+            state: authStore.createAndRememberState()
         };
         const queryString = new URLSearchParams(query);
-        this.authServerPageUrl = `https://github.com/login/oauth/authorize?${queryString}`;
-        this.state = 'completed';
+        return `https://github.com/login/oauth/authorize?${queryString}`;
     }
 }
