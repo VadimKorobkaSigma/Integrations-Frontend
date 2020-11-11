@@ -1,17 +1,17 @@
 import Organization from "../dtos/organization";
-import domWrapper from "./domWrapper";
-import axios from "axios";
+import httpClient, {HttpRequestConfig} from "./httpClient";
 
 export class OrganizationService {
     async getOrgs(scmId: string, authCode: string): Promise<Organization[]> {
-        const encodedScmId = domWrapper.encodePathSegment(scmId);
 
-        const requestConfig = {
-            params: {code: authCode}
+        const requestConfig: HttpRequestConfig = {
+            params: {code: authCode},
+            pathParams: {scmId}
         };
+
         // Using post, because this API both performs OAuth authorization and returns organizations.
         // These two calls should be separated in the future.
-        const response = await axios.post(`/api/${encodedScmId}/user/orgs`, null, requestConfig);
+        const response = await httpClient.post(':scmId/user/orgs', null, requestConfig)
 
         return response.data.map(this.toInternalOrg);
     }

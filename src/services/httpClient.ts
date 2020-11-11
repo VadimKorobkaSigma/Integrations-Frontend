@@ -1,4 +1,4 @@
-import {AxiosRequestConfig} from "axios";
+import {AxiosInstance, AxiosRequestConfig} from "axios";
 import axios from "axios";
 import domWrapper from "./domWrapper";
 
@@ -7,7 +7,7 @@ export interface HttpRequestConfig extends AxiosRequestConfig {
 }
 
 class HttpClient {
-    private readonly axiosInstance;
+    private readonly axiosInstance: AxiosInstance;
 
     constructor() {
         const baseURL = `${domWrapper.getCurrentOrigin()}/api`;
@@ -19,6 +19,10 @@ class HttpClient {
 
     get(url: string, config?: HttpRequestConfig) {
         return this.axiosInstance.get(url, config);
+    }
+
+    post(url: string, data, config: HttpRequestConfig) {
+        return this.axiosInstance.post(url, data, config);
     }
 
     private expandPathParams(config: HttpRequestConfig) {
@@ -35,7 +39,7 @@ class HttpClient {
 
     private expandParameter(config: HttpRequestConfig) {
         return ([paramName, paramValue]) => {
-            const encodedValue = domWrapper.encodePathSegment(paramValue as string);
+            const encodedValue = domWrapper.encodePathSegment(paramValue);
             config.url = config.url.replace(`:${paramName}`, encodedValue)
         };
     }

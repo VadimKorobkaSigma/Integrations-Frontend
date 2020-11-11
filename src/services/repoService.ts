@@ -1,14 +1,11 @@
-import domWrapper from "./domWrapper";
-import axios from "axios";
 import {Repository} from "../dtos/repository";
 import RepoLocator from "../dtos/repoLocator";
+import httpClient from "./httpClient";
 
 export class RepoService {
     async getOrganizationRepos(scmId, orgId): Promise<Repository[]> {
-        const safeScmId = domWrapper.encodePathSegment(scmId);
-        const safeOrgId = domWrapper.encodePathSegment(orgId);
-
-        const response = await axios.get(`/api/${safeScmId}/orgs/${safeOrgId}/repos`);
+        const config = {pathParams: {scmId, orgId}};
+        const response = await httpClient.get(`:scmId/orgs/:orgId/repos`, config);
         return response.data.map(this.toInternalRepo);
     }
 
@@ -17,11 +14,9 @@ export class RepoService {
         return {id: name, name, webHookEnabled};
     };
 
-    async setWebhook(repoLocator: RepoLocator) {
+    setWebhook(repoLocator: RepoLocator) {
         let {scmId, orgId, repoId} = repoLocator;
-        scmId = domWrapper.encodePathSegment(scmId);
-        orgId = domWrapper.encodePathSegment(orgId);
-        repoId = domWrapper.encodePathSegment(repoId);
-        await axios.post(`/api/${scmId}/orgs/${orgId}/repos/${repoId}/webhook`);
+        const config = {pathParams: {scmId, orgId, repoId}};
+        return httpClient.post(':scmId/orgs/:orgId/repos/:repoId/webhook', null, config);
     }
 }
