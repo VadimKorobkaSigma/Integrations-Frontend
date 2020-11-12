@@ -12,5 +12,11 @@ export default {
 
     getCurrentOrigin: () => window.location.origin,
 
-    getCurrentQuery: () => new URLSearchParams(window.location.search)
+    getCurrentQuery: () => new URLSearchParams(window.location.search),
+
+    setWindowTitle(title: string) {
+        title ||= '';
+        const separator = title ? ' – ' : '';
+        document.title = `${title}${separator}CxIntegrations`
+    }
 }

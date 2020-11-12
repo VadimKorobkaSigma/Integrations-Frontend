@@ -4,6 +4,7 @@ import {observer} from "mobx-react";
 import {BasicLoadingState} from "../services/loadingStates";
 import domAdapter from "../services/domWrapper";
 import {PropsWithScmId} from "../components/mainRoutes";
+import domWrapper from "../services/domWrapper";
 
 
 /**
@@ -23,6 +24,7 @@ export default observer(class AuthorizationPageRedirector extends React.Componen
     static contextType = MainContext;
 
     componentDidMount() {
+        domWrapper.setWindowTitle('Authorization');
         this.getCurrentScm()?.loadAuthServerPageUrl();
     }
 

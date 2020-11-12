@@ -11,6 +11,7 @@ export default observer(class Organizations extends React.Component<PropsWithScm
     static contextType = MainContext;
 
     componentDidMount() {
+        domWrapper.setWindowTitle('Organizations');
         const {scmId} = this.props.match.params;
         const query = domWrapper.getCurrentQuery();
         const authCode = query.get('code');

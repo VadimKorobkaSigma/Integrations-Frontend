@@ -4,6 +4,7 @@ import RepositoryList from "../components/repositoryList";
 import {BasicLoadingState} from "../services/loadingStates";
 import * as React from "react";
 import {RouteComponentProps} from "react-router-dom";
+import domWrapper from "../services/domWrapper";
 
 type ExpectedProps = RouteComponentProps<{
     scmId: string,
@@ -14,6 +15,7 @@ export default observer(class extends React.Component<ExpectedProps> {
     static contextType = MainContext;
 
     componentDidMount() {
+        domWrapper.setWindowTitle('Repositories');
         const {scmId, orgId} = this.props.match.params;
         this.context.repoStore.loadOrganizationRepos(scmId, orgId);
     }
