@@ -29,16 +29,16 @@ export default class RepoStore {
         }
     }
 
-    async setRepoWebhook(repoLocator: RepoLocator) {
-        console.info('Setting webhook for the repo:', repoLocator);
+    async createRepoWebhook(repoLocator: RepoLocator) {
+        console.info('Creating webhook for the repo:', repoLocator);
         const operation = this.currentWebhookOperation;
         operation.state = 'loading';
         operation.repoId = repoLocator.repoId;
         try {
-            await this.repoService.setWebhook(repoLocator);
+            await this.repoService.createWebhook(repoLocator);
             const updatedRepo = this.repos.find(repo => repo.id === repoLocator.repoId);
             if (updatedRepo) {
-                updatedRepo.webHookEnabled = true;
+                updatedRepo.webhookEnabled = true;
             } else {
                 console.warn('Target repo was not found among the loaded repos.');
             }

@@ -9,18 +9,19 @@ type PropType = { repo: Repository, repoLocator: RepoLocator };
 export default observer(class RepositoryRow extends React.Component<PropType> {
     static contextType = MainContext;
 
-    setWebhook = () => {
-        this.context.repoStore.setRepoWebhook(this.props.repoLocator);
+    createWebhook = () => {
+        this.context.repoStore.createRepoWebhook(this.props.repoLocator);
     }
 
     removeWebhook = () => {
-        console.log('removeWebhook');
+        console.log('removeWebhook: not implemented yet');
     }
 
     render() {
         const {state} = this.context.repoStore.currentWebhookOperation;
-        const {name, webHookEnabled} = this.props.repo;
-        const canSet = !webHookEnabled && state !== 'loading';
+        const {name, webhookEnabled} = this.props.repo;
+        const canSet = !webhookEnabled && state !== 'loading';
+        const canRemove = webhookEnabled && state !== 'loading';
 
         return <tr>
             <td>{name}</td>
@@ -28,24 +29,21 @@ export default observer(class RepositoryRow extends React.Component<PropType> {
                 <button disabled>Scan with Checkmarx</button>
             </td>
             <td>
-                <button disabled={!canSet} onClick={this.setWebhook}>
-                    Set webhook{this.getLoadingMessage()}
-                </button>
+                <button disabled={!canSet} onClick={this.createWebhook}>Set webhook</button>
             </td>
             <td>
-                <button disabled onClick={this.removeWebhook}>
-                    Remove webhook
-                </button>
+                <button disabled={!canRemove} onClick={this.removeWebhook}>Remove webhook</button>
             </td>
-        </tr>;
+            <td>{this.getLoadingMessage()}</td>
+        </tr>
     }
 
     private getLoadingMessage() {
         const {state, repoId} = this.context.repoStore.currentWebhookOperation;
-        let result;
+        let result = '';
         if (repoId === this.props.repoLocator.repoId) {
-            result = {'loading': 'working...', 'error': 'error!'}[state];
+            result = {'loading': 'Working...', 'error': 'Error!'}[state];
         }
-        return result ? `: ${result}` : '';
+        return result;
     }
 });
