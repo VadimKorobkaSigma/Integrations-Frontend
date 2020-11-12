@@ -14,14 +14,6 @@ export class OrganizationService {
         // These two calls should be separated in the future.
         const response = await httpClient.post(':scmId/user/orgs', null, requestConfig)
 
-        return response.data.map(this.toInternalOrg);
+        return response.data;
     }
-
-    /**
-     * Normalize raw organizations to an internal DTO. This should actually be done on the backend.
-     */
-    private toInternalOrg = (orgFromResponse): Organization => ({
-        id: orgFromResponse.login,
-        name: orgFromResponse.login
-    });
 }
