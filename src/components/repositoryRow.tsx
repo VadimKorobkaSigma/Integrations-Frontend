@@ -14,7 +14,7 @@ export default observer(class RepositoryRow extends React.Component<PropType> {
     }
 
     removeWebhook = () => {
-        console.log('removeWebhook: not implemented yet');
+        this.context.repoStore.removeRepoWebhook(this.props.repoLocator);
     }
 
     render() {

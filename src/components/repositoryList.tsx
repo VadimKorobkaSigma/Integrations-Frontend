@@ -24,7 +24,7 @@ export default observer(class RepositoryList extends React.Component<PropType> {
     renderRows() {
         const {repositories, scmId, orgId} = this.props;
         return repositories.map(repo => {
-            const locator: RepoLocator = {scmId, orgId, repoId: repo.id};
+            const locator: RepoLocator = {scmId, orgId, repoId: repo.id, webhookId: repo.webhookId};
             return <RepositoryRow key={repo.id} repo={repo} repoLocator={locator}/>;
         });
     }

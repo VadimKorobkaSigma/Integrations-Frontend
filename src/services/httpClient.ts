@@ -1,10 +1,6 @@
-import {AxiosInstance, AxiosRequestConfig} from "axios";
-import axios from "axios";
+import axios, {AxiosInstance} from "axios";
 import domWrapper from "./domWrapper";
-
-export interface HttpRequestConfig extends AxiosRequestConfig {
-    pathParams?: object
-}
+import {HttpRequestConfig} from "./httpRequestConfig";
 
 class HttpClient {
     private readonly axiosInstance: AxiosInstance;
@@ -23,6 +19,10 @@ class HttpClient {
 
     post(url: string, data, config: HttpRequestConfig) {
         return this.axiosInstance.post(url, data, config);
+    }
+
+    request(config: HttpRequestConfig) {
+        return this.axiosInstance(config);
     }
 
     private expandPathParams(config: HttpRequestConfig) {
