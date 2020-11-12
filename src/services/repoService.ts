@@ -2,18 +2,19 @@ import {Repository} from "../dtos/repository";
 import RepoLocator from "../dtos/repoLocator";
 import httpClient from "./httpClient";
 import {HttpRequestConfig} from "./httpRequestConfig";
+import {UrlPaths} from "./urlPaths";
 
 export class RepoService {
     async getOrganizationRepos(scmId, orgId): Promise<Repository[]> {
         const config = {pathParams: {scmId, orgId}};
-        const response = await httpClient.get(`:scmId/orgs/:orgId/repos`, config);
+        const response = await httpClient.get(UrlPaths.repos, config);
         return response.data;
     }
 
     createWebhook(repoLocator: RepoLocator) {
         let {scmId, orgId, repoId} = repoLocator;
         const config = {pathParams: {scmId, orgId, repoId}};
-        return httpClient.post(':scmId/orgs/:orgId/repos/:repoId/webhooks', null, config);
+        return httpClient.post(UrlPaths.webhooks.create, null, config);
     }
 
     async removeWebhook(repoLocator: RepoLocator) {
@@ -21,7 +22,7 @@ export class RepoService {
 
         const config: HttpRequestConfig = {
             method: 'delete',
-            url: ':scmId/orgs/:orgId/repos/:repoId/webhooks/:webhookId',
+            url: UrlPaths.webhooks.remove,
             pathParams: {scmId, orgId, repoId, webhookId}
         };
         return httpClient.request(config);
