@@ -29,29 +29,23 @@ export default class RepoStore {
         }
     }
 
-    async createRepoWebhook(repoLocator: RepoLocator) {
-        console.info('Creating webhook for the repo:', repoLocator);
-        this.switchIntoLoadingState(repoLocator);
-        try {
-            await this.repoService.createWebhook(repoLocator);
-            this.setWebhookStateLocally(repoLocator, true);
-            this.currentWebhookOperation.state = 'completed';
-        } catch (e) {
-            this.currentWebhookOperation.state = 'error';
-            console.error('Error setting repo webhook', e);
-        }
-    }
+    createRepoWebhook = async (repoLocator: RepoLocator) => this.changeRepoWebhook(repoLocator, 'create');
 
-    async removeRepoWebhook(repoLocator: RepoLocator) {
-        console.info('Removing webhook for the repo:', repoLocator);
-        this.switchIntoLoadingState(repoLocator);
+    removeRepoWebhook = async (repoLocator: RepoLocator) => this.changeRepoWebhook(repoLocator, 'remove');
+
+    async changeRepoWebhook(repoLocator: RepoLocator, action: ('create' | 'remove')) {
+        console.info(`Starting to ${action} webhook for the repo:`, repoLocator);
+        const operation = this.switchIntoLoadingState(repoLocator);
+
         try {
-            await this.repoService.removeWebhook(repoLocator);
-            this.setWebhookStateLocally(repoLocator, false);
-            this.currentWebhookOperation.state = 'completed';
+            const methodName = (action === 'create' ? 'createWebhook' : 'removeWebhook');
+            await this.repoService[methodName](repoLocator);
+
+            this.setWebhookStateLocally(repoLocator, action === 'create');
+            operation.state = 'completed';
         } catch (e) {
+            console.error(`Failed to ${action} repo webhook.`, e);
             this.currentWebhookOperation.state = 'error';
-            console.error('Error removing repo webhook', e);
         }
     }
 
