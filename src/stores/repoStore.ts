@@ -18,49 +18,63 @@ export default class RepoStore {
 
     async loadOrganizationRepos(scmId, orgId) {
         console.info(`Getting repos for the '${orgId}' ${scmId} organization`);
-        this.state = 'loading';
+        this.setState('loading');
         this.repos = [];
 
         try {
             this.repos = await this.repoService.getOrganizationRepos(scmId, orgId);
-            this.state = 'completed';
+            this.setState('completed');
         } catch (e) {
-            this.state = 'error';
+            this.setState('error');
         }
     }
 
-    createRepoWebhook = async (repoLocator: RepoLocator) => this.changeRepoWebhook(repoLocator, 'create');
-
-    removeRepoWebhook = async (repoLocator: RepoLocator) => this.changeRepoWebhook(repoLocator, 'remove');
-
-    async changeRepoWebhook(repoLocator: RepoLocator, action: ('create' | 'remove')) {
-        console.info(`Starting to ${action} webhook for the repo:`, repoLocator);
-        const operation = this.switchIntoLoadingState(repoLocator);
-
+    async createRepoWebhook(repoLocator: RepoLocator) {
+        console.log('Creating repo webhook.', repoLocator);
+        this.switchIntoLoadingState(repoLocator);
         try {
-            const methodName = (action === 'create' ? 'createWebhook' : 'removeWebhook');
-            await this.repoService[methodName](repoLocator);
-
-            this.setWebhookStateLocally(repoLocator, action === 'create');
-            operation.state = 'completed';
+            const createdWebhookId = await this.repoService.createWebhook(repoLocator);
+            console.log(`Created a webhook with ID '${createdWebhookId}'`);
+            this.updateRepoLocally(repoLocator, true, createdWebhookId);
+            this.setWebhookState('completed');
         } catch (e) {
-            console.error(`Failed to ${action} repo webhook.`, e);
-            this.currentWebhookOperation.state = 'error';
+            this.setWebhookState('error');
         }
+    }
+
+    async removeRepoWebhook(repoLocator: RepoLocator) {
+        console.log('Removing repo webhook.', repoLocator);
+        this.switchIntoLoadingState(repoLocator);
+        try {
+            await this.repoService.removeWebhook(repoLocator);
+            this.updateRepoLocally(repoLocator, false);
+            this.setWebhookState('completed');
+        } catch (e) {
+            this.setWebhookState('error');
+        }
+    }
+
+    private setState(value: BasicLoadingState) {
+        this.state = value;
+    }
+
+    private setWebhookState(value: BasicLoadingState) {
+        this.currentWebhookOperation.state = value;
     }
 
     private switchIntoLoadingState(repoLocator: RepoLocator) {
-        const operation = this.currentWebhookOperation;
-        operation.state = 'loading';
-        operation.repoId = repoLocator.repoId;
-        return operation;
+        this.currentWebhookOperation = {state: 'loading', repoId: repoLocator.repoId};
     }
 
-    private setWebhookStateLocally(repoLocator: RepoLocator, isEnabled) {
-        const updatedRepo = this.repos.find(repo => repo.id === repoLocator.repoId);
-        if (updatedRepo) {
-            console.debug(`Setting webHookEnabled to ${isEnabled} for the ${updatedRepo.name} repo.`);
-            updatedRepo.webhookEnabled = isEnabled;
+    private updateRepoLocally(repoLocator: RepoLocator, isEnabled, webhookId = null) {
+        const targetRepo = this.repos.find(repo => repo.id === repoLocator.repoId);
+        if (targetRepo) {
+            console.debug(`Setting webHookEnabled to ${isEnabled} for the ${targetRepo.name} repo.`);
+            targetRepo.webhookEnabled = isEnabled;
+
+            // It's important to have webhook ID for the case when user wants to remove
+            // this webhook without leaving the view.
+            targetRepo.webhookId = webhookId;
         } else {
             console.warn('Target repo was not found among the loaded repos.');
         }
