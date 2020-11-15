@@ -14,16 +14,36 @@ export class OrgSettingsStore {
     }
 
     async loadOrgSettings(scmId: string, orgId: string) {
-        this.state = 'loading';
+        this.setState('loading');
         try {
-            this.orgSettings = await this.settingsService.getSettings(scmId, orgId);
-            this.state = 'completed';
+            const settings = await this.settingsService.getSettings(scmId, orgId);
+            this.completeLoading(settings);
         } catch {
-            this.state = 'error';
+            this.setState('error');
+        }
+    }
+
+    async saveOrgSettings(scmId: string, orgId: string) {
+        this.setState('saving');
+        try {
+            await this.settingsService.saveSettings(scmId, orgId);
+            this.setState('completed');
+        } catch {
+            this.setState('error');
         }
     }
 
     setPartialSettings(partialValue) {
         this.orgSettings = Object.assign({}, this.orgSettings, partialValue);
+    }
+
+    private setState(value) {
+        // Using a setter to avoid mobx warnings.
+        this.state = value;
+    }
+
+    private completeLoading(settings: OrgSettings) {
+        this.orgSettings = settings;
+        this.state = 'completed';
     }
 }

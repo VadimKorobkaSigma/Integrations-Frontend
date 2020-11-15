@@ -1,9 +1,13 @@
 import OrgSettings from "../dtos/orgSettings";
 
 export class OrgSettingsService {
-    getSettings(scmId: string, orgId: string): Promise<OrgSettings> {
-        console.log(`Loading settings for the ${scmId}/${orgId} organization.`);
-        return new Promise(resolve => this.delayedStub(resolve));
+    saveSettings = (scmId: string, orgId: string) => this.requestStub('Saving', scmId, orgId);
+
+    getSettings = (scmId: string, orgId: string): Promise<OrgSettings> => this.requestStub('Loading', scmId, orgId);
+
+    private requestStub(action: string, scmId, orgId) {
+        console.log(`${action} settings for the ${scmId}/${orgId} organization.`);
+        return new Promise<OrgSettings>(resolve => this.delayedStub(resolve));
     }
 
     delayedStub(resolve) {

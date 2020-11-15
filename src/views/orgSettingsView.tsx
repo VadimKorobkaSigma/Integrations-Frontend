@@ -29,7 +29,8 @@ export default observer(class extends React.Component<PropType> {
 
     handleSave(event: FormEvent) {
         event.preventDefault();
-        console.log('handleSave', event);
+        const {scmId, orgId} = this.props.match.params;
+        this.context.orgSettingsStore.saveOrgSettings(scmId, orgId);
     }
 
     handleChange(event) {
@@ -42,14 +43,10 @@ export default observer(class extends React.Component<PropType> {
         const isBusy = (store.state === 'loading' || store.state === 'saving');
         const settings = store.orgSettings;
         return <form onSubmit={this.handleSave}>
-            {this.renderLoadingMessage(store.state)}
-            <div>
-                {this.renderTeamInput(settings, isBusy)}
-            </div>
-            <div>
-                {this.renderSecretInput(settings, isBusy)}
-            </div>
+            <div>{this.renderTeamInput(settings, isBusy)}</div>
+            <div>{this.renderSecretInput(settings, isBusy)}</div>
             <button type="submit" disabled={isBusy}>Save</button>
+            {this.renderLoadingMessage(store.state)}
         </form>;
     }
 
@@ -75,7 +72,7 @@ export default observer(class extends React.Component<PropType> {
         const mapping: { [key in WritableLoadingState]?: string } = {
             loading: 'Loading...',
             saving: 'Saving...',
-            error: 'An error has occurred'
+            error: 'An error has occurred.'
         };
         return <div>{mapping[state] || ''}</div>;
     }
