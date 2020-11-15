@@ -1,6 +1,6 @@
 import * as React from "react";
-import {Link} from "react-router-dom";
 import Organization from "../dtos/organization";
+import OrganizationRow from './organizationRow';
 
 type ExpectedProps = { organizations: Organization[], baseUrl: string }
 
@@ -10,13 +10,11 @@ export default function OrganizationList(props: ExpectedProps) {
     if (!organizations?.length) {
         result = <p>No organizations found.</p>
     } else {
-        result = <ul>{
-            organizations.map(org =>
-                <li key={org.id}>
-                    <Link to={`${baseUrl}/${org.id}/repos`}>{org.name}</Link>
-                </li>
-            )
-        }</ul>
+        result = <table>
+            <tbody>
+            {organizations.map(org => <OrganizationRow organization={org} baseUrl={baseUrl}/>)}
+            </tbody>
+        </table>
     }
     return result;
 }

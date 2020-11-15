@@ -23,3 +23,7 @@ hr {
 .highlight {
     color: #4dbb40
 }
+
+.organizationRow > td {
+    padding-right: 1em
+}
