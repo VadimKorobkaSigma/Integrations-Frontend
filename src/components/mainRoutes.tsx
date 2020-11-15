@@ -5,7 +5,7 @@ import Organizations from "../views/organizationsView";
 import Repositories from "../views/repositoriesView";
 import * as React from "react";
 import {RouteComponentProps} from "react-router-dom";
-import OrganizationSettingsView from '../views/organizationSettingsView';
+import OrgSettingsView from '../views/orgSettingsView';
 
 export default function MainRoutes() {
     return <BrowserRouter>
@@ -18,7 +18,7 @@ export default function MainRoutes() {
             <Route exact path={"/scm/:scmId/organizations"} component={Organizations}/>
 
             <Route exact path={"/scm/:scmId/organizations/:orgId/repos"} component={Repositories}/>
-            <Route exact path={"/scm/:scmId/organizations/:orgId/settings"} component={OrganizationSettingsView}/>
+            <Route exact path={"/scm/:scmId/organizations/:orgId/settings"} component={OrgSettingsView}/>
         </Switch>
     </BrowserRouter>;
 }
