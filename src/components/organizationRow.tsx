@@ -11,5 +11,6 @@ export default observer((props: PropType) => {
     return <tr className="organizationRow" key={organization.id}>
         <td>{organization.name}</td>
         <td><Link to={`${baseUrl}/${organization.id}/repos`}>repositories</Link></td>
+        <td><Link to={`${baseUrl}/${organization.id}/settings`}>settings</Link></td>
     </tr>
 });
