@@ -26,9 +26,6 @@ export default observer(class RepositoryRow extends React.Component<PropType> {
         return <tr>
             <td>{name}</td>
             <td>
-                <button disabled>Scan with Checkmarx</button>
-            </td>
-            <td>
                 <button disabled={!canSet} onClick={this.createWebhook}>Set webhook</button>
             </td>
             <td>
