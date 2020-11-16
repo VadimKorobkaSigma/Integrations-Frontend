@@ -35,9 +35,9 @@ module.exports = {
             { test: /\.js$/, loader: "source-map-loader", exclude: /(node_modules)/ },
 
             {
-                test: /\.css$/,
-                include: path.join(__dirname, './src/assets'),
-                use: ['style-loader', 'css-loader']
+                test: /\.s?css$/,
+                // include: path.join(__dirname, './src/assets'),
+                use: ['style-loader', 'css-loader', 'sass-loader']
             }
         ]
     },

@@ -1,0 +1,31 @@
+$cx-highlight: #4dbb40;
+
+body {
+  font: 150% sans-serif;
+}
+
+button {
+  color: white;
+  background-color: $cx-highlight;
+  border-radius: 4px;
+  padding: 0.25em;
+  font-size: .75em;;
+
+  [disabled] {
+    background-color: #f0f0f0;
+    color: #595959;
+  }
+}
+
+hr {
+  color: #c4c4c4
+}
+
+
+.highlight {
+  color: $cx-highlight
+}
+
+.organizationRow > td {
+  padding-right: 1em;
+}
