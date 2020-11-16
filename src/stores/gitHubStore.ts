@@ -24,11 +24,15 @@ export default class GitHubStore implements ScmStore {
         this.authServerPageUrl = null;
         try {
             const config = await configService.getConfiguration(this.id);
-            this.authServerPageUrl = this.generatePageUrl(config);
-            this.state = 'completed';
+            this.completeLoading(config);
         } catch {
             this.state = 'error';
         }
+    }
+
+    private completeLoading(config) {
+        this.authServerPageUrl = this.generatePageUrl(config);
+        this.state = 'completed';
     }
 
     private generatePageUrl(config: ScmConfiguration) {

@@ -26,10 +26,15 @@ export default class OrganizationStore {
 
     private async doLoadOrganizations(scmId, authCode) {
         try {
-            this.organizations = await this.orgService.getOrgs(scmId, authCode);
-            this.state = 'completed';
+            const orgs = await this.orgService.getOrgs(scmId, authCode);
+            this.completeLoading(orgs);
         } catch (e) {
             this.state = 'error';
         }
+    }
+
+    private completeLoading(orgs) {
+        this.organizations = orgs;
+        this.state = 'completed';
     }
 }
