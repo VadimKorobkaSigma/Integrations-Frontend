@@ -11,11 +11,12 @@ export class RepoService {
         return response.data;
     }
 
+    // returns new webhook ID
     async createWebhook(repoLocator: RepoLocator): Promise<string> {
         let {scmId, orgId, repoId} = repoLocator;
         const config = {pathParams: {scmId, orgId, repoId}};
         const response = await httpClient.post(UrlPaths.webhooks.create, null, config);
-        return response.data.id;
+        return response.data;
     }
 
     async removeWebhook(repoLocator: RepoLocator) {
