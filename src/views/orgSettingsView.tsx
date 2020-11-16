@@ -6,6 +6,7 @@ import MainContext from "../services/mainContext";
 import {WritableLoadingState} from "../services/loadingStates";
 import {observer} from "mobx-react";
 import OrgSettings from "../dtos/orgSettings";
+import Breadcrumbs from "../components/breadcrumbs";
 
 type PropType = RouteComponentProps<{
     scmId: string,
@@ -15,10 +16,33 @@ type PropType = RouteComponentProps<{
 export default observer(class extends React.Component<PropType> {
     static contextType = MainContext;
 
+    // Maps loading state names to UI messages.
+    private readonly loadingStateMapping: { [key in WritableLoadingState]?: string } = {
+        loading: 'Loading...',
+        saving: 'Saving...',
+        error: 'An error has occurred.'
+    };
+
     constructor(props: PropType) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.handleSave = this.handleSave.bind(this);
+    }
+
+    render() {
+        const store = this.context.orgSettingsStore;
+        const isBusy = (store.state === 'loading' || store.state === 'saving');
+        const settings = store.orgSettings;
+        const {scmId, orgId} = this.props.match.params;
+        return <>
+            <Breadcrumbs items={[scmId, orgId, 'Settings']}/>
+            <form onSubmit={this.handleSave}>
+                <div>{this.renderTeamInput(settings, isBusy)}</div>
+                <div>{this.renderSecretInput(settings, isBusy)}</div>
+                <button type="submit" disabled={isBusy}>Save</button>
+                {this.renderLoadingMessage(store.state)}
+            </form>
+        </>;
     }
 
     componentDidMount() {
@@ -36,18 +60,6 @@ export default observer(class extends React.Component<PropType> {
     handleChange(event) {
         const {name, value} = event.target;
         this.context.orgSettingsStore.setPartialSettings({[name]: value})
-    }
-
-    render() {
-        const store = this.context.orgSettingsStore;
-        const isBusy = (store.state === 'loading' || store.state === 'saving');
-        const settings = store.orgSettings;
-        return <form onSubmit={this.handleSave}>
-            <div>{this.renderTeamInput(settings, isBusy)}</div>
-            <div>{this.renderSecretInput(settings, isBusy)}</div>
-            <button type="submit" disabled={isBusy}>Save</button>
-            {this.renderLoadingMessage(store.state)}
-        </form>;
     }
 
     private renderSecretInput(settings: OrgSettings, isBusy: boolean) {
@@ -69,11 +81,6 @@ export default observer(class extends React.Component<PropType> {
     }
 
     private renderLoadingMessage(state: WritableLoadingState) {
-        const mapping: { [key in WritableLoadingState]?: string } = {
-            loading: 'Loading...',
-            saving: 'Saving...',
-            error: 'An error has occurred.'
-        };
-        return <div>{mapping[state] || ''}</div>;
+        return <div>{this.loadingStateMapping[state] || ''}</div>;
     }
 });
