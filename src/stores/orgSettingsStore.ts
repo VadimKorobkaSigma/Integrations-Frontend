@@ -26,7 +26,7 @@ export class OrgSettingsStore {
     async saveOrgSettings(scmId: string, orgId: string) {
         this.setState('saving');
         try {
-            await this.settingsService.saveSettings(scmId, orgId);
+            await this.settingsService.saveSettings(scmId, orgId, this.orgSettings);
             this.setState('completed');
         } catch {
             this.setState('error');

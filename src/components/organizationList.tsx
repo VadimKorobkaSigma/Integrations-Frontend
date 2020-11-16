@@ -12,7 +12,7 @@ export default function OrganizationList(props: ExpectedProps) {
     } else {
         result = <table>
             <tbody>
-            {organizations.map(org => <OrganizationRow organization={org} baseUrl={baseUrl}/>)}
+            {organizations.map(org => <OrganizationRow key={org.id} organization={org} baseUrl={baseUrl}/>)}
             </tbody>
         </table>
     }

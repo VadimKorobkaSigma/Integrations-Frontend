@@ -13,7 +13,7 @@ export class OrganizationService {
 
         // Using post, because this API both performs OAuth authorization and returns organizations.
         // These two calls should be separated in the future.
-        const response = await httpClient.post(UrlPaths.organizations, null, requestConfig)
+        const response = await httpClient.post(UrlPaths.organization.list, null, requestConfig)
 
         return response.data;
     }

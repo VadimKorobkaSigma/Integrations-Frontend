@@ -22,7 +22,7 @@ export default observer(class extends React.Component<PropType> {
     }
 
     componentDidMount() {
-        domWrapper.setWindowTitle('Organization properties');
+        domWrapper.setWindowTitle('Organization settings');
         const {scmId, orgId} = this.props.match.params;
         this.context.orgSettingsStore.loadOrgSettings(scmId, orgId);
     }
@@ -51,21 +51,21 @@ export default observer(class extends React.Component<PropType> {
     }
 
     private renderSecretInput(settings: OrgSettings, isBusy: boolean) {
-        return <label>
-            CxGo secret
+        return <>
+            <label>CxGo secret</label>
             <input type="text" name="cxgoSecret" value={settings.cxgoSecret}
                    onChange={this.handleChange}
                    disabled={isBusy}/>
-        </label>;
+        </>;
     }
 
     private renderTeamInput(settings: OrgSettings, isBusy: boolean) {
-        return <label>
-            Team
+        return <>
+            <label htmlFor="team">Team</label>
             <input type="text" name="team" value={settings.team}
                    onChange={this.handleChange}
                    disabled={isBusy}/>
-        </label>;
+        </>;
     }
 
     private renderLoadingMessage(state: WritableLoadingState) {

@@ -1,17 +1,23 @@
 import OrgSettings from "../dtos/orgSettings";
+import httpClient from "./httpClient";
+import {UrlPaths} from "./urlPaths";
+import {HttpRequestConfig} from "./httpRequestConfig";
 
 export class OrgSettingsService {
-    saveSettings = (scmId: string, orgId: string) => this.requestStub('Saving', scmId, orgId);
-
-    getSettings = (scmId: string, orgId: string): Promise<OrgSettings> => this.requestStub('Loading', scmId, orgId);
-
-    private requestStub(action: string, scmId, orgId) {
-        console.log(`${action} settings for the ${scmId}/${orgId} organization.`);
-        return new Promise<OrgSettings>(resolve => this.delayedStub(resolve));
+    async getSettings(scmId: string, orgId: string): Promise<OrgSettings> {
+        const config: HttpRequestConfig = {pathParams: {scmId, orgId}}
+        const response = await httpClient.get(UrlPaths.organization.settings, config);
+        return response?.data;
     }
 
-    delayedStub(resolve) {
-        const result = {team: 'myteam', cxgoSecret: 'mysecret'};
-        window.setTimeout(() => resolve(result), 2000);
+    async saveSettings(scmId: string, orgId: string, settings: OrgSettings): Promise<void> {
+        const config: HttpRequestConfig = {
+            method: 'put',
+            url: UrlPaths.organization.settings,
+            pathParams: {scmId, orgId},
+            data: settings
+        };
+        httpClient.request(config);
+        return Promise.resolve();
     }
 }
