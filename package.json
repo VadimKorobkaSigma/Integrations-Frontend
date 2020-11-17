@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Web UI for the CxIntegrations platform",
   "scripts": {
-    "build": "webpack",
+    "build-dev": "webpack --config=./webpack/webpack.dev.config",
     "start": "webpack-dev-server --hot --watch --progress --colors"
   },
   "keywords": [
