@@ -24,13 +24,13 @@ export default class CombinedScmStore {
      * The page is used in OAuth flow.
      */
     async loadAuthorizationPageUrl(scmId: string) {
-        console.info(`Loading authorization page URL for the ${scmId} SCM.`);
+        console.info(`Loading authorization page URL for the '${scmId}' SCM.`);
         const scm = this.prepareForLoading(scmId);
         if (scm) {
             await this.loadPageUrlUsingConfig(scm);
         } else {
             console.error(`Unable to generate auth page URL. Invalid SCM ID: ${scmId}`);
-            this.state = 'error';
+            this.handleError();
         }
     }
 
@@ -45,7 +45,8 @@ export default class CombinedScmStore {
             const config = await configService.getConfiguration(scm.id);
             this.completeLoading(config, scm);
         } catch {
-            this.state = 'error';
+            console.error(`Error getting configuration for the '${scm.id}' SCM.`);
+            this.handleError();
         }
     }
 
@@ -55,6 +56,10 @@ export default class CombinedScmStore {
 
     getAll(): ScmStore[] {
         return this.innerStores;
+    }
+
+    private handleError() {
+        this.state = 'error';
     }
 
     private completeLoading(config: ScmConfiguration, scm: ScmStore) {
