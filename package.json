@@ -4,7 +4,7 @@
   "description": "Web UI for the CxIntegrations platform",
   "scripts": {
     "build-dev": "webpack --config=./webpack/webpack.dev.config",
-    "start": "webpack-dev-server --hot --watch --progress --colors"
+    "start": "webpack-dev-server --config=./webpack/webpack.dev.config --hot --watch --progress --colors"
   },
   "keywords": [
     "integration"
