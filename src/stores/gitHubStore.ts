@@ -1,41 +1,13 @@
 import {ScmStore} from "../dtos/scmStore";
-import {makeAutoObservable} from "mobx";
 import authStore from "./authStore";
-import {BasicLoadingState} from "../services/loadingStates";
 import domWrapper from "../services/domWrapper";
 import ScmConfiguration from "../dtos/scmConfiguration";
-import configService from '../services/configService';
 
 export default class GitHubStore implements ScmStore {
     readonly id = 'github'
     readonly name = 'GitHub'
-    authServerPageUrl = null
-    state: BasicLoadingState = 'initial';
 
-    constructor() {
-        makeAutoObservable(this);
-    }
-
-    /**
-     * Start generating GitHub authorization page URL. The page is used in OAuth flow.
-     */
-    async loadAuthServerPageUrl() {
-        this.state = 'loading';
-        this.authServerPageUrl = null;
-        try {
-            const config = await configService.getConfiguration(this.id);
-            this.completeLoading(config);
-        } catch {
-            this.state = 'error';
-        }
-    }
-
-    private completeLoading(config) {
-        this.authServerPageUrl = this.generatePageUrl(config);
-        this.state = 'completed';
-    }
-
-    private generatePageUrl(config: ScmConfiguration) {
+    generatePageUrl(config: ScmConfiguration): string {
         const origin = domWrapper.getCurrentOrigin();
         const query = {
             client_id: config.clientId,

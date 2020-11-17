@@ -1,9 +1,8 @@
-import {BasicLoadingState} from "../services/loadingStates";
+import ScmConfiguration from "./scmConfiguration";
 
 export interface ScmStore {
     id: string,
     name: string,
-    state: BasicLoadingState,
-    authServerPageUrl: string | null,
-    loadAuthServerPageUrl: () => void
+
+    generatePageUrl(config: ScmConfiguration): string
 }

@@ -3,8 +3,8 @@ import MainContext from "../services/mainContext";
 import {observer} from "mobx-react";
 import {BasicLoadingState} from "../services/loadingStates";
 import domAdapter from "../services/domWrapper";
-import {PropsWithScmId} from "../components/mainRoutes";
 import domWrapper from "../services/domWrapper";
+import {PropsWithScmId} from "../components/mainRoutes";
 
 
 /**
@@ -12,32 +12,31 @@ import domWrapper from "../services/domWrapper";
  * Then redirects the browser to the URL.
  */
 export default observer(class AuthorizationPageRedirector extends React.Component<PropsWithScmId> {
+    static contextType = MainContext;
+
     private readonly WORKING = 'Checking authorization parameters...';
 
-    private readonly messageMap: { [prop in BasicLoadingState]: string } = {
-        initial: '',
-        completed: this.WORKING,
+    private readonly messageMap: { [prop in BasicLoadingState]?: string } = {
         loading: this.WORKING,
+        // using 'WORKING' here, because we start redirection immediately after the state becomes 'completed'.
+        completed: this.WORKING,
         error: 'Unable to determine redirection URL.'
     }
 
-    static contextType = MainContext;
-
     componentDidMount() {
         domWrapper.setWindowTitle('Authorization');
-        this.getCurrentScm()?.loadAuthServerPageUrl();
+        const {scmId} = this.props.match.params;
+        this.context.scmStore.loadAuthorizationPageUrl(scmId);
     }
 
     render() {
-        const scm = this.getCurrentScm();
-        const message = (scm ? this.messageMap[scm.state] : 'Invalid SCM.');
+        const {scmStore} = this.context;
 
-        if (scm?.authServerPageUrl) {
-            domAdapter.startRedirectingToExternalUrl(scm.authServerPageUrl);
+        if (scmStore.authServerPageUrl) {
+            domAdapter.startRedirectingToExternalUrl(scmStore.authServerPageUrl);
         }
 
+        const message = this.messageMap[scmStore.state] || '';
         return <div>{message}</div>;
     }
-
-    getCurrentScm = () => this.context.scmStore.getById(this.props.match.params.scmId);
 });

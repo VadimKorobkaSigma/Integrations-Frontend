@@ -1,13 +1,12 @@
 import {ScmStore} from "../dtos/scmStore";
-import {BasicLoadingState} from "../services/loadingStates";
+import ScmConfiguration from "../dtos/scmConfiguration";
 
 export default class GitLabStore implements ScmStore {
     id = 'gitlab'
     name = 'GitLab'
-    authServerPageUrl = null
-    state: BasicLoadingState = 'initial';
 
-    loadAuthServerPageUrl() {
+    generatePageUrl(config: ScmConfiguration): string {
         console.log(`Redirection flow is not yet implemented for ${this.name}`);
+        return '';
     }
 }
