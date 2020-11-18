@@ -2,7 +2,7 @@ version: 2.1
 
 jobs:
 
-  build:
+  install:
     docker:
       - image: circleci/node:12.19.0
     working_directory: ~/repo
@@ -20,7 +20,30 @@ jobs:
           paths:
             - .
 
+  build:
+    docker:
+      - image: circleci/node:12.19.0
+    working_directory: ~/repo
+    steps:
+      - attach_workspace:
+          at: .
+      #- restore_cache:
+      #    key: maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
+      - run: npm run build-dev
+      - run: find .
+      #- save_cache:
+      #    paths:
+      #      - ~/.m2
+      #    key: maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
 workflows:
   ci-cd:
     jobs:
-      - build
+      - install
+      - build:
+          requires:
+            - install
