@@ -1,11 +1,11 @@
-import {ScmStore} from "../dtos/scmStore";
-import authStore from "./authStore";
-import domWrapper from "../services/domWrapper";
+import {ScmService} from "../dtos/scmService";
 import ScmConfiguration from "../dtos/scmConfiguration";
+import domWrapper from "./domWrapper";
+import authStore from "../stores/authStore";
 
-export default class GitHubStore implements ScmStore {
-    readonly id = 'github'
-    readonly name = 'GitHub'
+export default class GitLabService implements ScmService {
+    id = 'gitlab'
+    name = 'GitLab'
 
     generatePageUrl(config: ScmConfiguration): string {
         const origin = domWrapper.getCurrentOrigin();
@@ -13,9 +13,10 @@ export default class GitHubStore implements ScmStore {
             client_id: config.clientId,
             scope: config.scope,
             redirect_uri: `${origin}/scm/${this.id}/organizations`,
+            response_type: 'code',
             state: authStore.createAndRememberState()
         };
         const queryString = new URLSearchParams(query);
-        return `https://github.com/login/oauth/authorize?${queryString}`;
+        return `https://gitlab.com/oauth/authorize?${queryString}`;
     }
 }

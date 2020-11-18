@@ -1,6 +1,6 @@
 import ScmConfiguration from "./scmConfiguration";
 
-export interface ScmStore {
+export interface ScmService {
     id: string,
     name: string,
 
