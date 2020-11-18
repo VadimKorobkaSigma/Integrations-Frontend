@@ -30,7 +30,8 @@ jobs:
       #- restore_cache:
       #    key: maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
       - run: npm run build-dev
-      - run: find .
+      - run: ls build
+      - run: ls src
       #- save_cache:
       #    paths:
       #      - ~/.m2
