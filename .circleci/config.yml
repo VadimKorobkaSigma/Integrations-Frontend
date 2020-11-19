@@ -37,7 +37,7 @@ jobs:
       #      - ~/.m2
       #    key: maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
       - persist_to_workspace:
-          root: build
+          root: .
           paths:
             - build/*
             
