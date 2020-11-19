@@ -30,16 +30,39 @@ jobs:
       #- restore_cache:
       #    key: maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
       - run: npm run build-dev
+      - run: cp src/index.html build/index.html
       - run: ls build
-      - run: ls src
       #- save_cache:
       #    paths:
       #      - ~/.m2
       #    key: maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
       - persist_to_workspace:
-          root: .
+          root: build
           paths:
-            - .
+            - build/*
+            
+  build-image:
+    docker:
+      - image: docker:19.03.13
+    working_directory: ~/repo
+    steps:
+      - attach_workspace:
+          at: .
+      - setup_remote_docker:
+          version: 19.03.13
+          #docker_layer_caching: true
+      - run: docker ps -a
+      - run: find .
+      #- run:
+      #    name: Build Repos-Manager Docker Image
+      #    command: docker build -t repos-manager:$CIRCLE_BRANCH-$CIRCLE_SHA1 .
+      #- run:
+      #    name: Save Repos-Manager Docker Image to File
+      #    command: docker save -o repos-manager-image.tar repos-manager:$CIRCLE_BRANCH-$CIRCLE_SHA1
+      #- persist_to_workspace:
+      #    root: .
+      #    paths:
+      #      - ./repos-manager-image.tar
 
 workflows:
   ci-cd:
@@ -48,3 +71,6 @@ workflows:
       - build:
           requires:
             - install
+      - build-image:
+          requires:
+            - build
