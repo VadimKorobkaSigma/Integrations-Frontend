@@ -30,6 +30,7 @@ jobs:
       #- restore_cache:
       #    key: maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
       - run: npm run build-dev
+      - run: cp src/index.html build/index.html
       #- save_cache:
       #    paths:
       #      - ~/.m2
@@ -51,7 +52,7 @@ jobs:
       - setup_remote_docker:
           version: 19.03.13
           #docker_layer_caching: true
-      - run: cp src/index.html build/index.html
+      - run: ls /home/circleci/repo/build
       - run: docker run --name frontend -v /home/circleci/repo/build:/usr/src/app -w /usr/src/app node:12.19.0 node bundle.js
       #- run:
       #    name: Build Repos-Manager Docker Image
