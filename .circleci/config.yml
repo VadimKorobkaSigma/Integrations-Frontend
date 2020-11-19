@@ -51,6 +51,7 @@ jobs:
           #docker_layer_caching: true
       - run: cp src/index.html build/index.html
       - run: ls build
+      - run: $ docker run -it --name frontend -v "$PWD"/build:/usr/src/app -w /usr/src/app node:12.19.0 node bundle.js
       #- run:
       #    name: Build Repos-Manager Docker Image
       #    command: docker build -t repos-manager:$CIRCLE_BRANCH-$CIRCLE_SHA1 .
