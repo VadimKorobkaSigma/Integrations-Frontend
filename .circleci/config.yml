@@ -38,6 +38,8 @@ jobs:
           root: .
           paths:
             - .
+      - store_artifacts:
+          path: /root/repo/build
             
   build-image:
     docker:
