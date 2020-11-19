@@ -30,18 +30,14 @@ jobs:
       #- restore_cache:
       #    key: maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
       - run: npm run build-dev
-      - run: cp src/index.html build/index.html
-      - run: ls build
       #- save_cache:
       #    paths:
       #      - ~/.m2
       #    key: maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
       - persist_to_workspace:
-          root: build
+          root: .
           paths:
-            - bundle.js
-            - bundle.js.map
-            - index.html
+            - .
             
   build-image:
     docker:
@@ -53,8 +49,8 @@ jobs:
       - setup_remote_docker:
           version: 19.03.13
           #docker_layer_caching: true
-      - run: docker ps -a
-      - run: find .
+      - run: cp src/index.html build/index.html
+      - run: ls build
       #- run:
       #    name: Build Repos-Manager Docker Image
       #    command: docker build -t repos-manager:$CIRCLE_BRANCH-$CIRCLE_SHA1 .
