@@ -53,7 +53,7 @@ jobs:
           version: 19.03.13
           #docker_layer_caching: true
       - run: ls /root/repo/build
-      - run: docker run --name frontend -v /root/repo/build:/usr/src/app/ -w /usr/src/app node:12.19.0 node bundle.js
+      - run: docker run --name frontend -v /root/repo/build:/usr/src/app -w /usr/src/app node:12.19.0 node bundle.js
       #- run:
       #    name: Build Repos-Manager Docker Image
       #    command: docker build -t repos-manager:$CIRCLE_BRANCH-$CIRCLE_SHA1 .
@@ -72,6 +72,6 @@ workflows:
       - build:
           requires:
             - install
-      - build-image:
-          requires:
-            - build
+      #- build-image:
+      #    requires:
+      #      - build
