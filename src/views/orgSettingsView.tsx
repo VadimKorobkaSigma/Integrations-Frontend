@@ -58,14 +58,14 @@ export default observer(class extends React.Component<PropType> {
     }
 
     handleChange(event) {
-        const {name, value} = event.target;
-        this.context.orgSettingsStore.setPartialSettings({[name]: value})
+        const {id, value} = event.target;
+        this.context.orgSettingsStore.setPartialSettings({[id]: value})
     }
 
     private renderSecretInput(settings: OrgSettings, isBusy: boolean) {
         return <>
-            <label>CxGo secret</label>
-            <input type="text" name="cxgoSecret" value={settings.cxgoSecret}
+            <label htmlFor="cxgoSecret">CxGo secret</label>
+            <input type="text" id="cxgoSecret" value={settings.cxgoSecret}
                    onChange={this.handleChange}
                    disabled={isBusy}/>
         </>;
@@ -74,7 +74,7 @@ export default observer(class extends React.Component<PropType> {
     private renderTeamInput(settings: OrgSettings, isBusy: boolean) {
         return <>
             <label htmlFor="team">Team</label>
-            <input type="text" name="team" value={settings.team}
+            <input type="text" id="team" value={settings.team}
                    onChange={this.handleChange}
                    disabled={isBusy}/>
         </>;
