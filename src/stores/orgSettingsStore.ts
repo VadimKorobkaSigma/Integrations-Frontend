@@ -1,11 +1,16 @@
-import {WritableLoadingState} from "../services/loadingStates";
+import {LoadingStateWithSave} from "../services/loadingStates";
 import OrgSettings from "../dtos/orgSettings";
 import {makeAutoObservable} from "mobx";
 import {OrgSettingsService} from "../services/orgSettingsService";
 
 export class OrgSettingsStore {
-    state: WritableLoadingState = 'initial';
+    state: LoadingStateWithSave = 'initial';
     orgSettings: OrgSettings = {team: '', cxgoSecret: ''};
+
+    readonly maxLength = {
+        team: 255,
+        cxgoSecret: 2500
+    };
 
     private readonly settingsService = new OrgSettingsService();
 

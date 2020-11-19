@@ -3,7 +3,7 @@ import {FormEvent} from "react";
 import {RouteComponentProps} from "react-router-dom";
 import domWrapper from "../services/domWrapper";
 import MainContext from "../services/mainContext";
-import {WritableLoadingState} from "../services/loadingStates";
+import {LoadingStateWithSave} from "../services/loadingStates";
 import {observer} from "mobx-react";
 import OrgSettings from "../dtos/orgSettings";
 import Breadcrumbs from "../components/breadcrumbs";
@@ -17,7 +17,7 @@ export default observer(class extends React.Component<PropType> {
     static contextType = MainContext;
 
     // Maps loading state names to UI messages.
-    private readonly loadingStateMapping: { [key in WritableLoadingState]?: string } = {
+    private readonly loadingStateMapping: { [key in LoadingStateWithSave]?: string } = {
         loading: 'Loading...',
         saving: 'Saving...',
         error: 'An error has occurred.'
@@ -30,15 +30,15 @@ export default observer(class extends React.Component<PropType> {
     }
 
     render() {
-        const store = this.context.orgSettingsStore;
+        const store = this.getStore();
         const isBusy = (store.state === 'loading' || store.state === 'saving');
         const settings = store.orgSettings;
         const {scmId, orgId} = this.props.match.params;
         return <>
             <Breadcrumbs items={[scmId, orgId, 'Settings']}/>
             <form onSubmit={this.handleSave}>
-                <div>{this.renderTeamInput(settings, isBusy)}</div>
-                <div>{this.renderSecretInput(settings, isBusy)}</div>
+                {this.renderTeamInput(settings, isBusy)}
+                {this.renderSecretInput(settings, isBusy)}
                 <button type="submit" disabled={isBusy}>Save</button>
                 {this.renderLoadingMessage(store.state)}
             </form>
@@ -48,39 +48,45 @@ export default observer(class extends React.Component<PropType> {
     componentDidMount() {
         domWrapper.setWindowTitle('Organization settings');
         const {scmId, orgId} = this.props.match.params;
-        this.context.orgSettingsStore.loadOrgSettings(scmId, orgId);
+        this.getStore().loadOrgSettings(scmId, orgId);
     }
 
     handleSave(event: FormEvent) {
         event.preventDefault();
         const {scmId, orgId} = this.props.match.params;
-        this.context.orgSettingsStore.saveOrgSettings(scmId, orgId);
+        this.getStore().saveOrgSettings(scmId, orgId);
     }
 
     handleChange(event) {
         const {id, value} = event.target;
-        this.context.orgSettingsStore.setPartialSettings({[id]: value})
+        this.getStore().setPartialSettings({[id]: value})
     }
 
     private renderSecretInput(settings: OrgSettings, isBusy: boolean) {
-        return <>
+        return <div>
             <label htmlFor="cxgoSecret">CxGo secret</label>
             <input type="text" id="cxgoSecret" value={settings.cxgoSecret}
+                   maxLength={this.getStore().maxLength.cxgoSecret}
                    onChange={this.handleChange}
                    disabled={isBusy}/>
-        </>;
+        </div>;
     }
 
     private renderTeamInput(settings: OrgSettings, isBusy: boolean) {
-        return <>
+        return <div>
             <label htmlFor="team">Team</label>
             <input type="text" id="team" value={settings.team}
+                   maxLength={this.getStore().maxLength.team}
                    onChange={this.handleChange}
                    disabled={isBusy}/>
-        </>;
+        </div>;
     }
 
-    private renderLoadingMessage(state: WritableLoadingState) {
+    private renderLoadingMessage(state: LoadingStateWithSave) {
         return <div>{this.loadingStateMapping[state] || ''}</div>;
+    }
+
+    private getStore() {
+        return this.context.orgSettingsStore;
     }
 });
