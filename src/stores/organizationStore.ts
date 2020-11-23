@@ -24,6 +24,12 @@ export default class OrganizationStore {
         }
     }
 
+    // TODO: this method relies on existing state: SCM orgs must already be loaded.
+    // Orgs cannot be loaded without an auth code => fix this method when the auth flow changes.
+    getById(orgId: string): Organization | undefined {
+        return this.organizations.find(org => org.id === orgId);
+    }
+
     private async doLoadOrganizations(scmId, authCode) {
         try {
             const orgs = await this.orgService.getOrgs(scmId, authCode);
