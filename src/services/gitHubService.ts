@@ -4,8 +4,8 @@ import domWrapper from "./domWrapper";
 import ScmConfiguration from "../dtos/scmConfiguration";
 
 export default class GitHubService implements ScmService {
-    readonly id = 'github'
-    readonly name = 'GitHub'
+    readonly id = 'github';
+    readonly name = 'GitHub';
 
     generatePageUrl(config: ScmConfiguration): string {
         const origin = domWrapper.getCurrentOrigin();
