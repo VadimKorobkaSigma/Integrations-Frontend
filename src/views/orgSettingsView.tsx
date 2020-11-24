@@ -65,7 +65,7 @@ export default observer(class extends React.Component<PropType> {
     private renderSecretInput(settings: OrgSettings, isBusy: boolean) {
         return <div>
             <label htmlFor="cxgoSecret">CxGo secret</label>
-            <input type="text" id="cxgoSecret" value={settings.cxgoSecret}
+            <input type="text" id="cxgoSecret" value={settings?.cxgoSecret || ''}
                    maxLength={this.getStore().maxLength.cxgoSecret}
                    onChange={this.handleChange}
                    disabled={isBusy}/>
@@ -75,7 +75,7 @@ export default observer(class extends React.Component<PropType> {
     private renderTeamInput(settings: OrgSettings, isBusy: boolean) {
         return <div>
             <label htmlFor="team">Team</label>
-            <input type="text" id="team" value={settings.team}
+            <input type="text" id="team" value={settings?.team || ''}
                    maxLength={this.getStore().maxLength.team}
                    onChange={this.handleChange}
                    disabled={isBusy}/>
