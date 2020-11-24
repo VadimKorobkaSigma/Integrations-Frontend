@@ -33,8 +33,9 @@ export default observer(class extends React.Component<PropType> {
         const store = this.getStore();
         const isBusy = (store.state === 'loading' || store.state === 'saving');
         const settings = store.orgSettings;
+        const {scmId, orgId} = this.props.match.params;
         return <>
-            <Breadcrumbs items={this.getBreadcrumbItems()}/>
+            <Breadcrumbs scmId={scmId} orgId={orgId} postfix="Settings"/>
             <form onSubmit={this.handleSave}>
                 {this.renderTeamInput(settings, isBusy)}
                 {this.renderSecretInput(settings, isBusy)}
@@ -59,15 +60,6 @@ export default observer(class extends React.Component<PropType> {
     handleChange(event) {
         const {id, value} = event.target;
         this.getStore().setPartialSettings({[id]: value})
-    }
-
-    private getBreadcrumbItems() {
-        const {scmId, orgId} = this.props.match.params;
-        const scmName = this.context.scmStore.getById(scmId)?.name;
-        const orgName = this.context.orgStore.getById(orgId)?.name;
-        return [scmName || scmId,
-            orgName || orgId,
-            'Settings'];
     }
 
     private renderSecretInput(settings: OrgSettings, isBusy: boolean) {

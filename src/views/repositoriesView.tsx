@@ -5,6 +5,7 @@ import {BasicLoadingState} from "../services/loadingStates";
 import * as React from "react";
 import {RouteComponentProps} from "react-router-dom";
 import domWrapper from "../services/domWrapper";
+import Breadcrumbs from "../components/breadcrumbs";
 
 type ExpectedProps = RouteComponentProps<{
     scmId: string,
@@ -15,27 +16,20 @@ export default observer(class extends React.Component<ExpectedProps> {
     static contextType = MainContext;
 
     componentDidMount() {
-        domWrapper.setWindowTitle('Repositories');
+        domWrapper.setWindowTitle("Organization Repositories");
         const {scmId, orgId} = this.props.match.params;
         this.context.repoStore.loadOrganizationRepos(scmId, orgId);
     }
 
     render() {
+        const {scmId, orgId} = this.props.match.params;
         return (
             <div>
-                {this.renderHeader()}
+                <Breadcrumbs scmId={scmId} orgId={orgId} postfix="Repositories"/>
                 <h3>Repositories</h3>
                 {this.renderRepos()}
             </div>
         );
-    }
-
-    renderHeader() {
-        const {scmId, orgId} = this.props.match.params;
-        const {scmStore} = this.context;
-
-        const scmName = scmStore.getById(scmId)?.name;
-        return orgId && scmName ? `${scmName}: ${orgId} organization` : '';
     }
 
     renderRepos() {
