@@ -1,5 +1,6 @@
 /**
  * Single point of access to the global (Window) interface.
+ * Useful for logging, debugging, tests etc.
  */
 export default {
     startRedirectingToExternalUrl(url: string) {

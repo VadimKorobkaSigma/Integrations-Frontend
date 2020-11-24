@@ -44,7 +44,7 @@ export default class ScmStore {
 
     private prepareForLoading(scmId: string) {
         this.state = 'loading';
-        this.authServerPageUrl = null;
+        this.authServerPageUrl = '';
         return this.getById(scmId);
     }
 

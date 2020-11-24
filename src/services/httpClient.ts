@@ -40,7 +40,7 @@ class HttpClient {
     private expandParameter(config: HttpRequestConfig) {
         return ([paramName, paramValue]) => {
             const encodedValue = domWrapper.encodePathSegment(paramValue);
-            config.url = config.url.replace(`:${paramName}`, encodedValue)
+            config.url = (config.url || '').replace(`:${paramName}`, encodedValue)
         };
     }
 }

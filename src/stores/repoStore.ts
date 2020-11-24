@@ -8,7 +8,7 @@ import RepoLocator from "../dtos/repoLocator";
 export default class RepoStore {
     repos: Repository[] = []
     state: BasicLoadingState = 'initial';
-    currentWebhookOperation: { state: BasicLoadingState, repoId: string } = {state: 'initial', repoId: null}
+    currentWebhookOperation: { state: BasicLoadingState, repoId: string } = {state: 'initial', repoId: ''}
 
     private readonly repoService = new RepoService();
 
@@ -66,7 +66,7 @@ export default class RepoStore {
         this.currentWebhookOperation = {state: 'loading', repoId: repoLocator.repoId};
     }
 
-    private updateRepoLocally(repoLocator: RepoLocator, isEnabled, webhookId = null) {
+    private updateRepoLocally(repoLocator: RepoLocator, isEnabled: boolean, webhookId: string = '') {
         const targetRepo = this.repos.find(repo => repo.id === repoLocator.repoId);
         if (targetRepo) {
             console.debug(`Setting webHookEnabled to ${isEnabled} for the ${targetRepo.name} repo.`);
