@@ -1,4 +1,4 @@
-import ScmConfiguration from "./scmConfiguration";
+import ScmConfiguration from './scmConfiguration';
 
 export interface ScmService {
     /**

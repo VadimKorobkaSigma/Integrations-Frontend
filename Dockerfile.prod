@@ -1,0 +1,21 @@
+# build environment
+FROM node:14.15.1 as build
+WORKDIR /app
+ENV PATH /app/node_modules/.bin:$PATH
+COPY package.json ./
+COPY yarn.lock ./
+
+# Node-sass native build
+RUN mkdir -p node_modules/node-sass/vendor/linux-x64-83
+RUN curl -L https://github.com/sass/node-sass/releases/download/v4.13.1/linux-x64-83_binding.node -o node_modules/node-sass/vendor/linux-x64-83/binding.node
+
+RUN yarn
+COPY . ./
+RUN yarn run build:prod
+
+# production environment
+FROM nginx:stable-alpine
+COPY --from=build /app/build /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

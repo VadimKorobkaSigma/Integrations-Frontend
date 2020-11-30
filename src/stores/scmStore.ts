@@ -1,16 +1,13 @@
-import {ScmService} from "../dtos/scmService";
-import GitHubService from "../services/gitHubService";
-import GitLabService from "../services/gitLabService";
-import {BasicLoadingState} from "../services/loadingStates";
-import configService from "../services/configService";
-import {makeAutoObservable} from "mobx";
-import ScmConfiguration from "../dtos/scmConfiguration";
+import { ScmService } from '../dtos/scmService';
+import GitHubService from '../services/gitHubService';
+import GitLabService from '../services/gitLabService';
+import { BasicLoadingState } from '../services/loadingStates';
+import configService from '../services/configService';
+import { makeAutoObservable } from 'mobx';
+import ScmConfiguration from '../dtos/scmConfiguration';
 
 export default class ScmStore {
-    private readonly innerStores: ScmService[] = [
-        new GitHubService(),
-        new GitLabService(),
-    ];
+    private readonly innerStores: ScmService[] = [new GitHubService(), new GitLabService()];
 
     state: BasicLoadingState = 'initial';
     authServerPageUrl: string;
@@ -35,7 +32,7 @@ export default class ScmStore {
     }
 
     getById(id: string): ScmService | undefined {
-        return this.innerStores.find(store => store.id === id);
+        return this.innerStores.find((store) => store.id === id);
     }
 
     getAll(): ScmService[] {
@@ -52,8 +49,8 @@ export default class ScmStore {
         try {
             const config = await configService.getConfiguration(scm.id);
             this.completeLoading(config, scm);
-        } catch {
-            console.error(`Error getting configuration for the '${scm.id}' SCM.`);
+        } catch (e) {
+            console.error(`Error getting configuration for the '${scm.id}' SCM.`, e);
             this.handleError();
         }
     }

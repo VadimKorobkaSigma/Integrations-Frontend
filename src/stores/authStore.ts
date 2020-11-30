@@ -1,13 +1,12 @@
-import domWrapper from "../services/domWrapper";
+import { v4 as uuidV4 } from 'uuid';
 
-const cryptoRandomString = require('crypto-random-string');
+import domWrapper from '@services/domWrapper';
 
 const STORAGE_KEY = 'oauthState';
 
 export default {
-    createAndRememberState: function(): string {
-        const result = cryptoRandomString({length: 32, type: 'alphanumeric'});
-
+    createAndRememberState: function (): string {
+        const result = uuidV4();
         console.debug(`Storing OAuth state: ${result}`);
         domWrapper.getSessionStorage().setItem(STORAGE_KEY, result);
 
@@ -18,7 +17,7 @@ export default {
         let result = false;
         const storedState = domWrapper.getSessionStorage().getItem(STORAGE_KEY);
         if (!storedState) {
-            console.warn('OAuth state validation failed. No stored state was found.')
+            console.warn('OAuth state validation failed. No stored state was found.');
         } else if (storedState !== stateToCheck) {
             console.warn(`Stored OAuth state (${storedState}) does not match the provided state (${stateToCheck}).`);
         } else {
@@ -31,5 +30,5 @@ export default {
             domWrapper.getSessionStorage().removeItem(STORAGE_KEY);
         }
         return result;
-    }
-}
+    },
+};

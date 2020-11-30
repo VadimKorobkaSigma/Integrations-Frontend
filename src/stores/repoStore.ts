@@ -1,14 +1,13 @@
-import {makeAutoObservable} from "mobx";
-import {Repository} from '../dtos/repository'
-import {BasicLoadingState} from "../services/loadingStates";
-import {RepoService} from '../services/repoService';
-import RepoLocator from "../dtos/repoLocator";
-
+import { makeAutoObservable } from 'mobx';
+import { Repository } from '../dtos/repository';
+import { BasicLoadingState } from '../services/loadingStates';
+import { RepoService } from '../services/repoService';
+import RepoLocator from '../dtos/repoLocator';
 
 export default class RepoStore {
-    repos: Repository[] = []
+    repos: Repository[] = [];
     state: BasicLoadingState = 'initial';
-    currentWebhookOperation: { state: BasicLoadingState, repoId: string } = {state: 'initial', repoId: ''}
+    currentWebhookOperation: { state: BasicLoadingState; repoId: string } = { state: 'initial', repoId: '' };
 
     private readonly repoService = new RepoService();
 
@@ -38,6 +37,7 @@ export default class RepoStore {
             this.updateRepoLocally(repoLocator, true, createdWebhookId);
             this.setWebhookState('completed');
         } catch (e) {
+            console.error('RepoStore ~ createRepoWebhook ~ e', e);
             this.setWebhookState('error');
         }
     }
@@ -50,6 +50,7 @@ export default class RepoStore {
             this.updateRepoLocally(repoLocator, false);
             this.setWebhookState('completed');
         } catch (e) {
+            console.error('removeRepoWebhook ~ e', e);
             this.setWebhookState('error');
         }
     }
@@ -63,11 +64,11 @@ export default class RepoStore {
     }
 
     private switchIntoLoadingState(repoLocator: RepoLocator) {
-        this.currentWebhookOperation = {state: 'loading', repoId: repoLocator.repoId};
+        this.currentWebhookOperation = { state: 'loading', repoId: repoLocator.repoId };
     }
 
     private updateRepoLocally(repoLocator: RepoLocator, isEnabled: boolean, webhookId: string = '') {
-        const targetRepo = this.repos.find(repo => repo.id === repoLocator.repoId);
+        const targetRepo = this.repos.find((repo) => repo.id === repoLocator.repoId);
         if (targetRepo) {
             console.debug(`Setting webHookEnabled to ${isEnabled} for the ${targetRepo.name} repo.`);
             targetRepo.webhookEnabled = isEnabled;

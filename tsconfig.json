@@ -3,9 +3,20 @@
         "allowJs": true,
         "target": "ES6",
         "jsx": "react",
+        "baseUrl": "./src/",
         "outDir": "./build",
         "moduleResolution": "Node",
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "strict": true,
+        "paths": {
+            "*": ["node_modules/*"],
+            "@dtos/*": ["dtos/*"],
+            "@components/*": ["components/*"],
+            "@views/*": ["views/*"],
+            "@services/*": ["services/*"],
+            "@stores/*": ["stores/*"],
+            "@assets/*": ["assets/*"]
+        }
     },
     "include": ["./src/**/*"]
 }

@@ -18,6 +18,6 @@ export default {
     setWindowTitle(title: string) {
         title ||= '';
         const separator = title ? ' – ' : '';
-        document.title = `${title}${separator}CxIntegrations`
-    }
-}
+        document.title = `${title}${separator}CxIntegrations`;
+    },
+};
