@@ -26,11 +26,14 @@ class HttpClient {
     request(url: string, config: HttpRequestConfig, data: { [key: string]: any } = {}) {
         url = this.expandPathParams(url, config);
         delete config.pathParams;
-        const body = new FormData();
-        for (const name in data) {
-            body.append(name, data[name]);
-        }
-        return fetch(url, { ...config, body });
+
+        return fetch(url, {
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            ...config,
+        });
     }
 
     private expandPathParams(url: string, config: HttpRequestConfig) {
