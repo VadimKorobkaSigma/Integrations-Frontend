@@ -59,6 +59,7 @@ module.exports = {
         historyApiFallback: true,
         port: 3000,
         open: true,
+        https: true,
         watchOptions: {
             poll: 1000,
         },

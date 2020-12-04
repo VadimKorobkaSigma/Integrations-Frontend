@@ -5,9 +5,10 @@ import { BasicLoadingState } from '../services/loadingStates';
 import configService from '../services/configService';
 import { makeAutoObservable } from 'mobx';
 import ScmConfiguration from '../dtos/scmConfiguration';
+import AzureService from '@services/azureService';
 
 export default class ScmStore {
-    private readonly innerStores: ScmService[] = [new GitHubService(), new GitLabService()];
+    private readonly innerStores: ScmService[] = [new GitHubService(), new GitLabService(), new AzureService()];
 
     state: BasicLoadingState = 'initial';
     authServerPageUrl: string;
@@ -48,7 +49,7 @@ export default class ScmStore {
     private async loadPageUrlUsingConfig(scm: ScmService) {
         try {
             const config = await configService.getConfiguration(scm.id);
-            this.completeLoading(config, scm);
+            this.completeLoading(scm, config);
         } catch (e) {
             console.error(`Error getting configuration for the '${scm.id}' SCM.`, e);
             this.handleError();
@@ -59,7 +60,7 @@ export default class ScmStore {
         this.state = 'error';
     }
 
-    private completeLoading(config: ScmConfiguration, scm: ScmService) {
+    private completeLoading(scm: ScmService, config: ScmConfiguration) {
         this.authServerPageUrl = scm.generatePageUrl(config);
         this.state = 'completed';
     }
