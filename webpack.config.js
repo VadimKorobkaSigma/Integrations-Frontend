@@ -39,14 +39,16 @@ const sassLoader = {
 
 const isDev = process.env.BUILD_STAGE !== 'prod';
 const API = {
-    local: 'http://localhost:3000/api',
+    local: 'http://localhost:5438',
     dev: 'http://localhost:5438',
     prod: 'http://localhost:5438',
 };
+
 const API_URL = API[process.env.BUILD_STAGE] || API.dev;
 
 module.exports = {
-    entry: './src/app.js',
+    // entry: './src-v1/app.js',
+    entry: './src/index.tsx',
     devtool: isDev ? 'source-map' : '',
     mode: isDev ? 'development' : 'production',
     output: {
@@ -120,6 +122,33 @@ module.exports = {
                 test: /\.module\.css$/,
                 use: ['cache-loader', 'style-loader', CSSModuleLoader],
             },
+            // images
+            {
+                test: /\.(gif|png|jpe?g|svg)$/i,
+                use: [
+                    'file-loader',
+                    {
+                        loader: 'image-webpack-loader',
+                        options: {
+                            disable: true,
+                            outputPath: 'images/',
+                        },
+                    },
+                ],
+            },
+            // fonts
+            {
+                test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'fonts/',
+                        },
+                    },
+                ],
+            },
         ],
     },
     resolve: {
@@ -137,7 +166,7 @@ module.exports = {
             'process.env.API_URL': JSON.stringify(API_URL),
         }),
         new CleanWebpackPlugin(),
-        // isDev && new ForkTsCheckerWebpackPlugin(),
+        isDev && new ForkTsCheckerWebpackPlugin(),
         isDev && new webpack.HotModuleReplacementPlugin(),
         process.env.BUILD_STATS && new BundleAnalyzerPlugin(),
     ].filter(Boolean),

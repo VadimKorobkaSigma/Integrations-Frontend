@@ -16,3 +16,5 @@ export interface ScmService {
      */
     generatePageUrl(config: ScmConfiguration): string;
 }
+
+export type SupportedScm = 'azure' | 'github' | 'gitlab' | 'bitbucket';

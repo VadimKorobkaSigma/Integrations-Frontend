@@ -1,0 +1,53 @@
+.column {
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+
+  img {
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+  }
+}
+
+.sidebar {
+  background-color: #f6f6f6;
+  width: 400px;
+
+  .item {
+    display: flex;
+    height: 39px;
+    cursor: pointer;
+
+    span {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: 18px;
+      line-height: 39px;
+      letter-spacing: -0.005em;
+      color: #565360;
+    }
+
+    &.active {
+      border-right: 4px solid #4dbb40;
+      font-weight: 500;
+
+      .settings {
+        margin-right: -4px;
+      }
+    }
+
+    * {
+      cursor: pointer;
+    }
+
+    .settings {
+      margin-left: auto;
+    }
+  }
+}
