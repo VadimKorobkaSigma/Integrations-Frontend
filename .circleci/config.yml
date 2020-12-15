@@ -1,151 +1,150 @@
 version: 2.1
 
 jobs:
+    install-dependencies:
+        docker:
+            - image: circleci/node:12.19.0
+        working_directory: ~/repo
+        steps:
+            - checkout
+            #- restore_cache:
+            #    key: maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
+            - run: yarn
+            #- save_cache:
+            #    paths:
+            #      - ~/.m2
+            #    key: maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
+            - persist_to_workspace:
+                  root: .
+                  paths:
+                      - .
 
-  install-dependencies:
-    docker:
-      - image: circleci/node:12.19.0
-    working_directory: ~/repo
-    steps:
-      - checkout
-      #- restore_cache:
-      #    key: maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
-      - run: yarn
-      #- save_cache:
-      #    paths:
-      #      - ~/.m2
-      #    key: maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
+    build-app:
+        docker:
+            - image: circleci/node:12.19.0
+        working_directory: ~/repo
+        steps:
+            - attach_workspace:
+                  at: .
+            #- restore_cache:
+            #    key: maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
+            - run: yarn run build:prod
+            #- save_cache:
+            #    paths:
+            #      - ~/.m2
+            #    key: maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
+            - persist_to_workspace:
+                  root: .
+                  paths:
+                      - .
+            - store_artifacts:
+                  path: /home/circleci/repo/build
 
-  build-app:
-    docker:
-      - image: circleci/node:12.19.0
-    working_directory: ~/repo
-    steps:
-      - attach_workspace:
-          at: .
-      #- restore_cache:
-      #    key: maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
-      - run: yarn run build:prod
-      #- save_cache:
-      #    paths:
-      #      - ~/.m2
-      #    key: maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
-      - store_artifacts:
-          path: /home/circleci/repo/build
-            
-  build-image:
-    docker:
-      - image: docker:19.03.13
-    working_directory: ~/repo
-    steps:
-      - attach_workspace:
-          at: .
-      - setup_remote_docker:
-          version: 19.03.13
-          #docker_layer_caching: true
-      - run:
-          name: Build Frontend Docker Image
-          command: docker build -t frontend:$CIRCLE_BRANCH-$CIRCLE_SHA1 .
-      - run:
-          name: Save Frontend Docker Image to File
-          command: docker save -o frontend-image.tar frontend:$CIRCLE_BRANCH-$CIRCLE_SHA1
-      - persist_to_workspace:
-          root: .
-          paths:
-            - ./frontend-image.tar
+    build-image:
+        docker:
+            - image: docker:19.03.13
+        working_directory: ~/repo
+        steps:
+            - attach_workspace:
+                  at: .
+            - setup_remote_docker:
+                  version: 19.03.13
+                  #docker_layer_caching: true
+            - run:
+                  name: Build Frontend Docker Image
+                  command: docker build -t frontend:$CIRCLE_BRANCH-$CIRCLE_SHA1 .
+            - run:
+                  name: Save Frontend Docker Image to File
+                  command: docker save -o frontend-image.tar frontend:$CIRCLE_BRANCH-$CIRCLE_SHA1
+            - persist_to_workspace:
+                  root: .
+                  paths:
+                      - ./frontend-image.tar
 
-  deploy:
-    docker:
-      - image: docker:19.03.13
-    working_directory: ~/repo
-    steps:
-      - setup_remote_docker:
-          version: 19.03.13
-          #docker_layer_caching: true
-      - attach_workspace:
-          at: .
-      - run:
-          name: Load Frontend Docker Image from File
-          command: docker load -i frontend-image.tar
-      - run:
-          name: Deploy Frontend Docker Container
-          command: docker run -d --name frontend frontend:$CIRCLE_BRANCH-$CIRCLE_SHA1
-      - run:
-          name: Wait for Frontend Application to be Up and Running
-          # in curl command -4 flag stands for forcing curl to use IPv4 (--retry-connrefused won't work otherwise)
-          command: docker exec frontend curl -4 --retry 15 --retry-delay 2 --retry-connrefused http://localhost:80
-      - run:
-          name: print Frontend Docker Container logs
-          command: |
-            docker ps -a
-            docker logs frontend
-          when: always
-  
-  system-tests:
-    parameters:
-      os:
-        type: string
-      node-version:
-        type: string
-    docker:
-      - image: circleci/openjdk:8-jdk
-    steps:
-      - run: echo << parameters.os >> - << parameters.node-version >>
+    deploy:
+        docker:
+            - image: docker:19.03.13
+        working_directory: ~/repo
+        steps:
+            - setup_remote_docker:
+                  version: 19.03.13
+                  #docker_layer_caching: true
+            - attach_workspace:
+                  at: .
+            - run:
+                  name: Load Frontend Docker Image from File
+                  command: docker load -i frontend-image.tar
+            - run:
+                  name: Deploy Frontend Docker Container
+                  command: docker run -d --name frontend frontend:$CIRCLE_BRANCH-$CIRCLE_SHA1
+            - run:
+                  name: Wait for Frontend Application to be Up and Running
+                  # in curl command -4 flag stands for forcing curl to use IPv4 (--retry-connrefused won't work otherwise)
+                  command: docker exec frontend curl -4 --retry 15 --retry-delay 2 --retry-connrefused http://localhost:3001
+            - run:
+                  name: print Frontend Docker Container logs
+                  command: |
+                      docker ps -a
+                      docker logs frontend
+                  when: always
 
-  publish-to-DockerHub:
-    docker:
-      - image: docker:19.03.13
-    working_directory: ~/repo
-    steps:
-      - setup_remote_docker:
-          version: 19.03.13
-          #docker_layer_caching: true
-      - attach_workspace:
-          at: .
-      - run:
-          name: Load Frontend Docker Image from File
-          command: |
-            docker load -i frontend-image.tar
-            docker tag frontend:$CIRCLE_BRANCH-$CIRCLE_SHA1 checkmarx/integrations-frontend:$CIRCLE_BRANCH-$CIRCLE_SHA1
-            docker tag frontend:$CIRCLE_BRANCH-$CIRCLE_SHA1 checkmarx/integrations-frontend:latest
-      - run:
-          name: Publish Docker images to Docker Hub
-          command: |
-            docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD} docker.io
-            docker push checkmarx/integrations-frontend
+    system-tests:
+        parameters:
+            os:
+                type: string
+            node-version:
+                type: string
+        docker:
+            - image: circleci/openjdk:8-jdk
+        steps:
+            - run: echo << parameters.os >> - << parameters.node-version >>
+
+    publish-to-DockerHub:
+        docker:
+            - image: docker:19.03.13
+        working_directory: ~/repo
+        steps:
+            - setup_remote_docker:
+                  version: 19.03.13
+                  #docker_layer_caching: true
+            - attach_workspace:
+                  at: .
+            - run:
+                  name: Load Frontend Docker Image from File
+                  command: |
+                      docker load -i frontend-image.tar
+                      docker tag frontend:$CIRCLE_BRANCH-$CIRCLE_SHA1 checkmarx/integrations-frontend:$CIRCLE_BRANCH-$CIRCLE_SHA1
+                      docker tag frontend:$CIRCLE_BRANCH-$CIRCLE_SHA1 checkmarx/integrations-frontend:latest
+            - run:
+                  name: Publish Docker images to Docker Hub
+                  command: |
+                      docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD} docker.io
+                      docker push checkmarx/integrations-frontend
 
 workflows:
-  ci-cd:
-    jobs:
-      - install-dependencies
-      - build-app:
-          requires:
+    ci-cd:
+        jobs:
             - install-dependencies
-      - build-image:
-          requires:
-            - build-app
-      - deploy:
-          requires:
-            - build-image
-      - system-tests:
-          matrix:
-            parameters:
-              os: [linux, macos]
-              node-version: ["10.9.0", "11.9.0",]
-          requires:
-            - deploy
-      - publish-to-DockerHub:
-          filters:
-            branches:
-              only:
-                - master
-          requires:
-            - system-tests
+            - build-app:
+                  requires:
+                      - install-dependencies
+            - build-image:
+                  requires:
+                      - build-app
+            - deploy:
+                  requires:
+                      - build-image
+            - system-tests:
+                  matrix:
+                      parameters:
+                          os: [linux, macos]
+                          node-version: ['10.9.0', '11.9.0']
+                  requires:
+                      - deploy
+            - publish-to-DockerHub:
+                  filters:
+                      branches:
+                          only:
+                              - master
+                  requires:
+                      - system-tests
