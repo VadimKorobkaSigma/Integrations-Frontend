@@ -7,6 +7,7 @@ import settingsIcon from '@assets/images/threeDots.svg';
 import orgIcon from '@assets/images/orgIcon.svg';
 import { RootState } from '@store/rootReducer';
 import styles from './styles.module.scss';
+import SettingsModal from '@layouts/SettingsModal';
 
 const mapStateToProps = (state: RootState) => ({
     organizations: state.orgs.organizations,
@@ -21,6 +22,8 @@ interface OwnProps {
 type Props = OwnProps & ReturnType<typeof mapStateToProps>;
 
 const SideBar: React.FC<Props> = ({ organizations, error, selectedOrg, setSelectedOrg }) => {
+    const [settingsForOrg, setSettingsForOrg] = React.useState('');
+
     return (
         <section className={cn(styles.column, styles.sidebar)}>
             <div className={styles.header}>
@@ -37,10 +40,16 @@ const SideBar: React.FC<Props> = ({ organizations, error, selectedOrg, setSelect
                     >
                         <img src={orgIcon} alt="orgIcon" width={24} />
                         <span>{org.name}</span>
-                        <img src={settingsIcon} alt="settingsIcon" className={styles.settings} />
+                        <img
+                            src={settingsIcon}
+                            alt="settingsIcon"
+                            className={styles.settings}
+                            onClick={() => setSettingsForOrg(org.id)}
+                        />
                     </li>
                 ))}
             </ul>
+            <SettingsModal selectedOrg={settingsForOrg} setSelectedOrg={setSettingsForOrg} />
         </section>
     );
 };
