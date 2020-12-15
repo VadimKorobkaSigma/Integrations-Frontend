@@ -6,6 +6,7 @@ import styles from './styles.module.scss';
 interface Props {
     children: string | JSX.Element | JSX.Element[];
     className?: string;
+    type?: 'submit';
     onClick?: React.DOMAttributes<HTMLButtonElement>['onClick'];
 }
 
