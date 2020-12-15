@@ -1,0 +1,46 @@
+.page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+
+  .card {
+    grid-template-columns: 1fr 1fr;
+
+    > :not(:last-child) {
+      margin-bottom: 1rem;
+    }
+  }
+
+  h1 {
+    width: fit-content;
+  }
+
+  .buttonsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .logo {
+      width: 164px;
+    }
+
+    p {
+      font-style: normal;
+      font-size: 24px;
+      line-height: 140%;
+      color: #616161;
+      letter-spacing: -0.02em;
+      font-weight: 500;
+      margin-bottom: 20px;
+    }
+
+    .icon {
+      height: 24px;
+      width: 24px;
+      margin-right: 1rem;
+    }
+  }
+}

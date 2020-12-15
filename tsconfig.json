@@ -3,20 +3,25 @@
         "allowJs": true,
         "target": "ES6",
         "jsx": "react",
-        "baseUrl": "./src/",
+        "baseUrl": "src",
         "outDir": "./build",
+        "module": "esnext",
         "moduleResolution": "Node",
         "strictNullChecks": true,
         "strict": true,
+        "allowSyntheticDefaultImports": true,
+        "resolveJsonModule": true,
         "paths": {
             "*": ["node_modules/*"],
             "@dtos/*": ["dtos/*"],
             "@components/*": ["components/*"],
+            "@layouts/*": ["layouts/*"],
             "@views/*": ["views/*"],
             "@services/*": ["services/*"],
-            "@stores/*": ["stores/*"],
+            "@store/*": ["store/*"],
             "@assets/*": ["assets/*"]
         }
     },
-    "include": ["./src/**/*"]
+    "files": ["./globals.d.ts"],
+    "include": ["src/**/*"]
 }

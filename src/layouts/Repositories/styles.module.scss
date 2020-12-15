@@ -1,0 +1,51 @@
+.column {
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  overflow: hidden;
+
+  h3 {
+    line-height: 39px;
+    color: #565360;
+  }
+
+  ul {
+    overflow: auto;
+  }
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+
+  .name {
+    display: flex;
+    align-items: center;
+
+    span {
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: 18px;
+      line-height: 24px;
+      letter-spacing: -0.005em;
+      color: #565360;
+
+      &.active {
+        border-bottom: 1px solid;
+        font-weight: 500;
+      }
+    }
+  }
+
+  .webhook {
+    width: initial;
+    margin-bottom: 0;
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #f6f6f6;
+    padding-bottom: 10px;
+  }
+}
