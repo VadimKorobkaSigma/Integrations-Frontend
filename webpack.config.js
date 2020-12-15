@@ -59,7 +59,7 @@ module.exports = {
     devServer: {
         contentBase: path.resolve('src'),
         historyApiFallback: true,
-        port: 3001,
+        port: 3000,
         open: true,
         https: true,
         watchOptions: {

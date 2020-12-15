@@ -80,7 +80,7 @@ jobs:
             - run:
                   name: Wait for Frontend Application to be Up and Running
                   # in curl command -4 flag stands for forcing curl to use IPv4 (--retry-connrefused won't work otherwise)
-                  command: docker exec frontend curl -4 --retry 15 --retry-delay 2 --retry-connrefused http://localhost:3001
+                  command: docker exec frontend curl -4 --retry 15 --retry-delay 2 --retry-connrefused http://localhost:3000
             - run:
                   name: print Frontend Docker Container logs
                   command: |
