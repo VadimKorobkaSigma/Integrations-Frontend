@@ -8,7 +8,7 @@ RUN rm -rf ./*
 COPY build .
 COPY cert.crt cert.key /usr/share/certificates/
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-# Expose port 443
-EXPOSE 443
+# Expose port 3001
+EXPOSE 3001
 # Containers run nginx with global directives and daemon off
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
