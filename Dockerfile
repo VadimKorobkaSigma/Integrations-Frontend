@@ -6,8 +6,9 @@ WORKDIR /usr/share/nginx/html
 RUN rm -rf ./*
 # Copy static assets
 COPY build .
+COPY cert.crt cert.key /usr/share/certificates/
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-# Expose port 80
-EXPOSE 80
+# Expose port 443
+EXPOSE 443
 # Containers run nginx with global directives and daemon off
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
