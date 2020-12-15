@@ -1,4 +1,4 @@
-import Organization from '@dtos/organization';
+import OrgSettings from '@dtos/orgSettings';
 import { Repository } from '@dtos/repository';
 import ScmConfiguration from '@dtos/scmConfiguration';
 import { SupportedScm } from '@dtos/scmService';
@@ -40,6 +40,15 @@ class Api {
             method: 'delete',
         });
     };
+
+    public getSettings = async (orgId: string): Promise<OrgSettings> => {
+        const response = await httpClient.get(`${this.scmType}/orgs/${orgId}/settings`);
+        return response.data;
+    };
+
+    public setSettings = async (orgId: string, settings: OrgSettings) => {
+        return httpClient.request(`${this.scmType}/orgs/${orgId}/settings`, { method: 'PUT' }, settings);
+    };
 }
-console.log(new Api());
+
 export default new Api();
