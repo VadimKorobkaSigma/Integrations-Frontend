@@ -32,11 +32,11 @@ class Api {
     };
 
     public installWebhook = (orgId: string, repId: string) => {
-        return httpClient.post(`${this.scmType}/orgs/${orgId}/repos/${repId}/webhooks`).then((r) => r.json());
+        return httpClient.post(`${this.scmType}/orgs/${orgId}/repos/${escape(repId)}/webhooks`).then((r) => r.json());
     };
 
     public removeWebhook = (orgId: string, repId: string, webhookId: string) => {
-        return httpClient.request(`${this.scmType}/orgs/${orgId}/repos/${repId}/webhooks/${webhookId}`, {
+        return httpClient.request(`${this.scmType}/orgs/${orgId}/repos/${escape(repId)}/webhooks/${webhookId}`, {
             method: 'delete',
         });
     };
