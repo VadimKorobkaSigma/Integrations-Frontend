@@ -1,3 +1,4 @@
+import Organization from '@dtos/organization';
 import OrgSettings from '@dtos/orgSettings';
 import { Repository } from '@dtos/repository';
 import ScmConfiguration from '@dtos/scmConfiguration';
@@ -13,12 +14,11 @@ class Api {
         return localStorage.getItem('SCM_TYPE') as SupportedScm;
     }
 
-    public getScmConfiguration = async (scmId: SupportedScm): Promise<ScmConfiguration> => {
-        const response = await httpClient.get(`${scmId}/config`);
-        return response.data;
+    public getScmConfiguration = (scmId: SupportedScm): Promise<ScmConfiguration> => {
+        return httpClient.get(`${scmId}/config`).then(({ data }) => data);
     };
 
-    public getOrganizations = (): Promise<ScmConfiguration> => {
+    public getOrganizations = (): Promise<Organization[]> => {
         return httpClient
             .post(`${this.scmType}/user/orgs`, undefined, {
                 authCode: this.authCode,
@@ -26,12 +26,11 @@ class Api {
             .then((r) => r.json());
     };
 
-    public getOrganizationRepos = async (orgId: string): Promise<Repository[]> => {
-        const response = await httpClient.get(`${this.scmType}/orgs/${orgId}/repos`);
-        return response.data;
+    public getOrganizationRepos = (orgId: string): Promise<Repository[]> => {
+        return httpClient.get(`${this.scmType}/orgs/${orgId}/repos`).then(({ data }) => data);
     };
 
-    public installWebhook = (orgId: string, repId: string) => {
+    public installWebhook = (orgId: string, repId: string): Promise<{ webhookId: string }> => {
         return httpClient.post(`${this.scmType}/orgs/${orgId}/repos/${escape(repId)}/webhooks`).then((r) => r.json());
     };
 
@@ -41,12 +40,11 @@ class Api {
         });
     };
 
-    public getSettings = async (orgId: string): Promise<OrgSettings> => {
-        const response = await httpClient.get(`${this.scmType}/orgs/${orgId}/settings`);
-        return response.data;
+    public getSettings = (orgId: string): Promise<OrgSettings> => {
+        return httpClient.get(`${this.scmType}/orgs/${orgId}/settings`).then(({ data }) => data);
     };
 
-    public setSettings = async (orgId: string, settings: OrgSettings) => {
+    public setSettings = (orgId: string, settings: OrgSettings) => {
         return httpClient.request(`${this.scmType}/orgs/${orgId}/settings`, { method: 'PUT' }, settings);
     };
 }

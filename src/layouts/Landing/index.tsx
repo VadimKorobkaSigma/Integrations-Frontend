@@ -1,11 +1,7 @@
 import * as React from 'react';
-import { bindActionCreators, Dispatch } from 'redux';
-import { connect } from 'react-redux';
 
 import Card from '@components/Card';
 import Button from '@components/Button';
-import { RootAction } from '@store/rootReducer';
-import * as authActions from '@store/auth/actions';
 import { SupportedScm } from '@dtos/scmService';
 
 import logoIcon from '@assets/images/logo.svg';
@@ -15,16 +11,13 @@ import gitlabIcon from '@assets/images/gitlab.png';
 import bitbucketIcon from '@assets/images/bitbucket.svg';
 
 import styles from './styles.module.scss';
+import api from '@services/api';
+import azureService from '@services/oauth/azureService';
+import gitHubService from '@services/oauth/gitHubService';
+import gitLabService from '@services/oauth/gitLabService';
 
-const mapDispatchToProps = (dispatch: Dispatch<RootAction>) =>
-    bindActionCreators(
-        {
-            loginUser: authActions.loginUser.request,
-        },
-        dispatch,
-    );
-
-type Props = ReturnType<typeof mapDispatchToProps>;
+import useError from '@hooks/useError';
+import ErrorComponent from '@components/ErrorComponent';
 
 interface ScmItem {
     type: SupportedScm;
@@ -55,11 +48,32 @@ const scms: ScmItem[] = [
     },
 ];
 
-const MascotIcon = React.lazy(() => import('@assets/images/mascot-login'));
+const MascotIcon = React.lazy(() => import('@components/Mascot'));
 
-const Landing: React.FC<Props> = ({ loginUser }) => {
-    const login = (integrationType: SupportedScm) => {
-        loginUser(integrationType);
+const Landing = () => {
+    const [error, handleError] = useError();
+    const login = async (integrationType: SupportedScm) => {
+        try {
+            const config = await api.getScmConfiguration(integrationType);
+
+            let url = location.origin;
+            switch (integrationType) {
+                case 'azure':
+                    url = azureService.generatePageUrl(config);
+                    break;
+                case 'github':
+                    url = gitHubService.generatePageUrl(config);
+                    break;
+                case 'gitlab':
+                    url = gitLabService.generatePageUrl(config);
+                    break;
+                default:
+                    break;
+            }
+            window.open(url, '_self');
+        } catch (err) {
+            handleError(err);
+        }
     };
 
     return (
@@ -68,6 +82,7 @@ const Landing: React.FC<Props> = ({ loginUser }) => {
                 <div className={styles.buttonsContainer}>
                     <img src={logoIcon} alt="logo" className={styles.logo} />
                     <p>Log In to Checkmark Integrations</p>
+                    <ErrorComponent error={error} />
                     {scms.map((scm) => (
                         <Button onClick={() => login(scm.type)} key={scm.type}>
                             <>
@@ -85,4 +100,4 @@ const Landing: React.FC<Props> = ({ loginUser }) => {
     );
 };
 
-export default React.memo(connect(null, mapDispatchToProps)(Landing));
+export default React.memo(Landing);

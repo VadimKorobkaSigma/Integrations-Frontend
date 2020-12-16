@@ -1,8 +1,23 @@
 const baseURL = process.env.API_URL;
 
+const handleError = async (response: Response) => {
+    if (!response.ok) {
+        try {
+            const result = await response.json();
+            if (result && result.message) {
+                throw new Error(result?.message || response.statusText);
+            }
+        } catch (error) {
+            throw new Error(error?.message || response.statusText);
+        }
+    }
+    return response;
+};
+
 class HttpClient {
     get(url: string, config?: RequestInit) {
         return fetch(`${baseURL}/${url}`, config)
+            .then(handleError)
             .then((r) => r.json())
             .then((data) => ({ data }));
     }
@@ -16,7 +31,7 @@ class HttpClient {
             ...config,
             method: 'post',
             body,
-        });
+        }).then(handleError);
     }
 
     request(url: string, config?: RequestInit, data: { [key: string]: any } = {}) {
@@ -26,7 +41,7 @@ class HttpClient {
                 'Content-Type': 'application/json',
             },
             ...config,
-        });
+        }).then(handleError);
     }
 }
 

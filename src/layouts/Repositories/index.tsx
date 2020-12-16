@@ -1,14 +1,13 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
-import cn from 'classnames';
 
-import { RootState } from '@store/rootReducer';
 import { Repository } from '@dtos/repository';
+import api from '@services/api';
+import Button from '@components/Button';
 
 import orgIcon from '@assets/images/orgIcon.svg';
 import styles from './styles.module.scss';
-import api from '@services/api';
-import Button from '@components/Button';
+import useError from '@services/hooks/useError';
+import ErrorComponent from '@components/ErrorComponent';
 
 interface OwnProps {
     selectedOrg: string;
@@ -16,44 +15,62 @@ interface OwnProps {
 
 type Props = OwnProps;
 
-const SideBar: React.FC<Props> = ({ selectedOrg }) => {
+const Repositories: React.FC<Props> = ({ selectedOrg }) => {
+    const [error, handleError, clearError] = useError();
     const [isLoading, setIsLoading] = React.useState(false);
     const [repos, setRepos] = React.useState<Repository[]>([]);
 
     React.useEffect(() => {
-        setIsLoading(true);
-        api.getOrganizationRepos(selectedOrg)
-            .then(setRepos)
-            .finally(() => setIsLoading(false));
+        let isCancelled = false;
+        if (selectedOrg) {
+            setIsLoading(true);
+            api.getOrganizationRepos(selectedOrg)
+                .then((data) => {
+                    if (!isCancelled) {
+                        setRepos(data);
+                        clearError();
+                    }
+                })
+                .catch(handleError)
+                .finally(() => setIsLoading(false));
+        }
+
+        return () => {
+            isCancelled = true;
+        };
     }, [selectedOrg]);
 
-    const toggleWebhook = (rep: Repository) => {
-        console.log('toggleWebhook ~ rep', rep);
-        if (rep.webhookEnabled) {
-            api.removeWebhook(selectedOrg, rep.id, rep.webhookId).then(() => {
-                setRepos(
-                    repos.map((repository) =>
-                        repository.id === rep.id ? { ...rep, webhookEnabled: false } : repository,
-                    ),
-                );
-            });
-        } else {
-            api.installWebhook(selectedOrg, rep.id).then((webhookId) => {
-                setRepos(
-                    repos.map((repository) =>
-                        repository.id === rep.id ? { ...rep, webhookEnabled: true, webhookId } : repository,
-                    ),
-                );
-            });
+    const toggleWebhook = async (rep: Repository) => {
+        try {
+            let newWebhookId = '';
+            if (rep.webhookEnabled) {
+                await api.removeWebhook(selectedOrg, rep.id, rep.webhookId);
+            } else {
+                newWebhookId = await api.installWebhook(selectedOrg, rep.id).then(({ webhookId }) => webhookId);
+            }
+
+            setRepos(
+                repos.map((repository) =>
+                    repository.id === rep.id
+                        ? { ...rep, webhookEnabled: !rep.webhookEnabled, webhookId: newWebhookId }
+                        : repository,
+                ),
+            );
+            clearError();
+        } catch (err) {
+            handleError(err);
         }
     };
 
     return (
         <section className={styles.column}>
             <h2>Repositories</h2>
-            {isLoading && <h3> Loading...</h3>}
-            {!isLoading && !selectedOrg && <h3>Please select organization.</h3>}
-            {!isLoading && selectedOrg && !repos.length ? <h3> No repositories available.</h3> : null}
+            <ErrorComponent error={error} />
+            {isLoading && <h3 className={styles.message}> Loading...</h3>}
+            {!isLoading && !selectedOrg && <h3 className={styles.message}>Please select organization.</h3>}
+            {!isLoading && selectedOrg && !repos.length ? (
+                <h3 className={styles.message}> No repositories available.</h3>
+            ) : null}
             {!isLoading && repos.length ? (
                 <ul>
                     {repos.map((rep) => (
@@ -73,4 +90,4 @@ const SideBar: React.FC<Props> = ({ selectedOrg }) => {
     );
 };
 
-export default React.memo(SideBar);
+export default React.memo(Repositories);
