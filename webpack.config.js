@@ -126,7 +126,6 @@ module.exports = {
             {
                 test: /\.(gif|png|jpe?g|svg)$/i,
                 use: [
-                    'cache-loader',
                     'file-loader',
                     {
                         loader: 'image-webpack-loader',
@@ -141,7 +140,6 @@ module.exports = {
             {
                 test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
                 use: [
-                    'cache-loader',
                     {
                         loader: 'file-loader',
                         options: {

@@ -46,7 +46,7 @@ const Repositories: React.FC<Props> = ({ selectedOrg }) => {
             if (rep.webhookEnabled) {
                 await api.removeWebhook(selectedOrg, rep.id, rep.webhookId);
             } else {
-                newWebhookId = await api.installWebhook(selectedOrg, rep.id).then(({ webhookId }) => webhookId);
+                newWebhookId = await api.installWebhook(selectedOrg, rep.id).then(({ id }) => id);
             }
 
             setRepos(

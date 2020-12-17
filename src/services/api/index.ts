@@ -30,7 +30,7 @@ class Api {
         return httpClient.get(`${this.scmType}/orgs/${orgId}/repos`).then(({ data }) => data);
     };
 
-    public installWebhook = (orgId: string, repId: string): Promise<{ webhookId: string }> => {
+    public installWebhook = (orgId: string, repId: string): Promise<{ id: string }> => {
         return httpClient.post(`${this.scmType}/orgs/${orgId}/repos/${escape(repId)}/webhooks`).then((r) => r.json());
     };
 
