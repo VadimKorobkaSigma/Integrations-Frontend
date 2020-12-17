@@ -51,7 +51,7 @@ const SettingsModal: React.FC<Props> = ({ selectedOrg, setSelectedOrg }) => {
     return (
         <Modal isOpen={!!selectedOrg} onRequestClose={() => setSelectedOrg(null)} className={styles.modal}>
             <form onSubmit={handleSubmit}>
-                <h1>Settings of {selectedOrg?.name}</h1>
+                <h1>Settings of {selectedOrg?.name} organization</h1>
                 <ErrorComponent error={error} />
                 <label htmlFor="secret">Checkmarx Go Secret</label>
                 <textarea placeholder="Secret" id="secret" value={secret} onChange={(e) => setSecret(e.target.value)} />

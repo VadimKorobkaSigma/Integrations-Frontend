@@ -12,7 +12,7 @@ import './assets/fonts/font.scss';
 const alertOptions = {
     // you can also just use 'bottom center'
     position: positions.BOTTOM_RIGHT,
-    timeout: 25000,
+    timeout: 5000,
     offset: '30px',
     // you can also just use 'scale'
     transition: transitions.FADE,

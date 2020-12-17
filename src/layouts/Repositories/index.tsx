@@ -1,9 +1,13 @@
 import * as React from 'react';
+import cn from 'classnames';
+import SVG from 'react-inlinesvg';
 
 import { Repository } from '@dtos/repository';
 import api from '@services/api';
 import Button from '@components/Button';
 
+import trashIcon from '@assets/images/trash.svg';
+import webhookIcon from '@assets/images/webhook.svg';
 import orgIcon from '@assets/images/orgIcon.svg';
 import styles from './styles.module.scss';
 import useError from '@services/hooks/useError';
@@ -64,7 +68,7 @@ const Repositories: React.FC<Props> = ({ selectedOrg }) => {
 
     return (
         <section className={styles.column}>
-            <h2>Repositories</h2>
+            <h2 className={styles.header}>Repositories</h2>
             <ErrorComponent error={error} />
             {isLoading && <h3 className={styles.message}> Loading...</h3>}
             {!isLoading && !selectedOrg && <h3 className={styles.message}>Please select organization.</h3>}
@@ -79,8 +83,12 @@ const Repositories: React.FC<Props> = ({ selectedOrg }) => {
                                 <img src={orgIcon} alt="orgIcon" width={24} />
                                 <span>{rep.name}</span>
                             </div>
-                            <Button className={styles.webhook} onClick={() => toggleWebhook(rep)}>
-                                {rep.webhookEnabled ? 'Remove webhook' : 'Setup webhook'}
+                            <Button
+                                className={cn(styles.webhook, rep.webhookEnabled && styles.remove)}
+                                onClick={() => toggleWebhook(rep)}
+                            >
+                                <SVG src={rep.webhookEnabled ? trashIcon : webhookIcon} />
+                                <p>{rep.webhookEnabled ? 'Stop Cx Scan' : 'Start Cx Scan'}</p>
                             </Button>
                         </li>
                     ))}

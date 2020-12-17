@@ -1,11 +1,14 @@
 .column {
   display: flex;
-  padding: 20px;
   flex-direction: column;
   overflow: hidden;
 
+  .header {
+    margin: 20px 40px;
+  }
+
   .message {
-    line-height: 39px;
+    margin: 20px 40px;
     color: #565360;
   }
 
@@ -17,7 +20,11 @@
 .item {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 15px;
+  padding: 10px 40px;
+
+  &:nth-child(2n + 1) {
+    background-color: #f6f6f6;
+  }
 
   .name {
     display: flex;
@@ -40,12 +47,30 @@
   }
 
   .webhook {
-    width: initial;
+    width: 200px;
+    align-items: center;
     margin-bottom: 0;
+
+    &.remove {
+      background-color: #bfbdc2;
+    }
+
+    svg {
+      height: 24px;
+      width: 24px;
+    }
+
+    p {
+      margin: 0 auto;
+    }
+
+    path {
+      fill: #fff;
+    }
   }
 
-  &:not(:last-child) {
-    border-bottom: 1px solid #f6f6f6;
-    padding-bottom: 10px;
-  }
+  //   &:not(:last-child) {
+  //     border-bottom: 1px solid #f6f6f6;
+  //     padding-bottom: 10px;
+  //   }
 }
