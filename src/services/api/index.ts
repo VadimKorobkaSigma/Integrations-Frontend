@@ -35,9 +35,12 @@ class Api {
     };
 
     public removeWebhook = (orgId: string, repId: string, webhookId: string) => {
-        return httpClient.request(`${this.scmType}/orgs/${orgId}/repos/${escape(repId)}/webhooks/${webhookId}`, {
-            method: 'delete',
-        });
+        return httpClient.request(
+            `${this.scmType}/orgs/${orgId}/repos/${escape(repId)}/webhooks/${escape(webhookId)}`,
+            {
+                method: 'delete',
+            },
+        );
     };
 
     public getSettings = (orgId: string): Promise<OrgSettings> => {
