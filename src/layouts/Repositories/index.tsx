@@ -7,7 +7,7 @@ import api from '@services/api';
 import Button from '@components/Button';
 
 import trashIcon from '@assets/images/trash.svg';
-import webhookIcon from '@assets/images/webhook.svg';
+import scanIcon from '@assets/images/scan.svg';
 import orgIcon from '@assets/images/orgIcon.svg';
 import styles from './styles.module.scss';
 import useError from '@services/hooks/useError';
@@ -87,8 +87,8 @@ const Repositories: React.FC<Props> = ({ selectedOrg }) => {
                                 className={cn(styles.webhook, rep.webhookEnabled && styles.remove)}
                                 onClick={() => toggleWebhook(rep)}
                             >
-                                <SVG src={rep.webhookEnabled ? trashIcon : webhookIcon} />
-                                <p>{rep.webhookEnabled ? 'Stop Cx Scan' : 'Start Cx Scan'}</p>
+                                <SVG src={rep.webhookEnabled ? trashIcon : scanIcon} />
+                                <p>{rep.webhookEnabled ? 'Remove setup' : 'Setup project'}</p>
                             </Button>
                         </li>
                     ))}

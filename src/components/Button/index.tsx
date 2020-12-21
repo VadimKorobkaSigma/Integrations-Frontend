@@ -7,6 +7,7 @@ interface Props {
     children: string | JSX.Element | JSX.Element[];
     className?: string;
     type?: 'submit';
+    title?: string;
     onClick?: React.DOMAttributes<HTMLButtonElement>['onClick'];
 }
 
