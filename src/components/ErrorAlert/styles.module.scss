@@ -1,6 +1,6 @@
 .container {
   cursor: pointer;
-  background-color: #ffcdcc;
+  background-color: #f1605d2e;
   border: 1px solid #f1605d;
   padding: 10px;
   border-radius: 4px;
@@ -13,5 +13,10 @@
 
   * {
     cursor: pointer;
+  }
+
+  &.success {
+    background-color: #4dbb402e;
+    border-color: #4dbb40;
   }
 }

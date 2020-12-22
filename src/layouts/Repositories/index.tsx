@@ -1,6 +1,7 @@
 import * as React from 'react';
 import cn from 'classnames';
 import SVG from 'react-inlinesvg';
+import { useAlert } from 'react-alert';
 
 import { Repository } from '@dtos/repository';
 import api from '@services/api';
@@ -20,6 +21,7 @@ interface OwnProps {
 type Props = OwnProps;
 
 const Repositories: React.FC<Props> = ({ selectedOrg }) => {
+    const alert = useAlert();
     const [error, handleError, clearError] = useError();
     const [isLoading, setIsLoading] = React.useState(false);
     const [repos, setRepos] = React.useState<Repository[]>([]);
@@ -53,14 +55,18 @@ const Repositories: React.FC<Props> = ({ selectedOrg }) => {
                 newWebhookId = await api.installWebhook(selectedOrg, rep.id).then(({ id }) => id);
             }
 
+            const newState = !rep.webhookEnabled;
+
             setRepos(
                 repos.map((repository) =>
                     repository.id === rep.id
-                        ? { ...rep, webhookEnabled: !rep.webhookEnabled, webhookId: newWebhookId }
+                        ? { ...rep, webhookEnabled: newState, webhookId: newWebhookId }
                         : repository,
                 ),
             );
             clearError();
+
+            alert.success(newState ? 'Project successfully setuped' : 'Setup successfully removed');
         } catch (err) {
             handleError(err);
         }

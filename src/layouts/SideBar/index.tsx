@@ -41,7 +41,7 @@ const SideBar: React.FC<Props> = ({ error, organizations, selectedOrg, setSelect
                 <h2>Organizations</h2>
             </div>
             <ErrorComponent error={error} />
-            {isLoading && <h3>Loading...</h3>}
+            {isLoading && <h3 className={styles.message}>Loading...</h3>}
             <ul>
                 {organizations.map((org) => (
                     <li

@@ -15,6 +15,7 @@ import api from '@services/api';
 import azureService from '@services/oauth/azureService';
 import gitHubService from '@services/oauth/gitHubService';
 import gitLabService from '@services/oauth/gitLabService';
+import bitBucketService from '@services/oauth/bitBucketService';
 
 import useError from '@hooks/useError';
 import ErrorComponent from '@components/ErrorComponent';
@@ -66,6 +67,9 @@ const Landing = () => {
                     break;
                 case 'gitlab':
                     url = gitLabService.generatePageUrl(config);
+                    break;
+                case 'bitbucket':
+                    url = bitBucketService.generatePageUrl(config);
                     break;
                 default:
                     break;
