@@ -1,0 +1,68 @@
+.modal {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+
+  .backdrop,
+  .container {
+    transition: opacity 0.6s;
+    opacity: 0;
+  }
+
+  &.open {
+    pointer-events: initial;
+
+    .backdrop,
+    .container {
+      opacity: 1;
+    }
+  }
+
+  .backdrop {
+    background-color: #00000060;
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+  }
+
+  .container {
+    position: absolute;
+    top: 10%;
+    bottom: 10%;
+    left: 25%;
+    right: 25%;
+    color: $text-black;
+    background-color: $white;
+    box-shadow: #00000012 0px 4px 10px;
+    padding: 24px 32px;
+    border-radius: 4px;
+    display: grid;
+    grid-template-rows: fit-content(0) 1fr fit-content(0);
+    border-top: 4px solid #2991f3;
+  }
+}
+
+.header {
+  h1 {
+    text-align: center;
+    color: $grey-dark;
+  }
+}
+
+.header {
+  text-align: center;
+  color: $grey-dark;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+
+  & > *:not(:last-child) {
+    margin-right: 1rem;
+  }
+}

@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { transitions, positions, Provider as AlertProvider } from 'react-alert';
 
 import Router from './Router';
-import ErrorAlert from '@components/ErrorAlert';
+import Alert from '@components/Alert';
 
 import './assets/normalize.scss';
 import './assets/fonts/font.scss';
@@ -19,7 +19,7 @@ const alertOptions = {
 };
 
 const App = React.memo(() => (
-    <AlertProvider template={ErrorAlert} {...alertOptions}>
+    <AlertProvider template={Alert} {...alertOptions}>
         <BrowserRouter>
             <Router />
         </BrowserRouter>

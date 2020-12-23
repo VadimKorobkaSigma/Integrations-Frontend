@@ -7,7 +7,7 @@ import errorIcon from '@assets/images/error.svg';
 import closeIcon from '@assets/images/close.svg';
 import checkIcon from '@assets/images/check.svg';
 
-const ErrorAlert: React.FC<AlertComponentPropsWithStyle> = ({ style, options, message, close }) => (
+const Alert: React.FC<AlertComponentPropsWithStyle> = ({ style, options, message, close }) => (
     <div style={style} className={cn(styles.container, styles[options.type || ''])} onClick={close}>
         {options.type === 'info' && '!'}
         {options.type === 'success' && <img src={checkIcon} alt="success icon" />}
@@ -17,4 +17,4 @@ const ErrorAlert: React.FC<AlertComponentPropsWithStyle> = ({ style, options, me
     </div>
 );
 
-export default React.memo(ErrorAlert);
+export default React.memo(Alert);

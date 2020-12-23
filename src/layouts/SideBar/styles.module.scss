@@ -18,7 +18,7 @@
   padding: 20px;
 
   .message {
-    color: #565360;
+    color: $text-black;
     margin: 20px 0;
   }
 
@@ -34,11 +34,11 @@
       font-size: 18px;
       line-height: 60px;
       letter-spacing: -0.005em;
-      color: #565360;
+      color: $text-black;
     }
 
     &.active {
-      border-right: 4px solid #4dbb40;
+      border-right: 4px solid $green;
       font-weight: 500;
 
       .settings {

@@ -9,7 +9,7 @@
 
   .message {
     margin: 20px 40px;
-    color: #565360;
+    color: $text-black;
   }
 
   ul {
@@ -37,7 +37,7 @@
       font-size: 18px;
       line-height: 24px;
       letter-spacing: -0.005em;
-      color: #565360;
+      color: $text-black;
 
       &.active {
         border-bottom: 1px solid;
@@ -65,7 +65,7 @@
     }
 
     path {
-      fill: #fff;
+      fill: $text-light;
     }
   }
 

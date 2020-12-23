@@ -85,7 +85,7 @@ const Landing = () => {
             <Card className={styles.card}>
                 <div className={styles.buttonsContainer}>
                     <img src={logoIcon} alt="logo" className={styles.logo} />
-                    <p>Log In to Checkmark Integrations</p>
+                    <p>Log In to Checkmarx Integrations</p>
                     <ErrorComponent error={error} />
                     {scms.map((scm) => (
                         <Button onClick={() => login(scm.type)} key={scm.type}>

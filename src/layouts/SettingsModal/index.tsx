@@ -1,13 +1,15 @@
 import * as React from 'react';
-import Modal from 'react-modal';
-import styles from './styles.module.scss';
-import Button from '@components/Button';
+import { useAlert } from 'react-alert';
+
 import api from '@services/api';
 import useError from '@services/hooks/useError';
 import Organization from '@dtos/organization';
+
+import Modal from '@components/Modal';
+import Button from '@components/Button';
 import ErrorComponent from '@components/ErrorComponent';
 
-Modal.setAppElement('#react');
+import styles from './styles.module.scss';
 
 interface OwnProps {
     selectedOrg: Organization | null;
@@ -17,6 +19,7 @@ interface OwnProps {
 type Props = OwnProps;
 
 const SettingsModal: React.FC<Props> = ({ selectedOrg, setSelectedOrg }) => {
+    const alert = useAlert();
     const [error, handleError, clearError] = useError();
     const [secret, setSecret] = React.useState('');
     const [team, setTeam] = React.useState('');
@@ -43,23 +46,29 @@ const SettingsModal: React.FC<Props> = ({ selectedOrg, setSelectedOrg }) => {
                 .then(() => {
                     setSelectedOrg(null);
                     clearError();
+                    alert.success('Setting updated successfuly');
                 })
                 .catch(handleError);
         }
     };
 
     return (
-        <Modal isOpen={!!selectedOrg} onRequestClose={() => setSelectedOrg(null)} className={styles.modal}>
-            <form onSubmit={handleSubmit}>
-                <h1>Settings of {selectedOrg?.name} organization</h1>
+        <Modal
+            isOpen={!!selectedOrg}
+            onClose={() => setSelectedOrg(null)}
+            header={`Settings of ${selectedOrg?.name} organization`}
+            footer={
+                <Button className={styles.submit} onClick={handleSubmit}>
+                    Submit
+                </Button>
+            }
+        >
+            <form onSubmit={handleSubmit} className={styles.form}>
                 <ErrorComponent error={error} />
                 <label htmlFor="secret">Checkmarx Go Secret</label>
                 <textarea placeholder="Secret" id="secret" value={secret} onChange={(e) => setSecret(e.target.value)} />
                 <label htmlFor="team">Team</label>
                 <textarea placeholder="Team" id="team" value={team} onChange={(e) => setTeam(e.target.value)} />
-                <Button className={styles.submit} type="submit">
-                    Submit
-                </Button>
             </form>
         </Modal>
     );

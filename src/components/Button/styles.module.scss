@@ -1,6 +1,5 @@
 .button {
-  color: #fff;
-  background-color: #2991f3;
+  color: $text-light;
   margin-bottom: 1rem;
   width: 160px;
   border: 0;
@@ -11,8 +10,18 @@
   align-items: center;
   justify-content: flex-start;
   font-size: 20px;
+  &.primary {
+    background-color: $primary;
+    &:hover {
+      background-color: $primary-dark;
+    }
+  }
 
-  &:hover {
-    background-color: #1579d7;
+  &.link {
+    font-weight: 400;
+    color: $text-black;
+    box-shadow: initial;
+    background-color: $text-light;
+    width: auto;
   }
 }

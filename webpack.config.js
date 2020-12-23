@@ -29,12 +29,12 @@ const CSSLoader = {
 
 const sassLoader = {
     loader: 'sass-loader',
-    // options: {
-    //   additionalData: `@import "variables.scss";`,
-    //   sassOptions: {
-    //     includePaths: [path.resolve(rootDir, 'src', 'assets')],
-    //   },
-    // },
+    options: {
+        additionalData: `@import "variables.scss";`,
+        sassOptions: {
+            includePaths: [path.resolve(__dirname, 'src', 'assets')],
+        },
+    },
 };
 
 const isDev = process.env.BUILD_STAGE !== 'prod';
