@@ -18,12 +18,12 @@ const alertOptions = {
     transition: transitions.FADE,
 };
 
-const App = React.memo(() => (
+const App = () => (
     <AlertProvider template={Alert} {...alertOptions}>
         <BrowserRouter>
             <Router />
         </BrowserRouter>
     </AlertProvider>
-));
+);
 
 ReactDOM.render(<App />, document.getElementById('react'));

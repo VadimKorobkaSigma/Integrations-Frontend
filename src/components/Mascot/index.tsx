@@ -5,7 +5,7 @@ import image from '@assets/images/mascot.json';
 const MASCOT_ICON_HEIGHT = 560;
 const MASCOT_ICON_WIDTH = 520;
 
-export default React.memo(() => {
+const Mascot = () => {
     const defaultOptions = {
         loop: true,
         autoplay: true,
@@ -18,4 +18,6 @@ export default React.memo(() => {
     return (
         <Lottie options={defaultOptions} height={MASCOT_ICON_HEIGHT} width={MASCOT_ICON_WIDTH} style={{ margin: 0 }} />
     );
-});
+};
+
+export default React.memo(Mascot);

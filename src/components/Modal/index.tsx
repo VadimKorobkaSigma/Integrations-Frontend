@@ -9,6 +9,7 @@ interface Props {
     header?: string | React.ReactElement;
     footer?: string | React.ReactElement;
     onClose: VoidFunction;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     children: React.ReactElement<any, any> | React.ReactNodeArray;
 }
 

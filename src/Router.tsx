@@ -15,7 +15,7 @@ const Router = () => {
     const [integrationType, setIntegrationType] = React.useState('');
 
     React.useEffect(() => {
-        let { code, state } = parseQuery(location.search);
+        const { code, state } = parseQuery(location.search);
 
         if (!code || !state) {
             return;

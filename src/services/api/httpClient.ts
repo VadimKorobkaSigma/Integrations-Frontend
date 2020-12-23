@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 const baseURL = process.env.API_URL;
 
 const handleError = async (response: Response) => {
