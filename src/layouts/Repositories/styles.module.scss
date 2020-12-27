@@ -3,12 +3,13 @@
   flex-direction: column;
   overflow: hidden;
 
-  .header {
+  .header,
+  .message,
+  .search {
     margin: 20px 40px;
   }
 
   .message {
-    margin: 20px 40px;
     color: $text-black;
   }
 

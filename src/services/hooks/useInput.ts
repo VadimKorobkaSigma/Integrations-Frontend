@@ -1,20 +1,19 @@
 import { useState } from 'react';
 
 /**
- * Example:
+ * # Example:
  *
  * const [value, setValue] = useInput()
  */
 const useInput = (defaultValue?: string) => {
     const [value, setValue] = useState(defaultValue || '');
 
-    const result: Readonly<[string, (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void]> = [
+    return [
         value,
         (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
             setValue(event.target.value);
         },
-    ];
-    return result;
+    ] as const;
 };
 
 export default useInput;

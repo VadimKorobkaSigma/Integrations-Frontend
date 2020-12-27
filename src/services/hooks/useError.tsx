@@ -2,15 +2,15 @@ import { useState } from 'react';
 import { useAlert } from 'react-alert';
 
 /**
- * Example:
+ * # Example:
  *
  * const [error, handleError, clearError] = useError()
  */
 const useError = () => {
     const alert = useAlert();
-    const [error, setError] = useState<string>('');
+    const [error, setError] = useState('');
 
-    const result: Readonly<[string, (error: Error) => void, VoidFunction]> = [
+    const result = [
         error,
         (newError: Error | string) => {
             let prefix = '';
@@ -26,7 +26,7 @@ const useError = () => {
         () => {
             setError('');
         },
-    ];
+    ] as const;
     return result;
 };
 

@@ -5,14 +5,17 @@ import { useAlert } from 'react-alert';
 
 import { Repository } from '@dtos/repository';
 import api from '@services/api';
+import useError from '@services/hooks/useError';
+import useSearch from '@services/hooks/useSearch';
+
 import Button from '@components/Button';
+import ErrorComponent from '@components/ErrorComponent';
 
 import trashIcon from '@assets/images/trash.svg';
 import scanIcon from '@assets/images/scan.svg';
 import orgIcon from '@assets/images/orgIcon.svg';
 import styles from './styles.module.scss';
-import useError from '@services/hooks/useError';
-import ErrorComponent from '@components/ErrorComponent';
+import Search, { SearchHighlight } from '@components/Search';
 
 interface OwnProps {
     selectedOrg: string;
@@ -25,6 +28,7 @@ const Repositories: React.FC<Props> = ({ selectedOrg }) => {
     const [error, handleError, clearError] = useError();
     const [isLoading, setIsLoading] = React.useState(false);
     const [repos, setRepos] = React.useState<Repository[]>([]);
+    const [filteredRepos, searchValue, setSearchValue] = useSearch(repos, 'name');
 
     React.useEffect(() => {
         let isCancelled = false;
@@ -82,23 +86,28 @@ const Repositories: React.FC<Props> = ({ selectedOrg }) => {
                 <h3 className={styles.message}> No repositories available.</h3>
             ) : null}
             {!isLoading && repos.length ? (
-                <ul>
-                    {repos.map((rep) => (
-                        <li key={rep.id} className={styles.item}>
-                            <div className={styles.name}>
-                                <img src={orgIcon} alt="orgIcon" width={24} />
-                                <span>{rep.name}</span>
-                            </div>
-                            <Button
-                                className={cn(styles.webhook, rep.webhookEnabled && styles.remove)}
-                                onClick={() => toggleWebhook(rep)}
-                            >
-                                <SVG src={rep.webhookEnabled ? trashIcon : scanIcon} />
-                                <p>{rep.webhookEnabled ? 'Remove setup' : 'Setup project'}</p>
-                            </Button>
-                        </li>
-                    ))}
-                </ul>
+                <>
+                    <Search containerClassname={styles.search} value={searchValue} onChange={setSearchValue} />
+                    <ul>
+                        {filteredRepos.map((rep) => (
+                            <li key={rep.id} className={styles.item}>
+                                <div className={styles.name}>
+                                    <img src={orgIcon} alt="orgIcon" width={24} />
+                                    <span>
+                                        <SearchHighlight searchQuery={searchValue} text={rep.name} />
+                                    </span>
+                                </div>
+                                <Button
+                                    className={cn(styles.webhook, rep.webhookEnabled && styles.remove)}
+                                    onClick={() => toggleWebhook(rep)}
+                                >
+                                    <SVG src={rep.webhookEnabled ? trashIcon : scanIcon} />
+                                    <p>{rep.webhookEnabled ? 'Remove setup' : 'Setup project'}</p>
+                                </Button>
+                            </li>
+                        ))}
+                    </ul>
+                </>
             ) : null}
         </section>
     );

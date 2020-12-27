@@ -7,3 +7,8 @@ export const parseQuery = (queryString: string) => {
     });
     return query;
 };
+
+export const normalizeString = (str: string) =>
+    Array.from(str)
+        .map((char) => char.replace(/[\+\*\?\{\}\(\)\[\]\.\\\|]/, `\\${char}`))
+        .join('');

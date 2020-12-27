@@ -22,10 +22,16 @@
     margin: 20px 0;
   }
 
+  .search {
+    margin: 20px 0;
+    width: 100%;
+  }
+
   .item {
     display: flex;
     height: 60px;
     cursor: pointer;
+    align-items: center;
 
     span {
       text-overflow: ellipsis;
@@ -37,9 +43,21 @@
       color: $text-black;
     }
 
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+
     &.active {
       border-right: 4px solid $green;
       font-weight: 500;
+      span {
+        color: $green;
+      }
+
+      path {
+        fill: $green;
+      }
 
       .settings {
         margin-right: -4px;
