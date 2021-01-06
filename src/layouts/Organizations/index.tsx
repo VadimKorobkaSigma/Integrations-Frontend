@@ -4,9 +4,9 @@ import Card from '@components/Card';
 import styles from './styles.module.scss';
 import SideBar from '@layouts/SideBar';
 import Repositories from '@layouts/Repositories';
-import api from '@services/api';
+import api from '@api';
 import Organization from '@dtos/organization';
-import useError from '@services/hooks/useError';
+import useError from '@hooks/useError';
 
 const Organizations: React.FC = () => {
     const [error, handleError, clearError] = useError();

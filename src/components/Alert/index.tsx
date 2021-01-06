@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import cn from 'classnames';
 import { AlertComponentPropsWithStyle } from 'react-alert';
 
@@ -13,7 +13,7 @@ const Alert: React.FC<AlertComponentPropsWithStyle> = ({ style, options, message
         {options.type === 'success' && <img src={checkIcon} alt="success icon" />}
         {options.type === 'error' && <img src={errorIcon} alt="error icon" />}
         <p>{message}</p>
-        <img src={closeIcon} alt="close icon" />
+        <img src={closeIcon} alt="close icon" data-name="close-button" />
     </div>
 );
 

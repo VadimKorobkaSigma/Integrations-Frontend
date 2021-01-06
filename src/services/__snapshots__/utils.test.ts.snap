@@ -1,22 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Services -> normalizeString 1`] = `"1abc23-\\\\+l"`;
+exports[`normalizeString 1`] = `"1abc23-\\\\+l"`;
 
-exports[`Services -> normalizeString 2`] = `"\\\\?a=2"`;
+exports[`normalizeString 2`] = `"\\\\?a=2"`;
 
-exports[`Services -> normalizeString 3`] = `"\\\\?a=2&b=3&c"`;
+exports[`normalizeString 3`] = `"\\\\?a=2&b=3&c"`;
 
-exports[`Services -> normalizeString 4`] = `"a=@2&b=3/\\\\*!&c"`;
+exports[`normalizeString 4`] = `"a=@2&b=3/\\\\*!&c"`;
 
-exports[`Services -> parseQuery 1`] = `Object {}`;
+exports[`parseQuery 1`] = `Object {}`;
 
-exports[`Services -> parseQuery 2`] = `
+exports[`parseQuery 2`] = `
 Object {
   "a": "2",
 }
 `;
 
-exports[`Services -> parseQuery 3`] = `
+exports[`parseQuery 3`] = `
 Object {
   "a": "2",
   "b": "3",
@@ -24,7 +24,7 @@ Object {
 }
 `;
 
-exports[`Services -> parseQuery 4`] = `
+exports[`parseQuery 4`] = `
 Object {
   "a": "2",
   "b": "3",

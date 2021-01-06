@@ -19,6 +19,7 @@
             "@views/*": ["views/*"],
             "@services/*": ["services/*"],
             "@hooks/*": ["services/hooks/*"],
+            "@api": ["services/api/index.ts"],
             "@store/*": ["store/*"],
             "@assets/*": ["assets/*"]
         }

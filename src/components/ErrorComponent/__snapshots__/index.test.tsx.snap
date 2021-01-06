@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ErrorComponent Component with error 1`] = `"<h3>Error: test</h3>"`;
+
+exports[`ErrorComponent Component with error 2`] = `null`;
+
+exports[`ErrorComponent Component with error 3`] = `"<h3>Error: test2</h3>"`;
+
+exports[`ErrorComponent Component without error 1`] = `null`;

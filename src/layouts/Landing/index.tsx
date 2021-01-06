@@ -11,7 +11,7 @@ import gitlabIcon from '@assets/images/gitlab.png';
 import bitbucketIcon from '@assets/images/bitbucket.svg';
 
 import styles from './styles.module.scss';
-import api from '@services/api';
+import api from '@api';
 import azureService from '@services/oauth/azureService';
 import gitHubService from '@services/oauth/gitHubService';
 import gitLabService from '@services/oauth/gitLabService';

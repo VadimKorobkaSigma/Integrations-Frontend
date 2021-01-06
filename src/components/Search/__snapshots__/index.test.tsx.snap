@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Search Component without error 1`] = `"<div class=\\"\\"><input placeholder=\\"Search\\" class=\\"\\"/></div>"`;
+
+exports[`SearchHighlight Component without error 1`] = `"<span><span class=\\"\\"></span><span class=\\"undefined\\">Test</span><span class=\\"\\"> name</span></span>"`;
+
+exports[`SearchHighlight Component without error 2`] = `"<span>Test name</span>"`;
+
+exports[`SearchHighlight Component without error 3`] = `"<span><span class=\\"\\"></span></span>"`;

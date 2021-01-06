@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Alert Component with children 1`] = `"<div class=\\"\\"><p>Test message</p><img alt=\\"close icon\\" data-name=\\"close-button\\"/></div>"`;
+
+exports[`Alert Component with children 2`] = `"<div class=\\"\\"><img alt=\\"success icon\\"/><p>Test message</p><img alt=\\"close icon\\" data-name=\\"close-button\\"/></div>"`;
+
+exports[`Alert Component with children 3`] = `"<div class=\\"\\">!<p>Test message</p><img alt=\\"close icon\\" data-name=\\"close-button\\"/></div>"`;
+
+exports[`Alert Component with children 4`] = `"<div class=\\"\\"><img alt=\\"error icon\\"/><p>Test message</p><img alt=\\"close icon\\" data-name=\\"close-button\\"/></div>"`;

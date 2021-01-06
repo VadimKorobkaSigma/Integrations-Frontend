@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Card Component only with children 1`] = `"<div class=\\"\\"><p id=\\"child-node\\">Test</p></div>"`;
+
+exports[`Card Component with classname 1`] = `"<div class=\\"test\\"><p id=\\"child-node\\">Test</p></div>"`;

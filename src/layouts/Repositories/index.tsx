@@ -4,9 +4,9 @@ import SVG from 'react-inlinesvg';
 import { useAlert } from 'react-alert';
 
 import { Repository } from '@dtos/repository';
-import api from '@services/api';
-import useError from '@services/hooks/useError';
-import useSearch from '@services/hooks/useSearch';
+import api from '@api';
+import useError from '@hooks/useError';
+import useSearch from '@hooks/useSearch';
 
 import Button from '@components/Button';
 import ErrorComponent from '@components/ErrorComponent';
@@ -70,7 +70,7 @@ const Repositories: React.FC<Props> = ({ selectedOrg }) => {
             );
             clearError();
 
-            alert.success(newState ? 'Project successfully setuped' : 'Setup successfully removed');
+            alert.success(newState ? 'The project was set up successfully' : 'Setup successfully removed');
         } catch (err) {
             handleError(err);
         }

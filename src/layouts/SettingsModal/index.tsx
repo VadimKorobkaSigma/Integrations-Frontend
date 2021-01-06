@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { useAlert } from 'react-alert';
 
-import api from '@services/api';
-import useError from '@services/hooks/useError';
+import api from '@api';
+import useError from '@hooks/useError';
 import Organization from '@dtos/organization';
 
 import Modal from '@components/Modal';
@@ -28,7 +28,7 @@ const SettingsModal: React.FC<Props> = ({ selectedOrg, setSelectedOrg }) => {
         if (selectedOrg) {
             api.getSettings(selectedOrg.id)
                 .then((result) => {
-                    setSecret(result.cxgoSecret);
+                    setSecret(result.cxgoToken);
                     setTeam(result.team);
                     clearError();
                 })
@@ -42,7 +42,7 @@ const SettingsModal: React.FC<Props> = ({ selectedOrg, setSelectedOrg }) => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (selectedOrg) {
-            api.setSettings(selectedOrg.id, { team, cxgoSecret: secret })
+            api.setSettings(selectedOrg.id, { team, cxgoToken: secret })
                 .then(() => {
                     setSelectedOrg(null);
                     clearError();

@@ -4,11 +4,10 @@ import SVG, { Props } from 'react-inlinesvg';
 
 import styles from './styles.module.scss';
 
-export interface InputProps
-    extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     icon?: string;
     containerClassname?: string;
-    containerAttributes?: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>;
+    containerAttributes?: React.HTMLAttributes<HTMLDivElement>;
     iconAttributes?: Props;
 }
 

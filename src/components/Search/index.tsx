@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import cn from 'classnames';
 
 import { normalizeString } from '@services/utils';
@@ -17,7 +17,7 @@ export const SearchHighlight: React.FC<HighlightProps> = React.memo(({ searchQue
     }
 
     const highlight = normalizeString(searchQuery);
-    const parts = highlight.length ? text.split(new RegExp(`(${highlight})`, 'gi')) : [text];
+    const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
     return (
         <span>
             {parts.map((part, i) => (
@@ -37,7 +37,7 @@ export const SearchHighlight: React.FC<HighlightProps> = React.memo(({ searchQue
 SearchHighlight.displayName = 'Search.Highlight';
 
 const Search: React.FC<InputProps> = (props) => {
-    return <Input icon={searchIcon} placeholder="Search" {...{ ...props }} />;
+    return <Input icon={searchIcon} placeholder="Search" {...props} />;
 };
 
 export default React.memo(Search);

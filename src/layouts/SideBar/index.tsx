@@ -8,7 +8,7 @@ import styles from './styles.module.scss';
 import SettingsModal from '@layouts/SettingsModal';
 import Organization from '@dtos/organization';
 import ErrorComponent from '@components/ErrorComponent';
-import useSearch from '@services/hooks/useSearch';
+import useSearch from '@hooks/useSearch';
 import Search, { SearchHighlight } from '@components/Search';
 
 interface Props {
