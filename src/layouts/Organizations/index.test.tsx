@@ -5,7 +5,7 @@ import { mount } from 'enzyme';
 const mockSetState = jest.fn();
 jest.mock('react', () => ({
     ...(jest.requireActual('react') as typeof React),
-    useState: (initial: any) => [initial, mockSetState],
+    useState: (initial: unknown) => [initial, mockSetState],
 }));
 
 test('Organizations Component', () => {

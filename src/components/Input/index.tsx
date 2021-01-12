@@ -14,11 +14,11 @@ export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> 
 const Input: React.FC<InputProps> = ({ icon, containerAttributes, containerClassname, ...args }) => {
     return (
         <div
-            {...{ ...containerAttributes }}
+            {...containerAttributes}
             className={cn(styles.container, containerClassname, containerAttributes?.className)}
         >
-            <input {...{ ...args }} className={cn(icon && styles.withIcon, args.className)} />
-            {icon && <SVG {...{ ...args.iconAttributes, src: icon }} />}
+            <input {...args} className={cn(icon && styles.withIcon, args.className)} />
+            {icon && <SVG {...args.iconAttributes} src={icon} />}
         </div>
     );
 };
