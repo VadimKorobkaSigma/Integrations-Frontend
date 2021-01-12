@@ -11,7 +11,7 @@
         "test": "jest",
         "test:w": "jest --watch",
         "test:с": "jest --coverage",
-        "test:wc": "jest  --coverage --watchAll"
+        "test:wc": "jest --coverage --watchAll"
     },
     "keywords": [
         "integration"
