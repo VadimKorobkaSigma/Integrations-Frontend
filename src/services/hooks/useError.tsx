@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import * as React from 'react';
 import { useAlert } from 'react-alert';
 
 /**
@@ -8,7 +8,7 @@ import { useAlert } from 'react-alert';
  */
 const useError = () => {
     const alert = useAlert();
-    const [error, setError] = useState('');
+    const [error, setError] = React.useState('');
 
     const result = [
         error,

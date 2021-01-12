@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SettingsModal Component 1`] = `"<div class=\\"\\"><div></div><div><header><h1>Settings of test 1 organization</h1></header><form><label for=\\"secret\\">Checkmarx Go Secret</label><textarea placeholder=\\"Secret\\" id=\\"secret\\">Test secret</textarea><label for=\\"team\\">Team</label><textarea placeholder=\\"Team\\" id=\\"team\\">Test team</textarea></form><footer><button variant=\\"link\\" class=\\"\\">Cancel</button><button class=\\"\\">Submit</button></footer></div></div>"`;
+
+exports[`SettingsModal Component 2`] = `"<div class=\\"\\"><div></div><div><header><h1>Settings of test 1 organization</h1></header><form><label for=\\"secret\\">Checkmarx Go Secret</label><textarea placeholder=\\"Secret\\" id=\\"secret\\">Test secret</textarea><label for=\\"team\\">Team</label><textarea placeholder=\\"Team\\" id=\\"team\\">Test team</textarea></form><footer><button variant=\\"link\\" class=\\"\\">Cancel</button><button class=\\"\\">Submit</button></footer></div></div>"`;

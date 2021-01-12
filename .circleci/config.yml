@@ -28,6 +28,7 @@ jobs:
                   at: .
             #- restore_cache:
             #    key: maven-repo-v1-{{ .Branch }}-{{ checksum "pom.xml" }}
+            - run: yarn run test
             - run: yarn run build:prod
             #- save_cache:
             #    paths:

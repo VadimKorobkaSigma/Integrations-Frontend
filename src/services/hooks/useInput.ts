@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import * as React from 'react';
 
 /**
  * # Example:
@@ -6,7 +6,7 @@ import { useState } from 'react';
  * const [value, setValue] = useInput()
  */
 const useInput = (defaultValue?: string) => {
-    const [value, setValue] = useState(defaultValue || '');
+    const [value, setValue] = React.useState(defaultValue || '');
 
     return [
         value,

@@ -1,5 +1,6 @@
 import 'jest-enzyme';
 import * as React from 'react';
+import * as ReactAlert from 'react-alert';
 const cache: { [key: string]: boolean } = {};
 
 jest.spyOn(React, 'useEffect').mockImplementation((f: CallableFunction, deps) => {
@@ -11,3 +12,10 @@ jest.spyOn(React, 'useEffect').mockImplementation((f: CallableFunction, deps) =>
         f();
     }
 });
+
+jest.mock(
+    'react-alert',
+    jest.fn().mockImplementation(() => {
+        return { useAlert: () => ({ success: jest.fn(), error: jest.fn() }) };
+    }),
+);

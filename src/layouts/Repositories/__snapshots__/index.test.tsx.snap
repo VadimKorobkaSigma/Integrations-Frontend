@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Repositories Component 1`] = `"<section><h2>Repositories</h2><div class=\\"\\"><input placeholder=\\"Search\\" value=\\"\\" class=\\"\\"/></div><ul><li><div><img alt=\\"orgIcon\\" width=\\"24\\"/><span><span>test 1</span></span></div><button class=\\"\\"><p>Setup project</p></button></li><li><div><img alt=\\"orgIcon\\" width=\\"24\\"/><span><span>test 2</span></span></div><button class=\\"\\"><p>Remove setup</p></button></li></ul></section>"`;

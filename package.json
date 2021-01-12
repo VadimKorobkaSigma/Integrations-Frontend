@@ -11,7 +11,7 @@
         "test": "jest",
         "test:w": "jest --watch",
         "test:с": "jest --coverage",
-        "test:wc": "jest --watch --coverage"
+        "test:wc": "jest  --coverage --watchAll"
     },
     "keywords": [
         "integration"
@@ -21,9 +21,9 @@
     "dependencies": {
         "@types/react-alert": "^5.2.0",
         "classnames": "^2.2.6",
-        "react": "17.0.0",
+        "react": "16.14.0",
         "react-alert": "^7.0.2",
-        "react-dom": "17.0.0",
+        "react-dom": "16.14.0",
         "react-inlinesvg": "^2.2.2",
         "react-lottie": "^1.2.3",
         "react-modal": "^3.12.1",
