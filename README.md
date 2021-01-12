@@ -2,9 +2,22 @@
 
 ## Content
 
-1. [Development](#development)
-2. [Testing](#testing)
-3. [Contribution](#contribution)
+1. [Set up](#Set-up)
+2. [Development](#development)
+3. [Testing](#testing)
+4. [Contribution](#contribution)
+
+## Set up
+
+1. Install Docker
+2. Pull latest image from Docker Hub:
+    ```sh
+    docker pull checkmarx/integrations-frontend:latest
+    ```
+3. Start image:
+    ```sh
+    docker run checkmarx/integrations-frontend:latest
+    ```
 
 ## Development
 
